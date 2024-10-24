@@ -38,11 +38,11 @@ public class User_model {
         return Role;
     }
     
-    public User_model(ResultSet ra) throws SQLException{
-        this.Username =ra.getString("Username");
-        this.Password =ra.getString("Password");
-        this.Email = ra.getString("Email");
-        this.Role = ra.getString("Role");
+    public User_model(ResultSet rs) throws SQLException{
+        this.Username =rs.getString("Username");
+        this.Password =rs.getString("Password");
+        this.Email = rs.getString("Email");
+        this.Role = rs.getString("Role");
     }
     
     public void setUsername(String Username) {

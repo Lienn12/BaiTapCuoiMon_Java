@@ -21,6 +21,7 @@ public class FrmSignup extends javax.swing.JFrame {
      */
     public FrmSignup() {
         initComponents();
+        setLocationRelativeTo(null);
     }
 
     /**
@@ -44,7 +45,7 @@ public class FrmSignup extends javax.swing.JFrame {
         txtConfirmSignup = new javax.swing.JPasswordField();
         btnSignup = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
+        lbLogin = new javax.swing.JLabel();
 
         jTextField4.setText("jTextField4");
 
@@ -67,6 +68,7 @@ public class FrmSignup extends javax.swing.JFrame {
 
         btnSignup.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
         btnSignup.setText("SIGNUP");
+        btnSignup.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnSignup.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSignupActionPerformed(evt);
@@ -76,8 +78,14 @@ public class FrmSignup extends javax.swing.JFrame {
         jLabel6.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
         jLabel6.setText("Already have an account?");
 
-        jLabel7.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
-        jLabel7.setText("Login");
+        lbLogin.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
+        lbLogin.setText("Login");
+        lbLogin.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lbLogin.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lbLoginMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -98,7 +106,7 @@ public class FrmSignup extends javax.swing.JFrame {
                                 .addGap(40, 40, 40)
                                 .addComponent(jLabel6)
                                 .addGap(18, 18, 18)
-                                .addComponent(jLabel7))
+                                .addComponent(lbLogin))
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                 .addComponent(jLabel3)
                                 .addComponent(jLabel4)
@@ -136,7 +144,7 @@ public class FrmSignup extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
-                    .addComponent(jLabel7))
+                    .addComponent(lbLogin))
                 .addGap(25, 25, 25))
         );
 
@@ -160,6 +168,12 @@ public class FrmSignup extends javax.swing.JFrame {
             Logger.getLogger(FrmSignup.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnSignupActionPerformed
+
+    private void lbLoginMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbLoginMouseClicked
+        new FrmLogin().setVisible(true);
+        this.dispose();
+                
+    }//GEN-LAST:event_lbLoginMouseClicked
 
     /**
      * @param args the command line arguments
@@ -204,8 +218,8 @@ public class FrmSignup extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JTextField jTextField4;
+    private javax.swing.JLabel lbLogin;
     private javax.swing.JPasswordField txtConfirmSignup;
     private javax.swing.JTextField txtEmailSignup;
     private javax.swing.JPasswordField txtPasswordSignup;
