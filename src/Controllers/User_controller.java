@@ -33,38 +33,55 @@ public class User_controller {
            //đăng nhập thất bại
            return false;
     }
-    public boolean CheckLoginAdmin(String username, String password ) {
-        return "admin".equals(username) && "123456".equals(password);
-    }
-    public boolean CheckSignup(String username, String email, String password, String confirmPassword) throws SQLException{
-        //Kiểm tra confirmpassword có trung với pass không
-        if (!password.equals(confirmPassword)) {
-            return false; // Nếu không trùng, trả về false
-        }
-        // Truy vấn để kiểm tra xem người dùng đã tồn tại hay chưa
+//    public boolean CheckLoginAdmin(String username, String password ) {
+//        return "admin".equals(username) && "123456".equals(password);
+//    }
+    public boolean checkUsername(String username) throws SQLException{
+         // Truy vấn để kiểm tra xem người dùng đã tồn tại hay chưa
         String check_user_query = "SELECT * FROM USERS WHERE USERNAME=?";
         PreparedStatement checkUserStmt = conn.prepareStatement(check_user_query);
         checkUserStmt.setString(1, username);
         ResultSet rs = checkUserStmt.executeQuery();
 
-        // Nếu có kết quả, có nghĩa là người dùng đã tồn tại
         if (rs.next()) {
             rs.close();
             checkUserStmt.close();
             return false; // Người dùng đã tồn tại
+        }else{
+            return true;
         }
+        
+    }
+    
+    public boolean checkEmail(String email){
+        String emailRegex="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
+        return email.matches(emailRegex);
+    }
+    
+    public boolean checkPassword(String password){
+        if(password.length()<8){
+            return false;
+        }
+        String passwordRegex="^(?=.*[A-Za-z])(?=.*\\d).+$";
+        return password.matches(passwordRegex);
+    }
+    
+    public boolean checkComfirmPassword(String password, String confirmPassword){
+        return password.matches(confirmPassword);
+    }
+    
+    public boolean CheckSignup(String username, String email, String password, String confirmPassword) throws SQLException{
         String insert_sql="INSERT INTO USERS VALUES (?, ?, ?, ?)";
         PreparedStatement prst=conn.prepareStatement(insert_sql);
         prst.setString(1, username);
         prst.setString(2, email);
         prst.setString(3, password);
         prst.setString(4, confirmPassword);
-        int rowsAffected =prst.executeUpdate();//update dữ liệu lên
+        int rowsAffected =prst.executeUpdate();
         
         prst.close();
-        checkUserStmt.close();
             // Trả về true nếu đã chèn thành công
-            return rowsAffected > 0;
+        return rowsAffected > 0;
     }
     
 }
