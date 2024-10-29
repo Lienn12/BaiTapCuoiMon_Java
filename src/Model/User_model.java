@@ -11,55 +11,82 @@ import java.sql.SQLException;
  * @author lienn
  */
 public class User_model {
-    private String Username;
-    private String Password;
-    private String Email;
-    private String Role;
+    private String userID;
+    private String username;
+    private String email;
+    private String password;
+    private String confirmPass;
+    private int verifyCode;
     
     public User_model() {
     }
 
-    public User_model(String Username, String Password, String Email, String ROLE) {
-        this.Username = Username;
-        this.Password = Password;
-        this.Email = Email;
-        this.Role = ROLE;
+    public User_model(String userID, String username, String email, String password, String confirmPass, int verifyCode) {
+        this.userID = userID;
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.confirmPass = confirmPass;
+        this.verifyCode = verifyCode;
+    }
+
+    public User_model(String userID, String username, String email, String password, String confirmPass) {
+        this.userID = userID;
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.confirmPass = confirmPass;
+    }
+
+    public String getUserID() {
+        return userID;
+    }
+
+    public void setUserID(String userID) {
+        this.userID = userID;
     }
 
     public String getUsername() {
-        return Username;
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getEmail() {
-        return Email;
+        return email;
     }
 
-    public String getRole() {
-        return Role;
+    public void setEmail(String email) {
+        this.email = email;
     }
-    
+
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+
+    public void setConfirmPass(String confirmPass) {
+        this.confirmPass = confirmPass;
+    }
+
+    public int getVerifyCode() {
+        return verifyCode;
+    }
+
+    public void setVerifyCode(int verifyCode) {
+        this.verifyCode = verifyCode;
+    }
+
     public User_model(ResultSet rs) throws SQLException{
-        this.Username =rs.getString("Username");
-        this.Password =rs.getString("Password");
-        this.Email = rs.getString("Email");
-        this.Role = rs.getString("Role");
+        this.username =rs.getString("Username");     
+        this.email = rs.getString("Email");
+        this.password =rs.getString("Password");
+        this.confirmPass =rs.getString("Confirm_Password");
     }
     
-    public void setUsername(String Username) {
-        this.Username = Username;
-    }
-
-    public void setPassword(String Password) {
-        this.Password = Password;
-    }
-
-    public void setEmail(String Email) {
-        this.Email = Email;
-    }
-
-    public void setRole(String ROLE) {
-        this.Role = ROLE;
-    }
     
     
     
