@@ -36,7 +36,7 @@ public class PnlVerifyCode extends javax.swing.JPanel {
     }
     
     public String getInputCode(){
-//        return txtCode.getText().trim();
+        return txtCode.getText().trim();
     }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
