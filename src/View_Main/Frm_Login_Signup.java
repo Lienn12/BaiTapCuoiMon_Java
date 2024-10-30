@@ -161,7 +161,6 @@ public class Frm_Login_Signup extends javax.swing.JFrame {
             }
         });
     }
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLayeredPane bg;
     private javax.swing.JLabel jLabel1;
