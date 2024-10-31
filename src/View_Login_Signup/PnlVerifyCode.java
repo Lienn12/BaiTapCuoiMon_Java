@@ -7,12 +7,15 @@ package View_Login_Signup;
 import View_Main.Frm_Login_Signup;
 import java.awt.*;
 import Controllers.User_controller;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 public class PnlVerifyCode extends javax.swing.JPanel {
     private User_controller userController;
     private Frm_Login_Signup frmMain;
+    int otp;
+    public static String emailadd;
     public PnlVerifyCode() {
         initComponents(); 
     }
@@ -134,13 +137,20 @@ public class PnlVerifyCode extends javax.swing.JPanel {
                 .addContainerGap(80, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
-
+    private int generateVerifyCode(){
+        Random random = new Random();
+        int min = 100000;
+        int max = 999999;
+        int code= random.nextInt(max-min)+min;
+        return code;
+    }
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
         setVisible(false);
     }//GEN-LAST:event_btnCancelActionPerformed
 
     private void btnOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOKActionPerformed
-        
+       String enteredCode=txtCode.getText();
+       
     }//GEN-LAST:event_btnOKActionPerformed
     
 

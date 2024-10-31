@@ -11,38 +11,34 @@ import java.sql.SQLException;
  * @author lienn
  */
 public class User_model {
-    private String userID;
+    private int userID;
     private String username;
     private String email;
     private String password;
-    private String confirmPass;
-    private int verifyCode;
-    
+    private String verifyCode;
+        
     public User_model() {
     }
 
-    public User_model(String userID, String username, String email, String password, String confirmPass, int verifyCode) {
+    public User_model(int userID, String username, String email, String password, String verifyCode) {
         this.userID = userID;
         this.username = username;
         this.email = email;
         this.password = password;
-        this.confirmPass = confirmPass;
         this.verifyCode = verifyCode;
     }
-
-    public User_model(String userID, String username, String email, String password, String confirmPass) {
+    public User_model(int userID, String username, String email, String password) {
         this.userID = userID;
         this.username = username;
         this.email = email;
         this.password = password;
-        this.confirmPass = confirmPass;
+        this.verifyCode = verifyCode;
     }
-
-    public String getUserID() {
+    public int getUserID() {
         return userID;
     }
 
-    public void setUserID(String userID) {
+    public void setUserID(int userID) {
         this.userID = userID;
     }
 
@@ -62,29 +58,24 @@ public class User_model {
         this.email = email;
     }
 
+    public String getVerifyCode() {
+        return verifyCode;
+    }
 
     public void setPassword(String password) {
         this.password = password;
     }
-
-
-    public void setConfirmPass(String confirmPass) {
-        this.confirmPass = confirmPass;
-    }
-
-    public int getVerifyCode() {
-        return verifyCode;
-    }
-
-    public void setVerifyCode(int verifyCode) {
+    
+    public void setVerifyCode(String verifyCode) {
         this.verifyCode = verifyCode;
     }
 
     public User_model(ResultSet rs) throws SQLException{
+        this.userID=rs.getInt("UserID");
         this.username =rs.getString("Username");     
         this.email = rs.getString("Email");
         this.password =rs.getString("Password");
-        this.confirmPass =rs.getString("Confirm_Password");
+        this.verifyCode= rs.getString("VerifyCode");
     }
     
     
