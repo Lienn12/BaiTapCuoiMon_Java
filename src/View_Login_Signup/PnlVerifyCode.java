@@ -4,20 +4,26 @@
  */
 package View_Login_Signup;
 
+import Controllers.Email_controller;
 import View_Main.Frm_Login_Signup;
 import java.awt.*;
 import Controllers.User_controller;
+import Model.Message_model;
+import Model.User_model;
+import java.sql.SQLException;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 public class PnlVerifyCode extends javax.swing.JPanel {
     private User_controller userController;
+    private User_model userModel;
+    private PnlSignup pnlSignup;
     private Frm_Login_Signup frmMain;
-    int otp;
-    public static String emailadd;
     public PnlVerifyCode() {
         initComponents(); 
+        userController= new User_controller();
+        userModel= new User_model();
     }
     @Override
     protected void paintComponent(Graphics g) {
@@ -28,7 +34,12 @@ public class PnlVerifyCode extends javax.swing.JPanel {
     public void setFrmMain(Frm_Login_Signup frmMain) {
         this.frmMain = frmMain;
     }
-    
+    public void setUserModel(User_model userModel) {
+        this.userModel = userModel;
+    }
+    public void setPnlSignup(PnlSignup pnlSignup) {
+        this.pnlSignup = pnlSignup;
+    }
     @Override
     public void setVisible(boolean bln){
         super.setVisible(bln);
@@ -37,10 +48,10 @@ public class PnlVerifyCode extends javax.swing.JPanel {
             txtCode.setText("");
         }
     }
-    
     public String getInputCode(){
         return txtCode.getText().trim();
     }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -137,19 +148,25 @@ public class PnlVerifyCode extends javax.swing.JPanel {
                 .addContainerGap(80, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
-    private int generateVerifyCode(){
-        Random random = new Random();
-        int min = 100000;
-        int max = 999999;
-        int code= random.nextInt(max-min)+min;
-        return code;
-    }
+
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
         setVisible(false);
     }//GEN-LAST:event_btnCancelActionPerformed
 
     private void btnOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOKActionPerformed
-       String enteredCode=txtCode.getText();
+        try {
+            userModel = pnlSignup.getUser();
+            if(userController.verifyCodeWithUser(userModel.getUserID(),getInputCode())){
+                userController.doneVerify(userModel.getUserID());
+                JOptionPane.showMessageDialog(this, "Verify chính xác");
+                setVisible(false);
+            }else{
+
+                JOptionPane.showMessageDialog(this, "Verify không chính xác");
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(PnlVerifyCode.class.getName()).log(Level.SEVERE, "loi"+ex.getMessage());
+        }
        
     }//GEN-LAST:event_btnOKActionPerformed
     

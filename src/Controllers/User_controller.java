@@ -19,7 +19,7 @@ public class User_controller {
     }
     
     public boolean CheckLoginUser(User_model userModel, String password) throws SQLException{
-       //khởi tạo truy vấn 
+       //khởi tạo truy vấn r_model userModel
        String check_login_query="SELECT * FROM USERS WHERE USERNAME=? AND PASSWORD=?";
        //khởi tạp preparedStatement để thực hiện truy vấn
        prst=conn.prepareStatement(check_login_query);
@@ -27,28 +27,49 @@ public class User_controller {
        prst.setString(2, password);
        //chọn phương thực thi phù hợp với truy vấn
        rs=prst.executeQuery();
-       if(rs.next()){
-            rs.close();
-            prst.close();
-           return true;
-       }
-           return false;
+       boolean exist=rs.next();
+       rs.close();
+       prst.close();
+       return exist;
     }
-
-    public boolean checkUsername(User_model userModel) throws SQLException{
-         // Truy vấn để kiểm tra xem người dùng đã tồn tại hay chưa
-        String check_user_query = "SELECT * FROM USERS WHERE USERNAME=?";
-        prst = conn.prepareStatement(check_user_query);
+    
+    public void CheckSignup(User_model userModel, String password) throws SQLException{
+        String insert_sql="INSERT INTO USERS(USERNAME, EMAIL, PASSWORD,VERIFYCODE) VALUES (?, ?, ?, ?)";
+        String code= generateVerifyCode();
+        prst=conn.prepareStatement(insert_sql,Statement.RETURN_GENERATED_KEYS);
         prst.setString(1, userModel.getUsername());
-        rs = prst.executeQuery();
-
-        if (rs.next()) {
-            rs.close();
-            prst.close();
-            return false;
-        }else{
-            return true;
-        }  
+        prst.setString(2, userModel.getEmail());
+        prst.setString(3, password);
+        prst.setString(4, code);
+        prst.executeUpdate();
+        rs=prst.getGeneratedKeys();//lấy các khóa chính tự động sinh ra sau khi insert
+        if(rs.next()){
+            int userID=rs.getInt(1);//lấy giá trị cột đầu
+            userModel.setUserID(userID);
+        }
+        
+        rs.close();
+        prst.close(); 
+        userModel.setVerifyCode(code);
+    }
+    
+    public boolean checkDuplicateUser(String username) throws SQLException{
+        prst=conn.prepareStatement("SELECT USER_ID FROM USERS WHERE USERNAME=? AND STATUS='VERIFIED'");
+        prst.setString(1, username);
+        rs=prst.executeQuery();
+        boolean exist=rs.next();
+        rs.close();
+        prst.close();
+        return exist;
+    }
+    public boolean checkDuplicateEmail(String email) throws SQLException{
+        prst=conn.prepareStatement("SELECT USER_ID FROM USERS WHERE EMAIL=? AND STATUS='VERIFIED'");
+        prst.setString(1, email);
+        rs=prst.executeQuery();
+        boolean exist=rs.next();
+        rs.close();
+        prst.close();
+        return exist;
     }
     
     public boolean checkEmail(User_model userModel){
@@ -68,26 +89,12 @@ public class User_controller {
         return password.matches(confirmPassword);
     }
     
-    public boolean CheckSignup(User_model userModel, String password) throws SQLException{
-        String insert_sql="INSERT INTO USERS(USERNAME, EMAIL, PASSWORD,VERIFYCODE) VALUES (?, ?, ?, ?)";
-        String code= generateVerifyCode();
-        prst=conn.prepareStatement(insert_sql);
-        prst.setString(1, userModel.getUsername());
-        prst.setString(2, userModel.getEmail());
-        prst.setString(3, password);
-        prst.setString(4, code);
-        int row=prst.executeUpdate();
-        prst.close(); 
-        userModel.getUserID();
-        userModel.setVerifyCode(code);
-        return row > 0;
-    }
     private String generateVerifyCode() throws SQLException{
         DecimalFormat df= new DecimalFormat("000000");
         Random random = new Random();
-        String code= df.format(random.nextInt(10000000));
+        String code= df.format(random.nextInt(1000000));
         while (checkDuplicateCode(code)){
-            code=df.format(random.nextInt(10000000));
+            code=df.format(random.nextInt(1000000));
         }
         return code;
     }
@@ -96,37 +103,25 @@ public class User_controller {
         prst= conn.prepareStatement("SELECT USER_ID FROM USERS WHERE VERIFYCODE=?");
         prst.setString(1, code);
         rs=prst.executeQuery();
-        if(rs.next()){
-             rs.close();
-            prst.close();
-            return true;
-        }
-        return true;
+        boolean exist=rs.next();
+        rs.close();
+        prst.close();
+        return exist;
     }
-    public boolean checkDuplicateUser(User_model userModel) throws SQLException{
-        prst=conn.prepareStatement("SELECT USER_ID FROM USERS WHERE USERNAME=? AND STATUS=VERIFYCODE");
-        prst.setString(1, userModel.getUsername());
+    public void doneVerify(int userID) throws SQLException{
+        prst=conn.prepareStatement("UPDATE USERS SET VERIFYCODE='',STATUS='VERIFIED' WHERE USER_ID=?");
+        prst.setInt(1, userID);
+        prst.executeUpdate();
+        prst.close();
+    }
+    public boolean verifyCodeWithUser(int userID, String code) throws SQLException{
+        prst = conn.prepareStatement("SELECT USER_ID FROM USERS WHERE USER_ID=? AND VERIFYCODE =?");
+        prst.setInt(1, userID);
+        prst.setString(2, code);
         rs=prst.executeQuery();
-        if(rs.next()){
-            rs.close();
-            prst.close();
-            return true;
-        }
-        return false;
-    }
-    public boolean checkDuplicateEmail(User_model userModel) throws SQLException{
-        prst=conn.prepareStatement("SELECT USER_ID FROM USERS WHERE EMAIL=? AND STATUS=VERIFYCODE");
-        prst.setString(1, userModel.getUsername());
-        rs=prst.executeQuery();
-        if(rs.next()){
-            rs.close();
-            prst.close();
-            return true;
-        }
-        return false;
-    }
-    public void doneVerify(User_model userModel) throws SQLException{
-        prst=conn.prepareStatement("UPDATE USERS SET VERIFYCODE='',STATUS=VERIFYCODE WHERE USER_ID=?");
-            
+        boolean exist=rs.next();
+        rs.close();
+        prst.close();
+        return exist;
     }
 }

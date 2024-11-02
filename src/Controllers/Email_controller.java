@@ -1,5 +1,6 @@
-package Model;
+package Controllers;
 
+import Model.Message_model;
 import javax.mail.*;
 import java.util.*;
 import java.util.logging.Level;
@@ -16,10 +17,11 @@ import javax.mail.internet.MimeMessage;
  *
  * @author lienn
  */
-public class Email_model {
-    public void sendEmail(String email,int verifyCode) {
-        final String from="liennguyen4221@gmail.com";
-        final String password="reyghmgqhsnynybq";
+public class Email_controller {
+    public Message_model sendEmail(String toEmail,String code) {
+        Message_model ms=new Message_model(false,"");
+        String fromEmail="liennguyen4221@gmail.com";
+        String password="reyghmgqhsnynybq";
         //propertirs
         Properties props = new Properties();
         props.put("mail.smtp.host", "smtp.gmail.com"); //SMTP HOST
@@ -30,7 +32,7 @@ public class Email_model {
         Authenticator auth= new Authenticator(){
             @Override
             protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication (from,password);
+                return new PasswordAuthentication (fromEmail,password);
             }   
         };
         //
@@ -42,21 +44,22 @@ public class Email_model {
             //nội dung
             msg.addHeader("Conten-type","text/HTML; charset=UTF-8");
             //người gửi
-            msg.setFrom(from);
+            msg.setFrom(fromEmail);
             //người nhận
-            msg.setRecipients(Message.RecipientType.TO,InternetAddress.parse(email,false));
+            msg.setRecipients(Message.RecipientType.TO,InternetAddress.parse(toEmail,false));
             //tiêu đề
-            msg.setSubject("");
+            msg.setSubject("Verify Code");
             //quy định ngày gửi
             msg.setSentDate(new Date());
             //nội dung
-            msg.setText("body","UTF-8");
+            msg.setText(code);
             //gửi email
             Transport.send(msg);
+            ms.setSuccess(true);
             System.out.println("Gui code xac nhan thanh cong!!");
         } catch (MessagingException ex) {
-            Logger.getLogger(Email_model.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Email_controller.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+        return ms;
     }
 }

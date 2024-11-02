@@ -27,12 +27,11 @@ public class User_model {
         this.password = password;
         this.verifyCode = verifyCode;
     }
-    public User_model(int userID, String username, String email, String password) {
-        this.userID = userID;
+    public User_model(int userID,String username, String email, String password) {
+        this.userID=userID;
         this.username = username;
         this.email = email;
         this.password = password;
-        this.verifyCode = verifyCode;
     }
     public int getUserID() {
         return userID;

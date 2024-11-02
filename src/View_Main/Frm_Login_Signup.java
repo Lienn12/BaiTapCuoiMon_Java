@@ -18,11 +18,11 @@ public class Frm_Login_Signup extends javax.swing.JFrame {
         pnlLogin.setFrmMain(this);
         pnlSignup.setFrmMain(this);
         pnlVerifyCode.setFrmMain(this);
+        pnlVerifyCode.setPnlSignup(pnlSignup);
         
         pnlLogin.setVisible(true);
         pnlSignup.setVisible(false);  
         pnlVerifyCode.setVisible(false); 
-        
     }
     
     public void switchToSignup() {
@@ -32,6 +32,22 @@ public class Frm_Login_Signup extends javax.swing.JFrame {
     public void switchToLogin() {
         CardLayout cl = (CardLayout) (pnlLoginSignup.getLayout());
         cl.show(pnlLoginSignup, "card2"); // Hiển thị pnlLogin
+    }
+    public void showVerifyCode() {
+        if (pnlSignup != null) { 
+            pnlVerifyCode = new PnlVerifyCode();
+            pnlVerifyCode.setPnlSignup(pnlSignup);
+
+            pnlVerifyCode.setUserModel(pnlSignup.getUser());
+
+            bg.add(pnlVerifyCode);
+            pnlVerifyCode.setVisible(true);
+            pnlVerifyCode.setBounds(0, 0, getWidth(), getHeight());
+            bg.setLayer(pnlVerifyCode, JLayeredPane.PALETTE_LAYER);
+            pnlSignup.setVisible(false);
+        } else {
+            System.err.println("pnlSignup is null");
+        }
     }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -95,7 +111,7 @@ public class Frm_Login_Signup extends javax.swing.JFrame {
         bgLayout.setHorizontalGroup(
             bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(bgLayout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(pnlLoginSignup, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -120,12 +136,7 @@ public class Frm_Login_Signup extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-    public void showVerifyCode(){
-        pnlVerifyCode.setVisible(true); 
-        pnlVerifyCode.setBounds(0, 0, getWidth(), getHeight()); 
-        bg.setLayer(pnlVerifyCode, JLayeredPane.PALETTE_LAYER);
-        bg.add(pnlVerifyCode); 
-    }
+   
     
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
