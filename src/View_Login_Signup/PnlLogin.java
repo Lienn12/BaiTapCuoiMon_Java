@@ -6,6 +6,7 @@ package View_Login_Signup;
 import View_Login_Signup.PnlSignup;
 import View_Main.Frm_Login_Signup;
 import Controllers.User_controller;
+import Model.User_model;
 import java.awt.event.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -16,10 +17,10 @@ import javax.swing.*;
  * @author lienn
  */
 public class PnlLogin extends javax.swing.JPanel {
-     private Frm_Login_Signup frmMain;
+    private Frm_Login_Signup frmMain;
     private User_controller userController;
     private PnlSignup pnlSignup;
-  
+    private User_model userModel;
     public PnlLogin() {
         initComponents();
         init();
@@ -30,15 +31,8 @@ public class PnlLogin extends javax.swing.JPanel {
     }
     public void init(){
         userController = new User_controller();
+        userModel=new User_model();
         pnlSignup =new PnlSignup();
-        lbhidePass.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                lbhidePassMousePressed(evt);
-            }
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                lbhidePassMouseReleased(evt);
-            }
-        });
         
         lbshowPass.setVisible(false);
         lbhidePass.setVisible(true);
@@ -170,7 +164,7 @@ public class PnlLogin extends javax.swing.JPanel {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(85, 85, 85)
+                .addContainerGap(85, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(jSeparator2)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -194,7 +188,7 @@ public class PnlLogin extends javax.swing.JPanel {
                             .addComponent(lberrorPass, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGroup(layout.createSequentialGroup()
                             .addComponent(txtPass, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(77, Short.MAX_VALUE))
         );
@@ -223,7 +217,7 @@ public class PnlLogin extends javax.swing.JPanel {
                 .addComponent(lberrorPass)
                 .addGap(0, 14, Short.MAX_VALUE)
                 .addComponent(jLabel5)
-                .addGap(18, 18, 18)
+                .addGap(18, 18, Short.MAX_VALUE)
                 .addComponent(btnLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 54, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -255,19 +249,19 @@ public class PnlLogin extends javax.swing.JPanel {
         try{
             String username = txtUsername.getText();
             String password = txtPass.getText();
-
+            
+            userModel.setUsername(username);
             if(username.isEmpty() || password.isEmpty()){
                  lberrorUsername.setText(username.isEmpty() ? "Username không được để trống" : "");
                  lberrorPass.setText(password.isEmpty() ? "Password không được để trống" : "");
                  return;
             }
             
-            if(userController.CheckLoginUser(username, password)){
+            if(userController.CheckLoginUser(userModel, password)){
                 JOptionPane.showMessageDialog(this,"Đăng nhập thành công");
             }
             else{
                 JOptionPane.showMessageDialog(this,"Đăng nhập thất bại");
-                System.out.println("hello");
             }
         }catch(Exception ex){
             Logger.getLogger(PnlLogin.class.getName()).log(Level.SEVERE,"Loi"+ex.getMessage());

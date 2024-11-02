@@ -1,12 +1,16 @@
 
 package View_Login_Signup;
 
+import Controllers.Email_controller;
 import View_Main.Frm_Login_Signup;
 import Controllers.User_controller;
+import Model.Message_model;
+import Model.User_model;
 import View_Login_Signup.PnlVerifyCode;
 import java.awt.*;
 import java.awt.event.*;
 import java.sql.SQLException;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
@@ -15,19 +19,23 @@ public class PnlSignup extends javax.swing.JPanel {
     private Frm_Login_Signup frmMain;
     private User_controller userController;
     private PnlVerifyCode verifyCode;
+    private User_model userModel;
     
     public PnlSignup() {
         initComponents();
         init();
         initEnterKeyListeners();
     } 
-    
+    public User_model getUser(){
+        return userModel;
+    }
     public void setFrmMain(Frm_Login_Signup frmMain) {
         this.frmMain = frmMain;
     }
-    
     private void init() {
         userController = new User_controller();
+        userModel= new User_model();
+        verifyCode = new PnlVerifyCode();
         initEnterKeyListeners();
         setupPasswordVisibility(lbhidePass, lbshowPass, txtPass);
         setupPasswordVisibility(lbhideConfPass, lbshowConfPass, txtConfirmPass);
@@ -296,22 +304,25 @@ public class PnlSignup extends javax.swing.JPanel {
         lbshow.setVisible(false);
     }
     
-    private boolean validateInputs(String username, String email, String password, String confirmPass) throws SQLException{
+    private boolean validateInputs(User_model userModel, String password, String confirmPass) throws SQLException{
         boolean valid= true;
         //ktr Username
-        if(username.trim().isEmpty()){
+        if(userModel.getUsername().trim().isEmpty()){
             lberrorUser.setText("Username không được để trống.");
             valid=false;
-        }else if(!userController.checkUsername(username)){
+        }else if(userController.checkDuplicateUser(userModel.getUsername())){
             lberrorUser.setText("Username đã tồn tại");
             valid = false;
         }
         
         //ktr email
-        if(email.trim().isEmpty()){
+        if(userModel.getEmail().trim().isEmpty()){
             lberrorEmail.setText("Email không được để trống.");
             valid=false;
-        }else if(!userController.checkEmail(email)){
+        }else if(userController.checkDuplicateEmail(userModel.getEmail())){
+            lberrorEmail.setText("Email đã tồn tại.");
+            valid=false;
+        }else if(!userController.checkEmail(userModel)){
              lberrorEmail.setText("Email không hợp lệ");
              valid = false;
         }
@@ -333,31 +344,42 @@ public class PnlSignup extends javax.swing.JPanel {
             }
         return valid;
     }
-    
+    private void sendMain(User_model userModel){
+        new Thread (new Runnable(){
+            @Override
+            public void run() {
+                Message_model ms=new Email_controller().sendEmail(userModel.getEmail(), userModel.getVerifyCode());
+                if(ms.isSuccess()){
+                    frmMain.showVerifyCode();
+                }else{
+                    JOptionPane.showMessageDialog(frmMain,"lỗi: "+ ms.getMessage());
+                }
+            }
+        }).start();
+    } 
     private void btnSignupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSignupActionPerformed
         try{
-            String username=txtUsername.getText();
-            String email=txtEmail.getText();
-            String password=txtPass.getText();
-            String confirmpass=txtConfirmPass.getText();
+            String username=txtUsername.getText().trim();
+            String email=txtEmail.getText().trim();
+            String password=txtPass.getText().trim();
+            String confirmpass=txtConfirmPass.getText().trim();
+            userModel = new User_model(0,username,email,password);
             
             lberrorUser.setText("");
             lberrorEmail.setText("");
             lberrorPass.setText("");
             lberrorConfirm.setText("");
-            
-            boolean valid=validateInputs(username,email,password,confirmpass);
+ 
+            boolean valid=validateInputs(userModel,password,confirmpass);
             if(valid){
-                frmMain.showVerifyCode();
+                userController.CheckSignup(userModel, password);
+                sendMain(userModel);
             }else{
                 JOptionPane.showMessageDialog(this, "Đăng ký thất bại!!");
-                 System.out.println("hello");
-            }
-            
+            } 
         }catch(Exception ex){
             Logger.getLogger(PnlLogin.class.getName()).log(Level.SEVERE,"Loi"+ex.getMessage());
-        }
-        
+        } 
     }//GEN-LAST:event_btnSignupActionPerformed
 
     private void lbLoginMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbLoginMouseClicked
@@ -365,8 +387,7 @@ public class PnlSignup extends javax.swing.JPanel {
             frmMain.switchToLogin();
         }
     }//GEN-LAST:event_lbLoginMouseClicked
-    
-      
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel ShowHideConfPass;
     private javax.swing.JPanel ShowHidePass;
