@@ -156,19 +156,19 @@ public class PnlForgotPassword extends javax.swing.JPanel {
                 .addContainerGap(20, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
-    private void sendMain(User_model userModel){
-        new Thread (new Runnable(){
-            @Override
-            public void run() {
-                Message_model ms=new Email_controller().sendEmail(userModel.getEmail(), userModel.getVerifyCode());
-                if(ms.isSuccess()){
-                    frmMain.showVerifyCode();
-                }else{
-                    JOptionPane.showMessageDialog(frmMain,"lỗi: "+ ms.getMessage());
-                }
-            }
-        }).start();
-    } 
+//    private void sendMain(User_model userModel){
+//        new Thread (new Runnable(){
+//            @Override
+//            public void run() {
+//                Message_model ms=new Email_controller().sendEmail(userModel.getEmail(), userModel.getVerifyCode());
+//                if(ms.isSuccess()){
+//                    frmMain.showVerifyCode();
+//                }else{
+//                    JOptionPane.showMessageDialog(frmMain,"lỗi: "+ ms.getMessage());
+//                }
+//            }
+//        }).start();
+//    } 
     public void setUserModel(User_model userModel) {
         this.userModel = userModel;
     }
@@ -186,13 +186,14 @@ public class PnlForgotPassword extends javax.swing.JPanel {
             if (!userController.checkDuplicateEmail(email)) {
                 lberrorEmail.setText("Email không tồn tại");
             } else {
-                // Đặt lại mật khẩu nếu email tồn tại
                 userController.resetPassword(userModel);
-                sendMain(userModel);  // Gửi email xác nhận
+                // Gửi mã xác minh khi quên mật khẩu
+                userController.sendVerificationCode(userModel);  // Gửi email xác nhận
+                frmMain.showVerifyCode();
             }
         } catch (Exception ex) {
-            Logger.getLogger(PnlLogin.class.getName()).log(Level.SEVERE, "Lỗi: " + ex.getMessage());
-            ex.printStackTrace();  // In ra toàn bộ lỗi khác
+            Logger.getLogger(PnlForgotPassword.class.getName()).log(Level.SEVERE, "Lỗi: " + ex.getMessage());
+            ex.printStackTrace();
         }
     }//GEN-LAST:event_pnlSendMouseClicked
 

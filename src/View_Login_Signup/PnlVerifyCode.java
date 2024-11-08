@@ -21,10 +21,13 @@ public class PnlVerifyCode extends javax.swing.JPanel {
     private User_model userModel;
     private PnlSignup pnlSignup;
     private Frm_Login_Signup frmMain;
+    private PnlForgotPassword pnlForgotPassword;
     public PnlVerifyCode() {
         initComponents(); 
         userController= new User_controller();
         userModel= new User_model();
+        pnlForgotPassword = new PnlForgotPassword(frmMain);
+        
     }
     @Override
     protected void paintComponent(Graphics g) {
@@ -38,6 +41,9 @@ public class PnlVerifyCode extends javax.swing.JPanel {
     }
     public void setPnlSignup(PnlSignup pnlSignup) {
         this.pnlSignup = pnlSignup;
+    }
+    public void setPnlForgotPassword(PnlForgotPassword pnlForgotPassword) {
+        this.pnlForgotPassword = pnlForgotPassword;
     }
     @Override
     public void setVisible(boolean bln){
@@ -153,16 +159,19 @@ public class PnlVerifyCode extends javax.swing.JPanel {
 
     private void btnOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOKActionPerformed
         try {
-            userModel = pnlSignup.getUser();
-            if(userController.verifyCodeWithUser(userModel.getUserID(),getInputCode())){
+            userModel=pnlSignup.getUser();
+            String inputCode = getInputCode();  // Lấy mã người dùng nhập
+            System.out.println("userModel "+userModel.getUserID());
+            if (userController.verifyCodeWithUser(userModel.getUserID(), inputCode)) {
                 userController.doneVerify(userModel.getUserID());
+                
                 JOptionPane.showMessageDialog(this, "Verify chính xác");
                 setVisible(false);
-            }else{
+            } else {
                 JOptionPane.showMessageDialog(this, "Verify không chính xác");
             }
         } catch (Exception ex) {
-            Logger.getLogger(PnlVerifyCode.class.getName()).log(Level.SEVERE, "loi"+ex.getMessage());
+            Logger.getLogger(PnlVerifyCode.class.getName()).log(Level.SEVERE, "Lỗi: " + ex.getMessage());
         }
     }//GEN-LAST:event_btnOKActionPerformed
 

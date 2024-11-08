@@ -20,6 +20,7 @@ import javax.swing.*;
 
 public class PnlSignup extends javax.swing.JPanel {
     private Frm_Login_Signup frmMain;
+    private PnlVerifyCode pnlVerifyCode;
     private User_controller userController;
     private User_model userModel;
     private Admin_model adminModel;
@@ -34,6 +35,7 @@ public class PnlSignup extends javax.swing.JPanel {
         return userModel;
     }
     private void init() {
+        pnlVerifyCode = new PnlVerifyCode();
         userController = new User_controller();
         userModel = new User_model();
         adminController= new Admin_controller();
@@ -365,19 +367,7 @@ public class PnlSignup extends javax.swing.JPanel {
             }
         return valid;
     }
-    private void sendMain(User_model userModel){
-        new Thread (new Runnable(){
-            @Override
-            public void run() {
-                Message_model ms=new Email_controller().sendEmail(userModel.getEmail(), userModel.getVerifyCode());
-                if(ms.isSuccess()){
-                    frmMain.showVerifyCode();
-                }else{
-                    JOptionPane.showMessageDialog(frmMain,"lỗi: "+ ms.getMessage());
-                }
-            }
-        }).start();
-    } 
+
     private void btnSignupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSignupActionPerformed
         try{
             String username=txtUsername.getText().trim();
@@ -389,11 +379,12 @@ public class PnlSignup extends javax.swing.JPanel {
             lberrorEmail.setText("");
             lberrorPass.setText("");
             lberrorConfirm.setText("");
- 
+            pnlVerifyCode.setUserModel(userModel);
             boolean valid=validateInputs(userModel,password,confirmpass);
             if(valid){
                 userController.CheckSignup(userModel, password);
-                sendMain(userModel);
+                userController.sendVerificationCode(userModel);
+                frmMain.showVerifyCode();
             }else{
                 JOptionPane.showMessageDialog(this, "Đăng ký thất bại!!");
             } 

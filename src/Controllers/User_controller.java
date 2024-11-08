@@ -5,9 +5,11 @@
 package Controllers;
 import java.sql.*;
 import Controllers.dbConnect.*;
+import Model.Message_model;
 import Model.User_model;
 import java.text.DecimalFormat;
 import java.util.Random;
+import javax.swing.JOptionPane;
 
 public class User_controller {
     Connection conn=null;
@@ -123,6 +125,18 @@ public class User_controller {
         prst.close();
         return exist;
     }
+    public void sendVerificationCode(User_model userModel) throws SQLException {
+        String verifyCode = generateVerifyCode();  // Tạo mã xác minh
+        userModel.setVerifyCode(verifyCode);  // Gán mã vào userModel
+
+        // Gửi mã xác minh qua email
+        Message_model ms = new Email_controller().sendEmail(userModel.getEmail(), verifyCode);
+        if (ms.isSuccess()) {
+            JOptionPane.showMessageDialog(null, "Mã xác minh đã được gửi tới email của bạn!");
+        } else {
+            JOptionPane.showMessageDialog(null, "Lỗi gửi email: " + ms.getMessage());
+        }
+    }
     public void resetPassword(User_model userModel) throws SQLException {
         ResultSet rs = null;
         PreparedStatement prst = null;
@@ -144,6 +158,7 @@ public class User_controller {
 
                 // Lưu mã xác minh vào đối tượng User_model
                 userModel.setVerifyCode(code);
+                System.out.println("ma xac minh trong resetPassword: " + userModel.getVerifyCode());
             }
         } finally {
             // Đảm bảo đóng tài nguyên
