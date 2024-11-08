@@ -1,6 +1,8 @@
 
 package View_Main;
 
+import View_Login_Signup.PnlLogin;
+import View_Login_Signup.PnlSignup;
 import View_Login_Signup.PnlVerifyCode;
 import java.awt.*;
 import java.awt.event.*;
@@ -8,59 +10,58 @@ import javax.swing.*;
 
 
 public class Frm_Login_Signup extends javax.swing.JFrame {
+    private CardLayout cardLayout;
+    private PnlLogin pnlLogin;
+    private PnlSignup pnlSignup;
+    private PnlVerifyCode pnlVerifyCode;
     public Frm_Login_Signup() {
         initComponents();
         init();
         setLocationRelativeTo(null);
     }
-
     public void init() { 
+        cardLayout= new CardLayout();
+        pnlLoginSignup.setLayout(cardLayout);
+        pnlLogin = new PnlLogin();
+        pnlSignup =new PnlSignup();
+        pnlVerifyCode= new PnlVerifyCode();
         pnlLogin.setFrmMain(this);
         pnlSignup.setFrmMain(this);
-        pnlVerifyCode.setFrmMain(this);
-        pnlVerifyCode.setPnlSignup(pnlSignup);
         
+        pnlLoginSignup.add(pnlLogin,"Login");
+        pnlLoginSignup.add(pnlSignup,"Signup");
         pnlLogin.setVisible(true);
         pnlSignup.setVisible(false);  
-        pnlVerifyCode.setVisible(false); 
     }
     
     public void switchToSignup() {
         CardLayout cl = (CardLayout) (pnlLoginSignup.getLayout());
-        cl.show(pnlLoginSignup, "card3"); // Hiển thị pnlSignup
+        cl.show(pnlLoginSignup, "Signup"); // Hiển thị pnlSignup
     }
     public void switchToLogin() {
         CardLayout cl = (CardLayout) (pnlLoginSignup.getLayout());
-        cl.show(pnlLoginSignup, "card2"); // Hiển thị pnlLogin
+        cl.show(pnlLoginSignup, "Login"); // Hiển thị pnlLogin
     }
-    public void showVerifyCode() {
-        if (pnlSignup != null) { 
-            pnlVerifyCode = new PnlVerifyCode();
-            pnlVerifyCode.setPnlSignup(pnlSignup);
-
-            pnlVerifyCode.setUserModel(pnlSignup.getUser());
-
-            bg.add(pnlVerifyCode);
-            pnlVerifyCode.setVisible(true);
-            pnlVerifyCode.setBounds(0, 0, getWidth(), getHeight());
-            bg.setLayer(pnlVerifyCode, JLayeredPane.PALETTE_LAYER);
-            pnlSignup.setVisible(false);
-        } else {
-            System.err.println("pnlSignup is null");
-        }
+    public void showVerifyCode(){
+        //them pnl VerifiCode
+        pnlVerifyCode.setPnlSignup(pnlSignup);
+        pnlVerifyCode.setBounds(0, 0, getWidth(), getHeight());
+        bg.add(pnlVerifyCode, Integer.valueOf(1));
+        bg.revalidate(); // Cập nhật lại các thay đổi
+        bg.repaint(); // Vẽ lại để đảm bảo pnlVerifyCode hiển thị
+    }
+    public void showPanel(String panelName){
+        cardLayout.show(pnlLoginSignup, panelName);
     }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        pnlVerifyCode = new View_Login_Signup.PnlVerifyCode();
         bg = new javax.swing.JLayeredPane();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         pnlLoginSignup = new javax.swing.JPanel();
-        pnlSignup = new View_Login_Signup.PnlSignup();
-        pnlLogin = new View_Login_Signup.PnlLogin();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -91,17 +92,15 @@ public class Frm_Login_Signup extends javax.swing.JFrame {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(147, Short.MAX_VALUE)
                 .addComponent(jLabel2)
                 .addGap(60, 60, 60)
                 .addComponent(jLabel1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(148, Short.MAX_VALUE))
         );
 
         pnlLoginSignup.setBackground(new java.awt.Color(255, 255, 255));
         pnlLoginSignup.setLayout(new java.awt.CardLayout());
-        pnlLoginSignup.add(pnlSignup, "card3");
-        pnlLoginSignup.add(pnlLogin, "card2");
 
         bg.setLayer(jPanel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
         bg.setLayer(pnlLoginSignup, javax.swing.JLayeredPane.DEFAULT_LAYER);
@@ -111,16 +110,15 @@ public class Frm_Login_Signup extends javax.swing.JFrame {
         bgLayout.setHorizontalGroup(
             bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(bgLayout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(pnlLoginSignup, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(pnlLoginSignup, javax.swing.GroupLayout.PREFERRED_SIZE, 383, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         bgLayout.setVerticalGroup(
             bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(pnlLoginSignup, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(pnlLoginSignup, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -131,7 +129,9 @@ public class Frm_Login_Signup extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(bg)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(bg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
@@ -174,9 +174,6 @@ public class Frm_Login_Signup extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
-    private View_Login_Signup.PnlLogin pnlLogin;
     private javax.swing.JPanel pnlLoginSignup;
-    private View_Login_Signup.PnlSignup pnlSignup;
-    private View_Login_Signup.PnlVerifyCode pnlVerifyCode;
     // End of variables declaration//GEN-END:variables
 }   

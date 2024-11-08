@@ -9,6 +9,7 @@ import Model.User_model;
 import View_Login_Signup.PnlVerifyCode;
 import java.awt.*;
 import java.awt.event.*;
+import java.security.MessageDigest;
 import java.sql.SQLException;
 import java.util.Random;
 import java.util.logging.Level;
@@ -18,10 +19,10 @@ import javax.swing.*;
 public class PnlSignup extends javax.swing.JPanel {
     private Frm_Login_Signup frmMain;
     private User_controller userController;
-    private PnlVerifyCode verifyCode;
     private User_model userModel;
     
-    public PnlSignup() {
+    public PnlSignup(Frm_Login_Signup frmMain) {
+        this.frmMain = frmMain;
         initComponents();
         init();
         initEnterKeyListeners();
@@ -29,13 +30,15 @@ public class PnlSignup extends javax.swing.JPanel {
     public User_model getUser(){
         return userModel;
     }
-    public void setFrmMain(Frm_Login_Signup frmMain) {
-        this.frmMain = frmMain;
-    }
+//    public void setFrmMain(Frm_Login_Signup frmMain) {
+//        this.frmMain = frmMain;
+//    }
     private void init() {
         userController = new User_controller();
-        userModel= new User_model();
-        verifyCode = new PnlVerifyCode();
+         if (userModel == null) {
+        userModel = new User_model();
+        }
+        
         initEnterKeyListeners();
         setupPasswordVisibility(lbhidePass, lbshowPass, txtPass);
         setupPasswordVisibility(lbhideConfPass, lbshowConfPass, txtConfirmPass);
@@ -73,6 +76,7 @@ public class PnlSignup extends javax.swing.JPanel {
 
         setBackground(new java.awt.Color(255, 255, 255));
         setForeground(new java.awt.Color(51, 102, 153));
+        setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         setVerifyInputWhenFocusTarget(false);
 
         ShowHidePass.setBackground(new java.awt.Color(255, 255, 255));
@@ -82,6 +86,7 @@ public class PnlSignup extends javax.swing.JPanel {
 
         lbshowPass.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lbshowPass.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/view.png"))); // NOI18N
+        lbshowPass.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         ShowHidePass.add(lbshowPass, "card2");
 
         lbhidePass.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -95,6 +100,7 @@ public class PnlSignup extends javax.swing.JPanel {
 
         lbshowConfPass.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lbshowConfPass.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/view.png"))); // NOI18N
+        lbshowConfPass.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         ShowHideConfPass.add(lbshowConfPass, "card2");
 
         lbhideConfPass.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -285,6 +291,7 @@ public class PnlSignup extends javax.swing.JPanel {
         }
     }
     
+    
     private void setupPasswordVisibility(JLabel lbhide, JLabel lbshow, JPasswordField txtPass){  
         lbhide.addMouseListener(new MouseAdapter(){
             //hien mat khau 
@@ -331,7 +338,7 @@ public class PnlSignup extends javax.swing.JPanel {
                 lberrorPass.setText("Password không được để trống.");
                 valid = false;
             } else if (!userController.checkPassword(password)) {
-                lberrorPass.setText("<html>Mật khẩu không hợp lệ.<br>Vui lòng nhập ít nhất 8 ký tự, bao gồm cả chữ và số.</html>");
+                lberrorPass.setText("<html>Mật khẩu không hợp lệ.<br>Vui lòng nhập ít nhất 6 ký tự, bao gồm cả chữ và số.</html>");
                 valid = false;
             }
         //ktra confirm password

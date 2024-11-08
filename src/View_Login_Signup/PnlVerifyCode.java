@@ -6,6 +6,7 @@ package View_Login_Signup;
 
 import Controllers.Email_controller;
 import View_Main.Frm_Login_Signup;
+import View_Main.frmMain;
 import java.awt.*;
 import Controllers.User_controller;
 import Model.Message_model;
@@ -31,9 +32,7 @@ public class PnlVerifyCode extends javax.swing.JPanel {
         g.setColor(new Color(50,50,50,50)); // Màu xanh dương với độ trong suốt 50%
         g.fillRect(0, 0, getWidth(), getHeight());
     }
-    public void setFrmMain(Frm_Login_Signup frmMain) {
-        this.frmMain = frmMain;
-    }
+
     public void setUserModel(User_model userModel) {
         this.userModel = userModel;
     }
@@ -51,7 +50,6 @@ public class PnlVerifyCode extends javax.swing.JPanel {
     public String getInputCode(){
         return txtCode.getText().trim();
     }
-
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -161,15 +159,12 @@ public class PnlVerifyCode extends javax.swing.JPanel {
                 JOptionPane.showMessageDialog(this, "Verify chính xác");
                 setVisible(false);
             }else{
-
                 JOptionPane.showMessageDialog(this, "Verify không chính xác");
             }
         } catch (Exception ex) {
             Logger.getLogger(PnlVerifyCode.class.getName()).log(Level.SEVERE, "loi"+ex.getMessage());
         }
-       
     }//GEN-LAST:event_btnOKActionPerformed
-    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancel;
