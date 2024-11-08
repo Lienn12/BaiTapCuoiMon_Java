@@ -1,6 +1,7 @@
 
 package View_Main;
 
+import View_Login_Signup.PnlForgotPassword;
 import View_Login_Signup.PnlLogin;
 import View_Login_Signup.PnlSignup;
 import View_Login_Signup.PnlVerifyCode;
@@ -14,6 +15,7 @@ public class Frm_Login_Signup extends javax.swing.JFrame {
     private PnlLogin pnlLogin;
     private PnlSignup pnlSignup;
     private PnlVerifyCode pnlVerifyCode;
+    private PnlForgotPassword pnlForgotPassword;
     public Frm_Login_Signup() {
         initComponents();
         init();
@@ -22,26 +24,18 @@ public class Frm_Login_Signup extends javax.swing.JFrame {
     public void init() { 
         cardLayout= new CardLayout();
         pnlLoginSignup.setLayout(cardLayout);
-        pnlLogin = new PnlLogin();
-        pnlSignup =new PnlSignup();
+        pnlLogin = new PnlLogin(this);
+        pnlSignup =new PnlSignup(this);
         pnlVerifyCode= new PnlVerifyCode();
-        pnlLogin.setFrmMain(this);
-        pnlSignup.setFrmMain(this);
-        
+        pnlForgotPassword= new PnlForgotPassword(this);
+                
         pnlLoginSignup.add(pnlLogin,"Login");
         pnlLoginSignup.add(pnlSignup,"Signup");
-        pnlLogin.setVisible(true);
-        pnlSignup.setVisible(false);  
+        pnlLoginSignup.add(pnlForgotPassword,"Forgot");
+        cardLayout.show(pnlLoginSignup, "Login");
     }
     
-    public void switchToSignup() {
-        CardLayout cl = (CardLayout) (pnlLoginSignup.getLayout());
-        cl.show(pnlLoginSignup, "Signup"); // Hiển thị pnlSignup
-    }
-    public void switchToLogin() {
-        CardLayout cl = (CardLayout) (pnlLoginSignup.getLayout());
-        cl.show(pnlLoginSignup, "Login"); // Hiển thị pnlLogin
-    }
+
     public void showVerifyCode(){
         //them pnl VerifiCode
         pnlVerifyCode.setPnlSignup(pnlSignup);

@@ -1,9 +1,11 @@
 
 package View_Login_Signup;
 
+import Controllers.Admin_controller;
 import Controllers.Email_controller;
 import View_Main.Frm_Login_Signup;
 import Controllers.User_controller;
+import Model.Admin_model;
 import Model.Message_model;
 import Model.User_model;
 import View_Login_Signup.PnlVerifyCode;
@@ -20,7 +22,8 @@ public class PnlSignup extends javax.swing.JPanel {
     private Frm_Login_Signup frmMain;
     private User_controller userController;
     private User_model userModel;
-    
+    private Admin_model adminModel;
+    private Admin_controller adminController;
     public PnlSignup(Frm_Login_Signup frmMain) {
         this.frmMain = frmMain;
         initComponents();
@@ -30,15 +33,11 @@ public class PnlSignup extends javax.swing.JPanel {
     public User_model getUser(){
         return userModel;
     }
-//    public void setFrmMain(Frm_Login_Signup frmMain) {
-//        this.frmMain = frmMain;
-//    }
     private void init() {
         userController = new User_controller();
-         if (userModel == null) {
         userModel = new User_model();
-        }
-        
+        adminController= new Admin_controller();
+        adminModel = new Admin_model();
         initEnterKeyListeners();
         setupPasswordVisibility(lbhidePass, lbshowPass, txtPass);
         setupPasswordVisibility(lbhideConfPass, lbshowConfPass, txtConfirmPass);
@@ -291,6 +290,21 @@ public class PnlSignup extends javax.swing.JPanel {
         }
     }
     
+    private static String passwordHash(String password){
+        try{
+            MessageDigest md= MessageDigest.getInstance("SHA");
+            md.update(password.getBytes());
+            byte[] rbt= md.digest();
+            StringBuilder sb= new StringBuilder();
+            for(byte b: rbt){
+                sb.append(String.format("%02x",b));
+            }
+            return sb.toString();
+        }catch(Exception ex){
+            Logger.getLogger(PnlLogin.class.getName()).log(Level.SEVERE,"Loi"+ex.getMessage());
+        }
+        return null;
+    }
     
     private void setupPasswordVisibility(JLabel lbhide, JLabel lbshow, JPasswordField txtPass){  
         lbhide.addMouseListener(new MouseAdapter(){
@@ -368,10 +382,9 @@ public class PnlSignup extends javax.swing.JPanel {
         try{
             String username=txtUsername.getText().trim();
             String email=txtEmail.getText().trim();
-            String password=txtPass.getText().trim();
-            String confirmpass=txtConfirmPass.getText().trim();
+            String password=passwordHash(txtPass.getText().trim());
+            String confirmpass=passwordHash(txtConfirmPass.getText().trim());
             userModel = new User_model(0,username,email,password);
-            
             lberrorUser.setText("");
             lberrorEmail.setText("");
             lberrorPass.setText("");
@@ -390,9 +403,7 @@ public class PnlSignup extends javax.swing.JPanel {
     }//GEN-LAST:event_btnSignupActionPerformed
 
     private void lbLoginMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbLoginMouseClicked
-        if (frmMain != null) {
-            frmMain.switchToLogin();
-        }
+        frmMain.showPanel("Login");
     }//GEN-LAST:event_lbLoginMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

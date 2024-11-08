@@ -52,7 +52,6 @@ public class User_controller {
         prst.close(); 
         userModel.setVerifyCode(code);
     }
-    
     public boolean checkDuplicateUser(String username) throws SQLException{
         prst=conn.prepareStatement("SELECT USER_ID FROM USERS WHERE USERNAME=? AND STATUS='VERIFIED'");
         prst.setString(1, username);
@@ -123,5 +122,45 @@ public class User_controller {
         rs.close();
         prst.close();
         return exist;
+    }
+    public void resetPassword(User_model userModel) throws SQLException {
+        ResultSet rs = null;
+        PreparedStatement prst = null;
+        try {
+            prst = conn.prepareStatement("SELECT USER_ID FROM USERS WHERE EMAIL=? AND STATUS='VERIFIED' ");
+            prst.setString(1, userModel.getEmail());
+            rs = prst.executeQuery();
+            if (rs.next()) {
+                // Nếu email tồn tại, tạo mã xác minh
+                String code = generateVerifyCode();
+                int userID=rs.getInt(1);//lấy giá trị cột đầu
+                userModel.setUserID(userID);
+
+                // Cập nhật mã xác minh trong cơ sở dữ liệu
+                prst = conn.prepareStatement("UPDATE USERS SET VERIFYCODE=? WHERE USER_ID=? ");
+                prst.setString(1, code);
+                prst.setInt(2, userID);
+                prst.executeUpdate();
+
+                // Lưu mã xác minh vào đối tượng User_model
+                userModel.setVerifyCode(code);
+            }
+        } finally {
+            // Đảm bảo đóng tài nguyên
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (prst != null) {
+                try {
+                    prst.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 }

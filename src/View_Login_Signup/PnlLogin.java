@@ -3,9 +3,11 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
 package View_Login_Signup;
+import Controllers.Admin_controller;
 import View_Login_Signup.PnlSignup;
 import View_Main.Frm_Login_Signup;
 import Controllers.User_controller;
+import Model.Admin_model;
 import Model.User_model;
 import java.awt.event.*;
 import java.util.logging.Level;
@@ -21,20 +23,20 @@ public class PnlLogin extends javax.swing.JPanel {
     private User_controller userController;
     private PnlSignup pnlSignup;
     private User_model userModel;
+    private Admin_model adminModel;
+    private Admin_controller adminController;
     public PnlLogin(Frm_Login_Signup frmMain) {
         this.frmMain = frmMain;
         initComponents();
         init();
         initEnterKeyListeners();
     }
-//    public void setFrmMain(Frm_Login_Signup frmMain) {
-//        this.frmMain = frmMain;
-//    }
     public void init(){
         userController = new User_controller();
         userModel=new User_model();
-        pnlSignup =new PnlSignup();
-        
+//        pnlSignup =new PnlSignup();
+        adminController= new Admin_controller();
+        adminModel = new Admin_model();
         lbshowPass.setVisible(false);
         lbhidePass.setVisible(true);
     }
@@ -57,6 +59,7 @@ public class PnlLogin extends javax.swing.JPanel {
         txtPass = new javax.swing.JPasswordField();
         lberrorUsername = new javax.swing.JLabel();
         lberrorPass = new javax.swing.JLabel();
+        lbForgot = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
@@ -155,32 +158,44 @@ public class PnlLogin extends javax.swing.JPanel {
         lberrorPass.setForeground(new java.awt.Color(255, 0, 0));
         lberrorPass.setText("                          ");
 
+        lbForgot.setFont(new java.awt.Font("Segoe UI", 2, 14)); // NOI18N
+        lbForgot.setForeground(new java.awt.Color(51, 102, 153));
+        lbForgot.setText("Forgot password?");
+        lbForgot.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lbForgot.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lbForgotMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap(80, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jSeparator2)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addGap(14, 14, 14)
-                        .addComponent(jLabel1))
-                    .addComponent(jSeparator1)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addComponent(jLabel4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(lbSignup))
-                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtUsername)
-                    .addComponent(btnLogin, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(lberrorUsername, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(lberrorPass, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addComponent(txtPass, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(lbForgot)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(jSeparator2)
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                            .addGap(14, 14, 14)
+                            .addComponent(jLabel1))
+                        .addComponent(jSeparator1)
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                            .addComponent(jLabel4)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lbSignup))
+                        .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(txtUsername)
+                        .addComponent(btnLogin, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(lberrorUsername, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(lberrorPass, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                            .addComponent(txtPass, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(80, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -206,9 +221,11 @@ public class PnlLogin extends javax.swing.JPanel {
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 3, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
                 .addComponent(lberrorPass)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lbForgot)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
                 .addComponent(btnLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 54, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(lbSignup))
@@ -239,6 +256,7 @@ public class PnlLogin extends javax.swing.JPanel {
             String username = txtUsername.getText();
             String password = txtPass.getText();
             
+            adminModel.setUsername(username);
             userModel.setUsername(username);
             if(username.isEmpty() || password.isEmpty()){
                  lberrorUsername.setText(username.isEmpty() ? "Username không được để trống" : "");
@@ -248,6 +266,8 @@ public class PnlLogin extends javax.swing.JPanel {
             
             if(userController.CheckLoginUser(userModel, password)){
                 JOptionPane.showMessageDialog(this,"Đăng nhập thành công");
+            }else if(adminController.CheckSignupAdmin(adminModel, password)){
+                 JOptionPane.showMessageDialog(this,"Đăng nhập thành công");
             }
             else{
                 JOptionPane.showMessageDialog(this,"Đăng nhập thất bại");
@@ -258,10 +278,7 @@ public class PnlLogin extends javax.swing.JPanel {
     }//GEN-LAST:event_btnLoginActionPerformed
 
     private void lbSignupMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbSignupMouseClicked
-//         if (frmMain != null) {
-//            frmMain.switchToSignup();
-//        }
-            
+        frmMain.showPanel("Signup");
     }//GEN-LAST:event_lbSignupMouseClicked
 
     private void lbhidePassMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbhidePassMousePressed
@@ -276,6 +293,10 @@ public class PnlLogin extends javax.swing.JPanel {
         txtPass.setEchoChar('*');
     }//GEN-LAST:event_lbhidePassMouseReleased
 
+    private void lbForgotMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbForgotMouseClicked
+        frmMain.showPanel("Forgot");
+    }//GEN-LAST:event_lbForgotMouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnLogin;
@@ -286,6 +307,7 @@ public class PnlLogin extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
+    private javax.swing.JLabel lbForgot;
     private javax.swing.JLabel lbSignup;
     private javax.swing.JLabel lberrorPass;
     private javax.swing.JLabel lberrorUsername;
