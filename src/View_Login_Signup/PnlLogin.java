@@ -3,6 +3,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
 package View_Login_Signup;
+
+import View_Main.FrmTrangchu;
 import Controllers.Admin_controller;
 import View_Login_Signup.PnlSignup;
 import View_Main.Frm_Login_Signup;
@@ -21,7 +23,7 @@ import javax.swing.*;
 public class PnlLogin extends javax.swing.JPanel {
     private Frm_Login_Signup frmMain;
     private User_controller userController;
-    private PnlSignup pnlSignup;
+    private FrmTrangchu frmTrangchu;
     private User_model userModel;
     private Admin_model adminModel;
     private Admin_controller adminController;
@@ -34,7 +36,7 @@ public class PnlLogin extends javax.swing.JPanel {
     public void init(){
         userController = new User_controller();
         userModel=new User_model();
-//        pnlSignup =new PnlSignup();
+        frmTrangchu= new FrmTrangchu();
         adminController= new Admin_controller();
         adminModel = new Admin_model();
         lbshowPass.setVisible(false);
@@ -258,6 +260,7 @@ public class PnlLogin extends javax.swing.JPanel {
             
             adminModel.setUsername(username);
             userModel.setUsername(username);
+            
             if(username.isEmpty() || password.isEmpty()){
                  lberrorUsername.setText(username.isEmpty() ? "Username không được để trống" : "");
                  lberrorPass.setText(password.isEmpty() ? "Password không được để trống" : "");
@@ -266,11 +269,12 @@ public class PnlLogin extends javax.swing.JPanel {
             
             if(userController.CheckLoginUser(userModel, password)){
                 JOptionPane.showMessageDialog(this,"Đăng nhập thành công");
-            }else if(adminController.CheckSignupAdmin(adminModel, password)){
+            }else if(adminController.CheckLoginAdmin(adminModel, password)){
                  JOptionPane.showMessageDialog(this,"Đăng nhập thành công");
+                 frmTrangchu.setVisible(true);
             }
             else{
-                JOptionPane.showMessageDialog(this,"Đăng nhập thất bại");
+                JOptionPane.showMessageDialog(this,"Usernam hoặc password không chính xác!!");
             }
         }catch(Exception ex){
             Logger.getLogger(PnlLogin.class.getName()).log(Level.SEVERE,"Loi"+ex.getMessage());

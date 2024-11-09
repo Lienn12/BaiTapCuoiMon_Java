@@ -20,6 +20,7 @@ public class User_controller {
         conn=new dbConnect().getConnect();
     }
     
+    //check đăng nhập người dùng 
     public boolean CheckLoginUser(User_model userModel, String password) throws SQLException{
        //khởi tạo truy vấn r_model userModel
        String check_login_query="SELECT * FROM USERS WHERE USERNAME=? AND PASSWORD=?";
@@ -35,6 +36,7 @@ public class User_controller {
        return exist;
     }
     
+    //check đăng ký 
     public void CheckSignup(User_model userModel, String password) throws SQLException{
         String insert_sql="INSERT INTO USERS(USERNAME, EMAIL, PASSWORD,VERIFYCODE) VALUES (?, ?, ?, ?)";
         String code= generateVerifyCode();
@@ -46,7 +48,7 @@ public class User_controller {
         prst.executeUpdate();
         rs=prst.getGeneratedKeys();//lấy các khóa chính tự động sinh ra sau khi insert
         if(rs.next()){
-            int userID=rs.getInt(1);//lấy giá trị cột đầu
+            int userID=rs.getInt(1);
             userModel.setUserID(userID);
         }
         
@@ -54,6 +56,8 @@ public class User_controller {
         prst.close(); 
         userModel.setVerifyCode(code);
     }
+    
+    //check user đã tồn tại
     public boolean checkDuplicateUser(String username) throws SQLException{
         prst=conn.prepareStatement("SELECT USER_ID FROM USERS WHERE USERNAME=? AND STATUS='VERIFIED'");
         prst.setString(1, username);
@@ -63,6 +67,8 @@ public class User_controller {
         prst.close();
         return exist;
     }
+    
+    //check email đã tồn tại
     public boolean checkDuplicateEmail(String email) throws SQLException{
         prst=conn.prepareStatement("SELECT USER_ID FROM USERS WHERE EMAIL=? AND STATUS='VERIFIED'");
         prst.setString(1, email);
@@ -73,11 +79,13 @@ public class User_controller {
         return exist;
     }
     
+    //check email đúng định dạng
     public boolean checkEmail(User_model userModel){
         String emailRegex="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
         return userModel.getEmail().matches(emailRegex);
     }
     
+    //check pass đúng định dạng 
     public boolean checkPassword(String password){
         if(password.length()<6){
             return false;
@@ -86,10 +94,12 @@ public class User_controller {
         return password.matches(passwordRegex);
     }
     
-    public boolean checkComfirmPassword(String password, String confirmPassword){
+    //check confirm có trùng với pass 
+    public boolean checkConfirmPassword(String password, String confirmPassword){
         return password.matches(confirmPassword);
     }
     
+    //tạo verifyCode ngẫu nhiên
     private String generateVerifyCode() throws SQLException{
         DecimalFormat df= new DecimalFormat("000000");
         Random random = new Random();
@@ -99,6 +109,7 @@ public class User_controller {
         }
         return code;
     }
+    
     //ktra verifyCode có trung với userid ko
     public boolean checkDuplicateCode(String code) throws SQLException{
         prst= conn.prepareStatement("SELECT USER_ID FROM USERS WHERE VERIFYCODE=?");
@@ -109,12 +120,16 @@ public class User_controller {
         prst.close();
         return exist;
     }
+    
+    //cập nhật status về Verify
     public void doneVerify(int userID) throws SQLException{
         prst=conn.prepareStatement("UPDATE USERS SET VERIFYCODE='',STATUS='VERIFIED' WHERE USER_ID=?");
         prst.setInt(1, userID);
         prst.executeUpdate();
         prst.close();
     }
+    
+    //check verifyCode đã đúng với userID cho
     public boolean verifyCodeWithUser(int userID, String code) throws SQLException{
         prst = conn.prepareStatement("SELECT USER_ID FROM USERS WHERE USER_ID=? AND VERIFYCODE =?");
         prst.setInt(1, userID);
@@ -125,18 +140,19 @@ public class User_controller {
         prst.close();
         return exist;
     }
-    public void sendVerificationCode(User_model userModel) throws SQLException {
-        String verifyCode = generateVerifyCode();  // Tạo mã xác minh
-        userModel.setVerifyCode(verifyCode);  // Gán mã vào userModel
-
-        // Gửi mã xác minh qua email
+    
+    //gửi mã xác thực 
+    public boolean sendVerificationCode(User_model userModel) throws SQLException {
+        String verifyCode = generateVerifyCode(); 
+        userModel.setVerifyCode(verifyCode); 
         Message_model ms = new Email_controller().sendEmail(userModel.getEmail(), verifyCode);
         if (ms.isSuccess()) {
-            JOptionPane.showMessageDialog(null, "Mã xác minh đã được gửi tới email của bạn!");
-        } else {
-            JOptionPane.showMessageDialog(null, "Lỗi gửi email: " + ms.getMessage());
+            return true;
         }
+        return false;
     }
+    
+    
     public void resetPassword(User_model userModel) throws SQLException {
         ResultSet rs = null;
         PreparedStatement prst = null;
@@ -160,22 +176,8 @@ public class User_controller {
                 userModel.setVerifyCode(code);
                 System.out.println("ma xac minh trong resetPassword: " + userModel.getVerifyCode());
             }
-        } finally {
-            // Đảm bảo đóng tài nguyên
-            if (rs != null) {
-                try {
-                    rs.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-            if (prst != null) {
-                try {
-                    prst.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
+        }catch(Exception ex){
+            
         }
     }
 }

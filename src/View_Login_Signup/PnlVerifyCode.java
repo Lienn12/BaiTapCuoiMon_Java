@@ -6,7 +6,7 @@ package View_Login_Signup;
 
 import Controllers.Email_controller;
 import View_Main.Frm_Login_Signup;
-import View_Main.frmMain;
+import View_Main.FrmTrangchu;
 import java.awt.*;
 import Controllers.User_controller;
 import Model.Message_model;
@@ -22,12 +22,13 @@ public class PnlVerifyCode extends javax.swing.JPanel {
     private PnlSignup pnlSignup;
     private Frm_Login_Signup frmMain;
     private PnlForgotPassword pnlForgotPassword;
+    private FrmTrangchu frmTrangchu;
     public PnlVerifyCode() {
         initComponents(); 
         userController= new User_controller();
         userModel= new User_model();
         pnlForgotPassword = new PnlForgotPassword(frmMain);
-        
+        frmTrangchu= new FrmTrangchu();
     }
     @Override
     protected void paintComponent(Graphics g) {
@@ -164,9 +165,9 @@ public class PnlVerifyCode extends javax.swing.JPanel {
             System.out.println("userModel "+userModel.getUserID());
             if (userController.verifyCodeWithUser(userModel.getUserID(), inputCode)) {
                 userController.doneVerify(userModel.getUserID());
-                
                 JOptionPane.showMessageDialog(this, "Verify chính xác");
-                setVisible(false);
+                frmTrangchu.setVisible(true);
+                
             } else {
                 JOptionPane.showMessageDialog(this, "Verify không chính xác");
             }

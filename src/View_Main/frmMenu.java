@@ -9,6 +9,8 @@ import View_Container.pnlDSPhim;
 import View_Container.pnlSuaPhim;
 import View_Container.pnlThemPhim;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import javax.swing.*;
 /**
  *
@@ -61,7 +63,39 @@ public class frmMenu extends javax.swing.JFrame {
     public void showPanel(String panelName){
         cardLayout.show(pnlContainer, panelName);
     }
-    
+    public void setPanel(JPanel panel) {
+        this.getContentPane().removeAll();
+        this.getContentPane().add(panel);
+        this.revalidate();
+        this.repaint();
+    }
+    private void addMenuListeners() {
+        // Giả sử bạn có các JButton cho Phim và Người Dùng
+        JButton btnPhim = new JButton("Phim");
+        JButton btnNguoiDung = new JButton("Người Dùng");
+
+        // Thêm sự kiện cho nút "Phim"
+        btnPhim.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                // Chuyển sang panel danh sách phim
+                cardLayout.show(pnlContainer, "pnlDSPhim");
+            }
+        });
+
+        // Thêm sự kiện cho nút "Người Dùng"
+        btnNguoiDung.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                // Chuyển sang panel danh sách người dùng
+                cardLayout.show(pnlContainer, "pnlDSNguoiDung");
+            }
+        });
+
+        pnlMenu.add(btnPhim);
+        pnlMenu.add(btnNguoiDung);
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {

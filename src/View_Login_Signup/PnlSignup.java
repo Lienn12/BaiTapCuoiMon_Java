@@ -292,6 +292,7 @@ public class PnlSignup extends javax.swing.JPanel {
         }
     }
     
+    //mã hóa password
     private static String passwordHash(String password){
         try{
             MessageDigest md= MessageDigest.getInstance("SHA");
@@ -308,6 +309,7 @@ public class PnlSignup extends javax.swing.JPanel {
         return null;
     }
     
+    //hide show password
     private void setupPasswordVisibility(JLabel lbhide, JLabel lbshow, JPasswordField txtPass){  
         lbhide.addMouseListener(new MouseAdapter(){
             //hien mat khau 
@@ -327,6 +329,7 @@ public class PnlSignup extends javax.swing.JPanel {
         lbshow.setVisible(false);
     }
     
+    //check giá trị nhập
     private boolean validateInputs(User_model userModel, String password, String confirmPass) throws SQLException{
         boolean valid= true;
         //ktr Username
@@ -354,20 +357,29 @@ public class PnlSignup extends javax.swing.JPanel {
                 lberrorPass.setText("Password không được để trống.");
                 valid = false;
             } else if (!userController.checkPassword(password)) {
-                lberrorPass.setText("<html>Mật khẩu không hợp lệ.<br>Vui lòng nhập ít nhất 6 ký tự, bao gồm cả chữ và số.</html>");
+                lberrorPass.setText("<html>Mật khẩu không hợp lệ.<br>Vui lòng nhập ít nhất 6 ký tự, bao gồm cả chữ, số và ký tự.</html>");
                 valid = false;
             }
         //ktra confirm password
             if (confirmPass.trim().isEmpty()) {
                 lberrorConfirm.setText("Xác nhận mật khẩu không được để trống.");
                 valid = false;
-            } else if (!userController.checkComfirmPassword(password, confirmPass)) {
+            } else if (!userController.checkConfirmPassword(password, confirmPass)) {
                 lberrorConfirm.setText("Xác nhận mật khẩu không khớp. Vui lòng nhập lại");
                 valid = false;
             }
         return valid;
     }
 
+    //set null các lỗi về rỗng
+    private void setNullError(){
+        lberrorUser.setText("");
+        lberrorEmail.setText("");
+        lberrorPass.setText("");
+        lberrorConfirm.setText("");
+    }
+    
+    //đăng ký 
     private void btnSignupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSignupActionPerformed
         try{
             String username=txtUsername.getText().trim();
@@ -375,11 +387,8 @@ public class PnlSignup extends javax.swing.JPanel {
             String password=passwordHash(txtPass.getText().trim());
             String confirmpass=passwordHash(txtConfirmPass.getText().trim());
             userModel = new User_model(0,username,email,password);
-            lberrorUser.setText("");
-            lberrorEmail.setText("");
-            lberrorPass.setText("");
-            lberrorConfirm.setText("");
-            pnlVerifyCode.setUserModel(userModel);
+            
+            setNullError();
             boolean valid=validateInputs(userModel,password,confirmpass);
             if(valid){
                 userController.CheckSignup(userModel, password);
