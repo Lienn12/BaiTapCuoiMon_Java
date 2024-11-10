@@ -20,14 +20,15 @@ public class PnlVerifyCode extends javax.swing.JPanel {
     private User_controller userController;
     private User_model userModel;
     private PnlSignup pnlSignup;
-    private Frm_Login_Signup frmMain;
+    private Frm_Login_Signup frmLoginSignup;
     private PnlForgotPassword pnlForgotPassword;
     private FrmTrangchu frmTrangchu;
+    
     public PnlVerifyCode() {
         initComponents(); 
         userController= new User_controller();
         userModel= new User_model();
-        pnlForgotPassword = new PnlForgotPassword(frmMain);
+        pnlForgotPassword = new PnlForgotPassword(frmLoginSignup);
         frmTrangchu= new FrmTrangchu();
     }
     @Override
@@ -160,14 +161,12 @@ public class PnlVerifyCode extends javax.swing.JPanel {
 
     private void btnOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOKActionPerformed
         try {
-            userModel=pnlSignup.getUser();
-            String inputCode = getInputCode();  // Lấy mã người dùng nhập
             System.out.println("userModel "+userModel.getUserID());
-            if (userController.verifyCodeWithUser(userModel.getUserID(), inputCode)) {
+            if (userController.verifyCodeWithUser(userModel.getUserID(), getInputCode())) {
                 userController.doneVerify(userModel.getUserID());
                 JOptionPane.showMessageDialog(this, "Verify chính xác");
                 frmTrangchu.setVisible(true);
-                
+                frmLoginSignup.setVisible(false);
             } else {
                 JOptionPane.showMessageDialog(this, "Verify không chính xác");
             }

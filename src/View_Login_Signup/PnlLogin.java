@@ -12,6 +12,7 @@ import Controllers.User_controller;
 import Model.Admin_model;
 import Model.User_model;
 import java.awt.event.*;
+import java.security.MessageDigest;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.*;
@@ -21,14 +22,14 @@ import javax.swing.*;
  * @author lienn
  */
 public class PnlLogin extends javax.swing.JPanel {
-    private Frm_Login_Signup frmMain;
+    private Frm_Login_Signup frmLoginSignup;
     private User_controller userController;
     private FrmTrangchu frmTrangchu;
     private User_model userModel;
     private Admin_model adminModel;
     private Admin_controller adminController;
-    public PnlLogin(Frm_Login_Signup frmMain) {
-        this.frmMain = frmMain;
+    public PnlLogin(Frm_Login_Signup frmLoginSignup) {
+        this.frmLoginSignup = frmLoginSignup;
         initComponents();
         init();
         initEnterKeyListeners();
@@ -252,37 +253,52 @@ public class PnlLogin extends javax.swing.JPanel {
         });
         
     }
-    
+    private static String passwordHash(String password){
+        try {
+            MessageDigest md = MessageDigest.getInstance("SHA-256");
+            md.update(password.getBytes());
+            byte[] rbt = md.digest();
+            StringBuilder sb = new StringBuilder();
+            for (byte b : rbt) {
+                sb.append(String.format("%02x", b));
+            }
+            return sb.toString();
+        } catch (Exception ex) {
+            Logger.getLogger(PnlLogin.class.getName()).log(Level.SEVERE, "Lỗi: " + ex.getMessage());
+        }
+        return null;
+    }
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
         try{
-            String username = txtUsername.getText();
-            String password = txtPass.getText();
+            String username = txtUsername.getText().trim();
+            String password = passwordHash(txtPass.getText()).trim();
             
             adminModel.setUsername(username);
             userModel.setUsername(username);
-            
             if(username.isEmpty() || password.isEmpty()){
                  lberrorUsername.setText(username.isEmpty() ? "Username không được để trống" : "");
                  lberrorPass.setText(password.isEmpty() ? "Password không được để trống" : "");
                  return;
+            }else{
+                if(userController.CheckLoginUser(userModel, password)){
+                    JOptionPane.showMessageDialog(this,"Đăng nhập thành công");
+                }else 
+                    if(adminController.CheckLoginAdmin(adminModel, password)){
+                     JOptionPane.showMessageDialog(this,"Đăng nhập thành công");
+                     frmTrangchu.setVisible(true);
+                }
+                else{
+                    JOptionPane.showMessageDialog(this,"Usernam hoặc password không chính xác!!");
+                }
             }
             
-            if(userController.CheckLoginUser(userModel, password)){
-                JOptionPane.showMessageDialog(this,"Đăng nhập thành công");
-            }else if(adminController.CheckLoginAdmin(adminModel, password)){
-                 JOptionPane.showMessageDialog(this,"Đăng nhập thành công");
-                 frmTrangchu.setVisible(true);
-            }
-            else{
-                JOptionPane.showMessageDialog(this,"Usernam hoặc password không chính xác!!");
-            }
         }catch(Exception ex){
             Logger.getLogger(PnlLogin.class.getName()).log(Level.SEVERE,"Loi"+ex.getMessage());
         }    
     }//GEN-LAST:event_btnLoginActionPerformed
 
     private void lbSignupMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbSignupMouseClicked
-        frmMain.showPanel("Signup");
+        frmLoginSignup.showPanel("Signup");
     }//GEN-LAST:event_lbSignupMouseClicked
 
     private void lbhidePassMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbhidePassMousePressed
@@ -298,7 +314,8 @@ public class PnlLogin extends javax.swing.JPanel {
     }//GEN-LAST:event_lbhidePassMouseReleased
 
     private void lbForgotMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbForgotMouseClicked
-        frmMain.showPanel("Forgot");
+        frmLoginSignup.showPanel("Forgot");
+        
     }//GEN-LAST:event_lbForgotMouseClicked
 
 

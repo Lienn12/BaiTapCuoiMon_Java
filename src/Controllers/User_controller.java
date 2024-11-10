@@ -153,31 +153,43 @@ public class User_controller {
     }
     
     
-    public void resetPassword(User_model userModel) throws SQLException {
-        ResultSet rs = null;
-        PreparedStatement prst = null;
-        try {
-            prst = conn.prepareStatement("SELECT USER_ID FROM USERS WHERE EMAIL=? AND STATUS='VERIFIED' ");
-            prst.setString(1, userModel.getEmail());
-            rs = prst.executeQuery();
-            if (rs.next()) {
-                // Nếu email tồn tại, tạo mã xác minh
-                String code = generateVerifyCode();
-                int userID=rs.getInt(1);//lấy giá trị cột đầu
-                userModel.setUserID(userID);
+    public void ForgotPassword(User_model userModel) throws SQLException {
+        prst = conn.prepareStatement("SELECT USER_ID FROM USERS WHERE EMAIL=? AND STATUS='VERIFIED'");
+        prst.setString(1, userModel.getEmail());
+        rs = prst.executeQuery();
 
-                // Cập nhật mã xác minh trong cơ sở dữ liệu
-                prst = conn.prepareStatement("UPDATE USERS SET VERIFYCODE=? WHERE USER_ID=? ");
-                prst.setString(1, code);
-                prst.setInt(2, userID);
-                prst.executeUpdate();
+        if (rs.next()) {
+            // Lưu userID trước khi tạo PreparedStatement mới
+            int userID = rs.getInt(1);
+            String code = generateVerifyCode();
+            userModel.setUserID(userID);
 
-                // Lưu mã xác minh vào đối tượng User_model
-                userModel.setVerifyCode(code);
-                System.out.println("ma xac minh trong resetPassword: " + userModel.getVerifyCode());
-            }
-        }catch(Exception ex){
-            
+            // Đóng ResultSet trước khi tạo PreparedStatement mới
+            rs.close();
+
+            // Cập nhật mã xác minh trong cơ sở dữ liệu
+            prst = conn.prepareStatement("UPDATE USERS SET VERIFYCODE=? WHERE USER_ID=?");
+            prst.setString(1, code);
+            prst.setInt(2, userID);
+            prst.executeUpdate();
+
+            // Lưu mã xác minh vào đối tượng User_model
+            userModel.setVerifyCode(code);
+        } else {
+            System.out.println("Email không tồn tại hoặc chưa được xác minh.");
         }
+
+        // Đóng các tài nguyên sau khi hoàn thành
+        rs.close();
+        prst.close();
+    }
+    
+        public void ResetPassword(String email, String password) throws SQLException {
+        String sql = "UPDATE USERS SET PASSWORD=? WHERE EMAIL=? AND STATUS='VERIFIED'";
+        prst = conn.prepareStatement(sql);
+        prst.setString(1, password);
+        prst.setString(2, email);
+        prst.executeUpdate(); 
+        prst.close();
     }
 }

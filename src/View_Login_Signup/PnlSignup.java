@@ -2,44 +2,39 @@
 package View_Login_Signup;
 
 import Controllers.Admin_controller;
-import Controllers.Email_controller;
 import View_Main.Frm_Login_Signup;
 import Controllers.User_controller;
 import Model.Admin_model;
-import Model.Message_model;
 import Model.User_model;
-import View_Login_Signup.PnlVerifyCode;
-import java.awt.*;
 import java.awt.event.*;
 import java.security.MessageDigest;
 import java.sql.SQLException;
-import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
 
 public class PnlSignup extends javax.swing.JPanel {
-    private Frm_Login_Signup frmMain;
-    private PnlVerifyCode pnlVerifyCode;
+    private final Frm_Login_Signup frmLoginSignup;
     private User_controller userController;
     private User_model userModel;
     private Admin_model adminModel;
     private Admin_controller adminController;
     public PnlSignup(Frm_Login_Signup frmMain) {
-        this.frmMain = frmMain;
+        this.frmLoginSignup = frmMain;
         initComponents();
         init();
         initEnterKeyListeners();
+        setNullError();
     } 
-    public User_model getUser(){
-        return userModel;
+    public void setUserModel(User_model userModel) {
+        this.userModel = userModel;
     }
     private void init() {
-        pnlVerifyCode = new PnlVerifyCode();
+        new PnlVerifyCode();
         userController = new User_controller();
         userModel = new User_model();
         adminController= new Admin_controller();
-        adminModel = new Admin_model();
+        new Admin_model();
         initEnterKeyListeners();
         setupPasswordVisibility(lbhidePass, lbshowPass, txtPass);
         setupPasswordVisibility(lbhideConfPass, lbshowConfPass, txtConfirmPass);
@@ -294,17 +289,17 @@ public class PnlSignup extends javax.swing.JPanel {
     
     //mã hóa password
     private static String passwordHash(String password){
-        try{
-            MessageDigest md= MessageDigest.getInstance("SHA");
+        try {
+            MessageDigest md = MessageDigest.getInstance("SHA-256");
             md.update(password.getBytes());
-            byte[] rbt= md.digest();
-            StringBuilder sb= new StringBuilder();
-            for(byte b: rbt){
-                sb.append(String.format("%02x",b));
+            byte[] rbt = md.digest();
+            StringBuilder sb = new StringBuilder();
+            for (byte b : rbt) {
+                sb.append(String.format("%02x", b));
             }
             return sb.toString();
-        }catch(Exception ex){
-            Logger.getLogger(PnlLogin.class.getName()).log(Level.SEVERE,"Loi"+ex.getMessage());
+        } catch (Exception ex) {
+            Logger.getLogger(PnlLogin.class.getName()).log(Level.SEVERE, "Lỗi: " + ex.getMessage());
         }
         return null;
     }
@@ -387,13 +382,12 @@ public class PnlSignup extends javax.swing.JPanel {
             String password=passwordHash(txtPass.getText().trim());
             String confirmpass=passwordHash(txtConfirmPass.getText().trim());
             userModel = new User_model(0,username,email,password);
-            
             setNullError();
             boolean valid=validateInputs(userModel,password,confirmpass);
             if(valid){
                 userController.CheckSignup(userModel, password);
                 userController.sendVerificationCode(userModel);
-                frmMain.showVerifyCode();
+                frmLoginSignup.showVerifyCode();
             }else{
                 JOptionPane.showMessageDialog(this, "Đăng ký thất bại!!");
             } 
@@ -403,7 +397,7 @@ public class PnlSignup extends javax.swing.JPanel {
     }//GEN-LAST:event_btnSignupActionPerformed
 
     private void lbLoginMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbLoginMouseClicked
-        frmMain.showPanel("Login");
+        frmLoginSignup.showPanel("Login");
     }//GEN-LAST:event_lbLoginMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
