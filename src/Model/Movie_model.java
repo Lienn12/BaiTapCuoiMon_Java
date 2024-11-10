@@ -19,7 +19,7 @@ public class Movie_model {
     private int episodes;
     private byte[] coverImage; // Thêm thuộc tính để lưu trữ ảnh
 
-    // Constructors
+
     public Movie_model() {
     }
 
@@ -38,7 +38,6 @@ public class Movie_model {
     }
 
 
-    // Constructor to initialize from ResultSet
     public Movie_model(ResultSet rs) throws SQLException {
         this.movieID = rs.getInt("movie_id");
         this.title = rs.getString("title");
