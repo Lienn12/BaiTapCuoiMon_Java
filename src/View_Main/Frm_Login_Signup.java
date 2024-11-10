@@ -1,8 +1,10 @@
 
 package View_Main;
 
+import Model.User_model;
 import View_Login_Signup.PnlForgotPassword;
 import View_Login_Signup.PnlLogin;
+import View_Login_Signup.PnlResetPassword;
 import View_Login_Signup.PnlSignup;
 import View_Login_Signup.PnlVerifyCode;
 import java.awt.*;
@@ -16,6 +18,8 @@ public class Frm_Login_Signup extends javax.swing.JFrame {
     private PnlSignup pnlSignup;
     private PnlVerifyCode pnlVerifyCode;
     private PnlForgotPassword pnlForgotPassword;
+    private PnlResetPassword pnlResetPassword;
+    private User_model userModel;
     public Frm_Login_Signup() {
         initComponents();
         init();
@@ -24,14 +28,23 @@ public class Frm_Login_Signup extends javax.swing.JFrame {
     public void init() { 
         cardLayout= new CardLayout();
         pnlLoginSignup.setLayout(cardLayout);
+        userModel = new User_model();
+        
         pnlLogin = new PnlLogin(this);
         pnlSignup =new PnlSignup(this);
         pnlVerifyCode= new PnlVerifyCode();
         pnlForgotPassword= new PnlForgotPassword(this);
-                
+        pnlResetPassword= new PnlResetPassword (this);
+        
+        pnlSignup.setUserModel(userModel);
+        pnlVerifyCode.setUserModel(userModel);
+        pnlForgotPassword.setUserModel(userModel);
+        pnlResetPassword.setUserModel(userModel);
+        
         pnlLoginSignup.add(pnlLogin,"Login");
         pnlLoginSignup.add(pnlSignup,"Signup");
         pnlLoginSignup.add(pnlForgotPassword,"Forgot");
+        pnlLoginSignup.add(pnlResetPassword,"Reset");
         cardLayout.show(pnlLoginSignup, "Login");
     }
     
