@@ -7,65 +7,90 @@ import java.sql.*;
 
 
 public class Movie_model {
-    private int id;
-    private String name;
-    private int year;
+    private int movieID;
+    private String title;
+    private int releaseYear;
+    private String genre;
+    private String country;
     private String director;
     private String cast;
-    private String genre;
+    private float rating;
     private String description;
-    private byte[] img; // Thêm thuộc tính để lưu trữ ảnh
+    private int episodes;
+    private byte[] coverImage; // Thêm thuộc tính để lưu trữ ảnh
 
     // Constructors
     public Movie_model() {
     }
 
-    public Movie_model(int id, String name, int year, String director, String cast, String genre, String description, byte[] img) {
-        this.id = id;
-        this.name = name;
-        this.year = year;
+    public Movie_model(int movieID, String title, int releaseYear, String genre, String country, String director, String cast, float rating, String description, int episodes, byte[] coverImage) {
+        this.movieID = movieID;
+        this.title = title;
+        this.releaseYear = releaseYear;
+        this.genre = genre;
+        this.country = country;
         this.director = director;
         this.cast = cast;
-        this.genre = genre;
+        this.rating = rating;
         this.description = description;
-        this.img = img;
+        this.episodes = episodes;
+        this.coverImage = coverImage;
     }
+
 
     // Constructor to initialize from ResultSet
     public Movie_model(ResultSet rs) throws SQLException {
-        this.id = rs.getInt("movie_id");
-        this.name = rs.getString("title");
-        this.year = rs.getInt("release_year");
+        this.movieID = rs.getInt("movie_id");
+        this.title = rs.getString("title");
+        this.releaseYear = rs.getInt("release_year");
+        this.genre = rs.getString("genre");
+        this.country = rs.getString("country");
         this.director = rs.getString("director");
         this.cast = rs.getString("cast");
-        this.genre = rs.getString("genre");
+        this.rating = rs.getFloat("rating");
         this.description = rs.getString("description");
-        this.img = rs.getBytes("cover_image"); // Lấy dữ liệu ảnh từ ResultSet
+        this.episodes = rs.getInt("episodes");
+        this.coverImage = rs.getBytes("cover_image"); // Lấy dữ liệu ảnh từ ResultSet
     }
 
-    // Getters and Setters
-    public int getId() {
-        return id;
+    public int getMovieID() {
+        return movieID;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setMovieID(int movieID) {
+        this.movieID = movieID;
     }
 
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public int getYear() {
-        return year;
+    public int getReleaseYear() {
+        return releaseYear;
     }
 
-    public void setYear(int year) {
-        this.year = year;
+    public void setReleaseYear(int releaseYear) {
+        this.releaseYear = releaseYear;
+    }
+
+    public String getGenre() {
+        return genre;
+    }
+
+    public void setGenre(String genre) {
+        this.genre = genre;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
     }
 
     public String getDirector() {
@@ -84,12 +109,12 @@ public class Movie_model {
         this.cast = cast;
     }
 
-    public String getGenre() {
-        return genre;
+    public float getRating() {
+        return rating;
     }
 
-    public void setGenre(String genre) {
-        this.genre = genre;
+    public void setRating(float rating) {
+        this.rating = rating;
     }
 
     public String getDescription() {
@@ -100,11 +125,20 @@ public class Movie_model {
         this.description = description;
     }
 
-    public byte[] getImg() {
-        return img;
+    public int getEpisodes() {
+        return episodes;
     }
 
-    public void setImg(byte[] img) {
-        this.img = img;
+    public void setEpisodes(int episodes) {
+        this.episodes = episodes;
     }
+
+    public byte[] getImg() {
+        return coverImage;
+    }
+
+    public void setImg(byte[] coverImage) {
+        this.coverImage = coverImage;
+    }
+
 }
