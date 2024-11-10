@@ -6,6 +6,7 @@ package View_Main;
 
 import View_Container.pnlChiTietFilm;
 import View_Container.pnlDSPhim;
+import View_Container.pnlReplyCmt;
 import View_Container.pnlSuaPhim;
 import View_Container.pnlThemPhim;
 import java.awt.*;
@@ -25,6 +26,7 @@ public class frmMenu extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         init1();
         init();
+        addMenuListeners();
     }
     public void init1(){
         setLayout(new BorderLayout());
@@ -44,14 +46,17 @@ public class frmMenu extends javax.swing.JFrame {
         pnlChiTietFilm pnlCT= new pnlChiTietFilm (this);
         pnlSuaPhim pnlSua=new pnlSuaPhim(this);
         pnlThemPhim pnlThem= new pnlThemPhim(this);
+        pnlReplyCmt pnlReplycmt= new pnlReplyCmt(this);
         
         pnlContainer.add(pnldsPhim,"danh sach phim");
         pnlContainer.add(pnlCT,"chi tiet phim");
         pnlContainer.add(pnlSua,"sua phim");
         pnlContainer.add(pnlThem,"them phim");
+        pnlContainer.add(pnlReplycmt, "reply");
         
         add(pnlContainer);
         cardLayout.show(pnlContainer, "danh sach phim");
+        setColor(btnDSphim);
     }
     
     void setColor(JPanel panel){
@@ -70,30 +75,39 @@ public class frmMenu extends javax.swing.JFrame {
         this.repaint();
     }
     private void addMenuListeners() {
-        // Giả sử bạn có các JButton cho Phim và Người Dùng
-        JButton btnPhim = new JButton("Phim");
-        JButton btnNguoiDung = new JButton("Người Dùng");
-
-        // Thêm sự kiện cho nút "Phim"
-        btnPhim.addMouseListener(new MouseAdapter() {
+        btnDSphim.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 // Chuyển sang panel danh sách phim
-                cardLayout.show(pnlContainer, "pnlDSPhim");
+                showPanel("danh sach phim");
+                setColor(btnDSphim);
             }
         });
 
-        // Thêm sự kiện cho nút "Người Dùng"
-        btnNguoiDung.addMouseListener(new MouseAdapter() {
+        btnDSNguoiDung.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 // Chuyển sang panel danh sách người dùng
-                cardLayout.show(pnlContainer, "pnlDSNguoiDung");
+                showPanel("chi tiet phim");
             }
         });
-
-        pnlMenu.add(btnPhim);
-        pnlMenu.add(btnNguoiDung);
+        
+        btnDanhGia.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                showPanel("reply");
+                setColor(btnDanhGia);
+            }
+        });
+        
+        btnLogout.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                Frm_Login_Signup frmLoginSignup= new Frm_Login_Signup();
+                frmLoginSignup.setVisible(true);
+                dispose();
+            }
+        });
     }
 
     @SuppressWarnings("unchecked")
@@ -340,6 +354,7 @@ public class frmMenu extends javax.swing.JFrame {
         resetColor(btnDSNguoiDung);
         resetColor(btnDanhGia);
         resetColor(btnLogout);
+        
     }//GEN-LAST:event_btnTrangChuMousePressed
 
     private void btnDSphimMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDSphimMousePressed

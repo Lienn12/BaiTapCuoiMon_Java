@@ -36,6 +36,7 @@ public class FrmTrangchu extends javax.swing.JFrame {
             public void mouseClicked(MouseEvent e) {
                 menu.setVisible(true);
                 menu.showPanel("danh sach phim");
+                dispose();
             }
         });
         btnNguoiDung.addMouseListener(new MouseAdapter() {
@@ -47,13 +48,18 @@ public class FrmTrangchu extends javax.swing.JFrame {
         btnDanhGia.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                // Xử lý khi nút btnPhim được nhấp
+                 menu.setVisible(true);
+                menu.showPanel("danh sach phim");
+                dispose();
             }
         });
         btnDangXuat.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                // Xử lý khi nút btnPhim được nhấp
+                Frm_Login_Signup frmLoginSignup= new Frm_Login_Signup();
+                frmLoginSignup.setVisible(true);
+                dispose();
+                
             }
         });
     }
