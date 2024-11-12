@@ -8,6 +8,8 @@ import Controllers.dbConnect.*;
 import Model.Message_model;
 import Model.User_model;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import javax.swing.JOptionPane;
 
@@ -19,6 +21,35 @@ public class User_controller {
     public User_controller(){
         conn=new dbConnect().getConnect();
     }
+    
+     
+    public List<User_model> getUser() throws SQLException {
+        List<User_model> dsUser= new ArrayList<User_model>();
+        String sql="SELECT USER_ID, USERNAME, GENDERNAME, BIRTH,EMAIL FROM USERS, GENDERS WHERE USERS.GENDERID=GENDERS.GENDERID";        
+        prst= conn.prepareStatement(sql);
+        rs=prst.executeQuery();
+        while(rs.next()){
+            User_model userModel= new User_model(rs);
+            dsUser.add(userModel);
+        }
+        prst.close();
+        rs.close();
+        return dsUser;
+    }
+    
+    public User_model getUser(int reviewID) throws SQLException{
+        String sql="SELECT * FROM REVIEWS WHERE REVIEW_ID=?";
+        prst=conn.prepareStatement(sql);
+        prst.setInt(1, reviewID);
+        rs=prst.executeQuery();
+        if(rs.next()){
+            User_model userModel = new User_model(rs);
+        }
+        prst.close();
+        rs.close();
+        return userModel;
+    }
+    
     
     //check đăng nhập người dùng 
     public boolean CheckLoginUser(User_model userModel, String password) throws SQLException{

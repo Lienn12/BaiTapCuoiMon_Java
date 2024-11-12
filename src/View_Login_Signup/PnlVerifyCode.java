@@ -17,18 +17,17 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 public class PnlVerifyCode extends javax.swing.JPanel {
-    private User_controller userController;
+    private final User_controller userController;
     private User_model userModel;
-    private PnlSignup pnlSignup;
     private Frm_Login_Signup frmLoginSignup;
-    private PnlForgotPassword pnlForgotPassword;
-    private FrmTrangchu frmTrangchu;
+    private final FrmTrangchu frmTrangchu;
     
+    public void setFrmLoginSignup(Frm_Login_Signup frmLoginSignup) {
+        this.frmLoginSignup = frmLoginSignup;
+    }
     public PnlVerifyCode() {
         initComponents(); 
         userController= new User_controller();
-        userModel= new User_model();
-        pnlForgotPassword = new PnlForgotPassword(frmLoginSignup);
         frmTrangchu= new FrmTrangchu();
     }
     @Override
@@ -42,11 +41,8 @@ public class PnlVerifyCode extends javax.swing.JPanel {
         this.userModel = userModel;
     }
     public void setPnlSignup(PnlSignup pnlSignup) {
-        this.pnlSignup = pnlSignup;
     }
-    public void setPnlForgotPassword(PnlForgotPassword pnlForgotPassword) {
-        this.pnlForgotPassword = pnlForgotPassword;
-    }
+
     @Override
     public void setVisible(boolean bln){
         super.setVisible(bln);
@@ -166,7 +162,7 @@ public class PnlVerifyCode extends javax.swing.JPanel {
                 userController.doneVerify(userModel.getUserID());
                 JOptionPane.showMessageDialog(this, "Verify chính xác");
                 frmTrangchu.setVisible(true);
-                frmLoginSignup.setVisible(false);
+                frmLoginSignup.dispose();
             } else {
                 JOptionPane.showMessageDialog(this, "Verify không chính xác");
             }

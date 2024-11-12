@@ -14,10 +14,22 @@ public class User_model {
     private int userID;
     private String username;
     private String email;
+    private String gender;
+    private Date birth;
     private String password;
     private String verifyCode;
         
     public User_model() {
+    }
+
+    public User_model(int userID, String username, String email, String gender, Date birth, String password, String verifyCode) {
+        this.userID = userID;
+        this.username = username;
+        this.email = email;
+        this.gender = gender;
+        this.birth = birth;
+        this.password = password;
+        this.verifyCode = verifyCode;
     }
     
     public User_model(int userID, String username, String email, String password, String verifyCode) {
@@ -57,6 +69,22 @@ public class User_model {
         this.email = email;
     }
 
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public Date getBirth() {
+        return birth;
+    }
+
+    public void setBirth(Date birth) {
+        this.birth = birth;
+    }
+    
     public String getVerifyCode() {
         return verifyCode;
     }
@@ -68,16 +96,13 @@ public class User_model {
     public void setVerifyCode(String verifyCode) {
         this.verifyCode = verifyCode;
     }
-
+    
     public User_model(ResultSet rs) throws SQLException{
-        this.userID=rs.getInt("UserID");
+        this.userID=rs.getInt("User_ID");
         this.username =rs.getString("Username");     
         this.email = rs.getString("Email");
-        this.password =rs.getString("Password");
-        this.verifyCode= rs.getString("VerifyCode");
+        this.gender = rs.getString("GENDERNAME");
+        this.birth = rs.getDate("BIRTH");
     }
-    
-    
-    
-    
+
 }

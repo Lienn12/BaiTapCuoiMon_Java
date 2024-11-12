@@ -22,7 +22,14 @@ public class Review_model {
         this.comment = comment;
         this.reviewDate = reviewDate;
     }
-    
+    public Review_model(ResultSet rs) throws SQLException {
+        this.reviewID = rs.getInt("review_ID");
+//        this.movieModel = new Movie_model(rs);
+//        this.userModel = new User_model(rs);
+//        this.rating = rs.getFloat("rating");
+//        this.comment = rs.getString("comment");
+//        this.reviewDate = rs.getDate("review_Date");
+    }
     public int getReviewID() {
         return reviewID;
     }

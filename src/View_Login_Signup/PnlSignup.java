@@ -26,13 +26,14 @@ public class PnlSignup extends javax.swing.JPanel {
         initEnterKeyListeners();
         setNullError();
     } 
-    public void setUserModel(User_model userModel) {
-        this.userModel = userModel;
+    public User_model getUserModel() {
+        return userModel;
     }
+    
     private void init() {
         new PnlVerifyCode();
         userController = new User_controller();
-        userModel = new User_model();
+//        userModel = new User_model();
         adminController= new Admin_controller();
         new Admin_model();
         initEnterKeyListeners();

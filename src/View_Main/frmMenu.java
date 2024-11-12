@@ -4,14 +4,17 @@
  */
 package View_Main;
 
+import View_Container.PnlDanhSachUser;
 import View_Container.pnlChiTietFilm;
 import View_Container.pnlDSPhim;
+import View_Container.pnlDanhgia;
 import View_Container.pnlReplyCmt;
 import View_Container.pnlSuaPhim;
 import View_Container.pnlThemPhim;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.sql.SQLException;
 import javax.swing.*;
 /**
  *
@@ -21,7 +24,7 @@ public class frmMenu extends javax.swing.JFrame {
 
     private CardLayout cardLayout;
     
-    public frmMenu() {
+    public frmMenu()  {
         initComponents();
         setLocationRelativeTo(null);
         init1();
@@ -38,7 +41,7 @@ public class frmMenu extends javax.swing.JFrame {
         pnlMenu.setPreferredSize(new Dimension(width, height));
         setSize(1000, 600);
     }
-    public void init(){
+    public void init() {
         cardLayout=new CardLayout();
         pnlContainer.setLayout(cardLayout);
         
@@ -46,12 +49,16 @@ public class frmMenu extends javax.swing.JFrame {
         pnlChiTietFilm pnlCT= new pnlChiTietFilm (this);
         pnlSuaPhim pnlSua=new pnlSuaPhim(this);
         pnlThemPhim pnlThem= new pnlThemPhim(this);
+        PnlDanhSachUser pnlDanhSachUser= new PnlDanhSachUser(this);
+        pnlDanhgia pnlDanhgia= new pnlDanhgia(this);
         pnlReplyCmt pnlReplycmt= new pnlReplyCmt(this);
         
         pnlContainer.add(pnldsPhim,"danh sach phim");
         pnlContainer.add(pnlCT,"chi tiet phim");
         pnlContainer.add(pnlSua,"sua phim");
         pnlContainer.add(pnlThem,"them phim");
+        pnlContainer.add(pnlDanhSachUser,"danh sach user");
+        pnlContainer.add(pnlDanhgia,"danh gia");
         pnlContainer.add(pnlReplycmt, "reply");
         
         add(pnlContainer);
@@ -88,14 +95,14 @@ public class frmMenu extends javax.swing.JFrame {
             @Override
             public void mouseClicked(MouseEvent e) {
                 // Chuyển sang panel danh sách người dùng
-                showPanel("chi tiet phim");
+                showPanel("danh sach user");
             }
         });
         
         btnDanhGia.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                showPanel("reply");
+                showPanel("danh gia");
                 setColor(btnDanhGia);
             }
         });

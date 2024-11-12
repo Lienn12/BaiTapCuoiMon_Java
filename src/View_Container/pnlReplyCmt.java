@@ -360,7 +360,7 @@ public class pnlReplyCmt extends javax.swing.JPanel {
 
     private void lbBackMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbBackMouseClicked
 
-        menu.showPanel("danh sach phim");
+        menu.showPanel("danh gia");
     }//GEN-LAST:event_lbBackMouseClicked
 
     private void star1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_star1ActionPerformed

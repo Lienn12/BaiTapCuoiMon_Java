@@ -36,8 +36,7 @@ public class Frm_Login_Signup extends javax.swing.JFrame {
         pnlForgotPassword= new PnlForgotPassword(this);
         pnlResetPassword= new PnlResetPassword (this);
         
-        pnlSignup.setUserModel(userModel);
-        pnlVerifyCode.setUserModel(userModel);
+        pnlVerifyCode.setFrmLoginSignup(this);
         pnlForgotPassword.setUserModel(userModel);
         pnlResetPassword.setUserModel(userModel);
         
@@ -51,7 +50,8 @@ public class Frm_Login_Signup extends javax.swing.JFrame {
 
     public void showVerifyCode(){
         //them pnl VerifiCode
-        pnlVerifyCode.setPnlSignup(pnlSignup);
+//        pnlVerifyCode.setPnlSignup(pnlSignup);
+        pnlVerifyCode.setUserModel(pnlSignup.getUserModel());
         pnlVerifyCode.setBounds(0, 0, getWidth(), getHeight());
         bg.add(pnlVerifyCode, Integer.valueOf(1));
         bg.revalidate(); // Cập nhật lại các thay đổi
@@ -60,6 +60,7 @@ public class Frm_Login_Signup extends javax.swing.JFrame {
     public void showPanel(String panelName){
         cardLayout.show(pnlLoginSignup, panelName);
     }
+   
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
