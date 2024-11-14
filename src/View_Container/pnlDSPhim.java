@@ -1,18 +1,30 @@
 
 package View_Container;
+import Controllers.Movie_controller;
+import Model.Movie_model;
 import javax.swing.table.DefaultTableModel;
 import cell.tableAction;
 import cell.tblActionCellEditor;
 import cell.tblActionEvent;
 import View_Main.frmMenu;
+import java.sql.SQLException;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
-public class pnlDSPhim extends javax.swing.JPanel {
-
+public final class pnlDSPhim extends javax.swing.JPanel {
+    private final Movie_model movie= new Movie_model();
+    private final Movie_controller movieController= new Movie_controller();
     private frmMenu menu;
+    private DefaultTableModel tableModel= new DefaultTableModel();
     public pnlDSPhim(frmMenu menu) {
         this.menu = menu;
         initComponents();        
+        String []colsName={"ID","Tên phim","Năm phát hành",""};
+        tableModel.setColumnIdentifiers(colsName);
+        table.setModel(tableModel);
+        ShowData();
         tblActionEvent event = new tblActionEvent() {
             @Override
             public void onView(int row) {
@@ -26,15 +38,15 @@ public class pnlDSPhim extends javax.swing.JPanel {
 
             @Override
             public void onDelete(int row) {
-                if(jTable1.isEditing()){
-                    jTable1.getCellEditor().stopCellEditing();
+                if(table.isEditing()){
+                    table.getCellEditor().stopCellEditing();
                 }
-                DefaultTableModel tbl = (DefaultTableModel) jTable1.getModel();
+                DefaultTableModel tbl = (DefaultTableModel) table.getModel();
                 tbl.removeRow(row);
             }
         };
-        jTable1.getColumnModel().getColumn(3).setCellRenderer(new tableAction());
-        jTable1.getColumnModel().getColumn(3).setCellEditor(new tblActionCellEditor(event));
+        table.getColumnModel().getColumn(3).setCellRenderer(new tableAction());
+        table.getColumnModel().getColumn(3).setCellEditor(new tblActionCellEditor(event));
     }
     
     @SuppressWarnings("unchecked")
@@ -46,7 +58,7 @@ public class pnlDSPhim extends javax.swing.JPanel {
         jTextField1 = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        table = new javax.swing.JTable();
         jComboBox1 = new javax.swing.JComboBox<>();
         jLabel4 = new javax.swing.JLabel();
 
@@ -70,8 +82,8 @@ public class pnlDSPhim extends javax.swing.JPanel {
             }
         });
 
-        jTable1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        table.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null}
@@ -95,16 +107,16 @@ public class pnlDSPhim extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
-        jTable1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jTable1.setGridColor(new java.awt.Color(153, 153, 153));
-        jTable1.setRowHeight(40);
-        jTable1.setSelectionBackground(new java.awt.Color(204, 204, 204));
-        jTable1.setShowGrid(true);
-        jScrollPane1.setViewportView(jTable1);
-        if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(0).setMinWidth(50);
-            jTable1.getColumnModel().getColumn(0).setPreferredWidth(50);
-            jTable1.getColumnModel().getColumn(0).setMaxWidth(50);
+        table.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        table.setGridColor(new java.awt.Color(153, 153, 153));
+        table.setRowHeight(40);
+        table.setSelectionBackground(new java.awt.Color(204, 204, 204));
+        table.setShowGrid(true);
+        jScrollPane1.setViewportView(table);
+        if (table.getColumnModel().getColumnCount() > 0) {
+            table.getColumnModel().getColumn(0).setMinWidth(50);
+            table.getColumnModel().getColumn(0).setPreferredWidth(50);
+            table.getColumnModel().getColumn(0).setMaxWidth(50);
         }
 
         jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/search.png"))); // NOI18N
@@ -152,7 +164,25 @@ public class pnlDSPhim extends javax.swing.JPanel {
                 .addContainerGap(38, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
-
+     public void ShowData() {
+            try{
+                List<Movie_model> dsMovie= movieController.getMovie(movie);
+                try{
+                    for(int i=0; i<dsMovie.size();i++){
+                        Object row[]={
+                            dsMovie.get(i).getMovieID(),
+                            dsMovie.get(i).getTitle(),
+                            dsMovie.get(i).getReleaseYear()
+                        };
+                        tableModel.addRow(row);
+                    }
+                }catch(Exception ex){
+                    ex.printStackTrace();
+                }
+            }catch(SQLException ex){
+                Logger.getLogger(pnlDSPhim.class.getName()).log(Level.SEVERE, null, ex);
+            }
+    }
     private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
         // TODO add your handling code here:
         menu.showPanel("them phim");
@@ -166,7 +196,7 @@ public class pnlDSPhim extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField1;
+    private javax.swing.JTable table;
     // End of variables declaration//GEN-END:variables
 }

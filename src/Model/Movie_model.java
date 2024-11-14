@@ -22,7 +22,9 @@ public class Movie_model {
 
     public Movie_model() {
     }
-
+    public Movie_model(String title) {
+        this.title=title;
+    }
     public Movie_model(int movieID, String title, int releaseYear, String genre, String country, String director, String cast, float rating, String description, int episodes, byte[] coverImage) {
         this.movieID = movieID;
         this.title = title;
@@ -42,16 +44,9 @@ public class Movie_model {
         this.movieID = rs.getInt("movie_id");
         this.title = rs.getString("title");
         this.releaseYear = rs.getInt("release_year");
-        this.genre = rs.getString("genre");
-        this.country = rs.getString("country");
-        this.director = rs.getString("director");
-        this.cast = rs.getString("cast");
-        this.rating = rs.getFloat("rating");
-        this.description = rs.getString("description");
-        this.episodes = rs.getInt("episodes");
-        this.coverImage = rs.getBytes("cover_image"); // Lấy dữ liệu ảnh từ ResultSet
     }
-
+    
+    
     public int getMovieID() {
         return movieID;
     }

@@ -4,7 +4,7 @@
  */
 package View_Main;
 
-import View_Container.PnlDanhSachUser;
+//import View_Container.PnlDanhSachUser;
 import View_Container.pnlChiTietFilm;
 import View_Container.pnlDSPhim;
 import View_Container.pnlDanhgia;
@@ -49,7 +49,7 @@ public class frmMenu extends javax.swing.JFrame {
         pnlChiTietFilm pnlCT= new pnlChiTietFilm (this);
         pnlSuaPhim pnlSua=new pnlSuaPhim(this);
         pnlThemPhim pnlThem= new pnlThemPhim(this);
-        PnlDanhSachUser pnlDanhSachUser= new PnlDanhSachUser(this);
+//        PnlDanhSachUser pnlDanhSachUser= new PnlDanhSachUser(this);
         pnlDanhgia pnlDanhgia= new pnlDanhgia(this);
         pnlReplyCmt pnlReplycmt= new pnlReplyCmt(this);
         
@@ -57,7 +57,7 @@ public class frmMenu extends javax.swing.JFrame {
         pnlContainer.add(pnlCT,"chi tiet phim");
         pnlContainer.add(pnlSua,"sua phim");
         pnlContainer.add(pnlThem,"them phim");
-        pnlContainer.add(pnlDanhSachUser,"danh sach user");
+//        pnlContainer.add(pnlDanhSachUser,"danh sach user");
         pnlContainer.add(pnlDanhgia,"danh gia");
         pnlContainer.add(pnlReplycmt, "reply");
         

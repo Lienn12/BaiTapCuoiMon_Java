@@ -28,8 +28,7 @@ public final class pnlDanhgia extends javax.swing.JPanel {
     public pnlDanhgia(frmMenu menu)  {
         this.menu=menu;
         initComponents();
-        String []colsName={"ID",""};
-//        String []colsName={"ID","USERNAME","MOVIE NAWM","DATE",""};
+        String []colsName={"ID","USERNAME","MOVIE NAWM","DATE",""};
         tableModel.setColumnIdentifiers(colsName);
         table.setModel(tableModel);
         ShowData();
@@ -47,8 +46,8 @@ public final class pnlDanhgia extends javax.swing.JPanel {
                 tableModel.removeRow(row);
             }
         };
-        table.getColumnModel().getColumn(1).setCellRenderer(new tableActCmt());
-        table.getColumnModel().getColumn(1).setCellEditor(new tblActionCellEditorCmt(event));
+        table.getColumnModel().getColumn(4).setCellRenderer(new tableActCmt());
+        table.getColumnModel().getColumn(4).setCellEditor(new tblActionCellEditorCmt(event));
     }
     public void ShowData() {
         try{
@@ -57,9 +56,9 @@ public final class pnlDanhgia extends javax.swing.JPanel {
                 for(int i=0; i<dsReview.size();i++){
                     Object row[]={
                         dsReview.get(i).getReviewID(),
-//                        dsReview.get(i).getUserModel().getUsername(),
-//                        dsReview.get(i).getMovieModel().getTitle(),
-//                        dsReview.get(i).getReviewDate()
+                        dsReview.get(i).getUserModel().getUsername(),
+                        dsReview.get(i).getMovieModel().getTitle(),
+                        dsReview.get(i).getReviewDate()
                     };
                     tableModel.addRow(row);
                 }
@@ -86,11 +85,11 @@ public final class pnlDanhgia extends javax.swing.JPanel {
 
             },
             new String [] {
-                "ID", ""
+                "ID", "Username", "Tên phim", "Date", ""
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.Object.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class
             };
 
             public Class getColumnClass(int columnIndex) {

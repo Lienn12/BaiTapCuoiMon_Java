@@ -104,5 +104,7 @@ public class User_model {
         this.gender = rs.getString("GENDERNAME");
         this.birth = rs.getDate("BIRTH");
     }
-
+    public User_model(String username){
+        this.username= username;
+    }
 }
