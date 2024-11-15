@@ -28,7 +28,7 @@ public final class pnlDanhgia extends javax.swing.JPanel {
     public pnlDanhgia(frmMenu menu)  {
         this.menu=menu;
         initComponents();
-        String []colsName={"ID","USERNAME","MOVIE NAWM","DATE",""};
+        String []colsName={"ID","Username","Tên","DATE",""};
         tableModel.setColumnIdentifiers(colsName);
         table.setModel(tableModel);
         ShowData();

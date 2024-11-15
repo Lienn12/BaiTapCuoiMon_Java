@@ -24,7 +24,7 @@ public class Review_model {
     }
     public Review_model(ResultSet rs) throws SQLException {
         this.reviewID = rs.getInt("review_ID");
-        this.movieModel = new Movie_model(rs.getString("TITLE"));
+//        this.movieModel = new Movie_model(rs.getString("TITLE"));
         this.userModel = new User_model(rs.getString("USERNAME"));
         this.reviewDate = rs.getDate("review_Date");
     }
