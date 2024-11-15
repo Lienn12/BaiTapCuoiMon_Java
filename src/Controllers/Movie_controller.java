@@ -29,7 +29,7 @@ public class Movie_controller {
         rs=pstmt.executeQuery();
         while(rs.next()){
             Movie_model movie= new Movie_model(rs);
-            dsMovie.add(movieModel);
+            dsMovie.add(movie);
         }
         pstmt.close();
         rs.close();

@@ -4,6 +4,7 @@
  */
 package View_Container;
 
+import Controllers.Movie_controller;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -11,6 +12,7 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import View_Main.frmMenu;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -19,7 +21,8 @@ import View_Main.frmMenu;
 public class pnlThemPhim extends javax.swing.JPanel {
 
     private frmMenu menu;
-   
+    private File selectedFile;
+    private Movie_controller movie_controller=new Movie_controller();
      public pnlThemPhim(frmMenu menu) {
         this.menu = menu;
         initComponents();
@@ -157,11 +160,21 @@ public class pnlThemPhim extends javax.swing.JPanel {
         jButton1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.setText("Save");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setBackground(new java.awt.Color(102, 151, 249));
         jButton2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jButton2.setForeground(new java.awt.Color(255, 255, 255));
         jButton2.setText("Cancel");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -284,13 +297,13 @@ public class pnlThemPhim extends javax.swing.JPanel {
         fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);// chỉ hiển thị file
         int returnValue = fileChooser.showOpenDialog(this);
         if(returnValue==JFileChooser.APPROVE_OPTION){
-            File fl = fileChooser.getSelectedFile();
+            selectedFile = fileChooser.getSelectedFile();
             //lấy đưuòng danx file để lưu vào 1 trường
-            String pathFile = fl.getAbsolutePath();
+            String pathFile = selectedFile.getAbsolutePath();
 //            String pathFl = fl.getAbsolutePath().replace("//", "--");
             BufferedImage img0;
             try{
-                img0 = ImageIO.read(fl);
+                img0 = ImageIO.read(selectedFile);
                 Image img = img0.getScaledInstance(lblImage.getWidth(),lblImage.getHeight(),Image.SCALE_SMOOTH);
              
                 lblImage.setIcon(new ImageIcon(img));
@@ -299,6 +312,32 @@ public class pnlThemPhim extends javax.swing.JPanel {
             }
         }
     }//GEN-LAST:event_jLabel9MouseClicked
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        String name = jTextField1.getText();
+        int year = Integer.parseInt((String) jTextField2.getText());
+        String director = jTextField3.getText();
+        String cast = jTextField4.getText();
+        String genre = jTextField5.getText();
+        String descrip = jTextArea1.getText();
+        
+        if (name.isEmpty() || year<=0 || director.isEmpty() || cast.isEmpty() || genre.isEmpty() || descrip.isEmpty() || selectedFile == null) {
+            JOptionPane.showMessageDialog(this, "Vui lòng điền thông tin đầy đủ!");
+            return;
+        }
+        movie_controller.saveInfo(name,year,director,cast,genre,descrip,selectedFile);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        jTextField1.setText("");
+        jTextField2.setText("");
+        jTextField3.setText("");
+        jTextField4.setText("");
+        jTextField5.setText("");
+        jTextArea1.setText("");
+        lblImage.setIcon(null);
+    }//GEN-LAST:event_jButton2ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
