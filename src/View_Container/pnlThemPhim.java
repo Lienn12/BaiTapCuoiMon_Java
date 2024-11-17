@@ -22,11 +22,12 @@ public final class pnlThemPhim extends javax.swing.JPanel {
 
     private frmMenu menu;
     private File selectedFile;
-    private final pnlDSPhim pnlDSPhim = new pnlDSPhim(menu);
+    private final pnlDSPhim pnlDSPhim ;
 
     private final Movie_controller movie_controller=new Movie_controller();
-     public pnlThemPhim(frmMenu menu) {
+     public pnlThemPhim(frmMenu menu, pnlDSPhim pnlDSPhim) {
         this.menu = menu;
+        this.pnlDSPhim = pnlDSPhim;
         initComponents();
     }
      public void setNull(){
@@ -477,10 +478,11 @@ public final class pnlThemPhim extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void lbBackMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbBackMouseClicked
-
-        if(menu != null){
-            menu.showPanel("danh sach phim");
+        if (pnlDSPhim != null) {
+            pnlDSPhim.ClearData(); // Xóa dữ liệu cũ
+            pnlDSPhim.ShowData();  // Tải lại dữ liệu mới
         }
+        menu.showPanel("danh sach phim");
     }//GEN-LAST:event_lbBackMouseClicked
     
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed

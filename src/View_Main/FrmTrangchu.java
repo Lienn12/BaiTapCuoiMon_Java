@@ -25,7 +25,7 @@ public class FrmTrangchu extends javax.swing.JFrame {
         pnlDSPhim pnldsPhim= new pnlDSPhim(menu);
         pnlChiTietFilm pnlCT= new pnlChiTietFilm (menu);
         pnlSuaPhim pnlSua=new pnlSuaPhim(menu);
-        pnlThemPhim pnlThem= new pnlThemPhim(menu);
+        pnlThemPhim pnlThem= new pnlThemPhim(menu,pnldsPhim);
         initComponents();
         setLocationRelativeTo(null);
         actions();

@@ -23,7 +23,7 @@ import javax.swing.*;
 public class frmMenu extends javax.swing.JFrame {
 
     private CardLayout cardLayout;
-    
+    private pnlDSPhim pnldsPhim; 
     public frmMenu()  {
         initComponents();
         setLocationRelativeTo(null);
@@ -45,10 +45,10 @@ public class frmMenu extends javax.swing.JFrame {
         cardLayout=new CardLayout();
         pnlContainer.setLayout(cardLayout);
         
-        pnlDSPhim pnldsPhim= new pnlDSPhim(this);
+        pnldsPhim= new pnlDSPhim(this);
         pnlChiTietFilm pnlCT= new pnlChiTietFilm (this);
         pnlSuaPhim pnlSua=new pnlSuaPhim(this);
-        pnlThemPhim pnlThem= new pnlThemPhim(this);
+        pnlThemPhim pnlThem= new pnlThemPhim(this,pnldsPhim);
 //        PnlDanhSachUser pnlDanhSachUser= new PnlDanhSachUser(this);
         pnlDanhgia pnlDanhgia= new pnlDanhgia(this);
         pnlReplyCmt pnlReplycmt= new pnlReplyCmt(this);

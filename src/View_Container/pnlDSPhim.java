@@ -189,7 +189,6 @@ public final class pnlDSPhim extends javax.swing.JPanel {
      public void ShowData() {
             try{
                 List<Movie_model> dsMovie= movieController.getMovie(movie);
-                System.out.println("Movies Retrieved: " + dsMovie.size());
                 try{
                     tableModel.setRowCount(0); 
                     for(int i=0; i<dsMovie.size();i++){
