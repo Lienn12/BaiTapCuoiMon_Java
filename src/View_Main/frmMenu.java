@@ -24,6 +24,7 @@ public class frmMenu extends javax.swing.JFrame {
 
     private CardLayout cardLayout;
     private pnlDSPhim pnldsPhim; 
+    private pnlChiTietFilm pnlChiTiet;
     public frmMenu()  {
         initComponents();
         setLocationRelativeTo(null);
@@ -46,7 +47,7 @@ public class frmMenu extends javax.swing.JFrame {
         pnlContainer.setLayout(cardLayout);
         
         pnldsPhim= new pnlDSPhim(this);
-        pnlChiTietFilm pnlCT= new pnlChiTietFilm (this);
+        pnlChiTiet= new pnlChiTietFilm (this);
         pnlSuaPhim pnlSua=new pnlSuaPhim(this);
         pnlThemPhim pnlThem= new pnlThemPhim(this,pnldsPhim);
 //        PnlDanhSachUser pnlDanhSachUser= new PnlDanhSachUser(this);
@@ -54,7 +55,7 @@ public class frmMenu extends javax.swing.JFrame {
         pnlReplyCmt pnlReplycmt= new pnlReplyCmt(this);
         
         pnlContainer.add(pnldsPhim,"danh sach phim");
-        pnlContainer.add(pnlCT,"chi tiet phim");
+        pnlContainer.add(pnlChiTiet,"chi tiet phim");
         pnlContainer.add(pnlSua,"sua phim");
         pnlContainer.add(pnlThem,"them phim");
 //        pnlContainer.add(pnlDanhSachUser,"danh sach user");
@@ -117,6 +118,9 @@ public class frmMenu extends javax.swing.JFrame {
         });
     }
 
+    public  pnlChiTietFilm getPanel(){
+        return pnlChiTiet;
+    }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -141,7 +145,8 @@ public class frmMenu extends javax.swing.JFrame {
         pnlContainer = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setSize(new java.awt.Dimension(1000, 600));
+        setPreferredSize(new java.awt.Dimension(1029, 650));
+        setSize(new java.awt.Dimension(1000, 650));
 
         pnlMenu.setBackground(new java.awt.Color(51, 102, 153));
 

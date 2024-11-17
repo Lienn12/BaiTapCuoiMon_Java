@@ -21,6 +21,7 @@ public final class pnlDSPhim extends javax.swing.JPanel {
     private final Movie_controller movieController= new Movie_controller();
     private frmMenu menu;
     private DefaultTableModel tableModel= new DefaultTableModel();
+    private Movie_controller controller;
     public pnlDSPhim(frmMenu menu) {
         this.menu = menu;
         initComponents(); 
@@ -28,11 +29,17 @@ public final class pnlDSPhim extends javax.swing.JPanel {
         String []colsName={"ID","Tên phim","Năm phát hành",""};
         tableModel.setColumnIdentifiers(colsName);
         table.setModel(tableModel);
+        controller = new Movie_controller();
         ShowData();
         tblActionEvent event = new tblActionEvent() {
             @Override
             public void onView(int row) {
-                menu.showPanel("chi tiet phim");
+                int movieID = getSelectedMovieID();
+                if (movieID != -1) {
+                    showMovie(movieID);
+                } else {
+                    System.out.println("Không có phim nào được chọn!");
+                }
             }
 
             @Override
@@ -242,4 +249,32 @@ public final class pnlDSPhim extends javax.swing.JPanel {
     private javax.swing.JTable table;
     private javax.swing.JTextField txtSearch;
     // End of variables declaration//GEN-END:variables
+    public int getSelectedMovieID() {
+        int selectedRow = table.getSelectedRow();
+        if (selectedRow == -1) {
+            // Không có dòng nào được chọn
+            return -1;
+        }
+        // Lấy giá trị từ cột ID (cột 0)
+        return (int) table.getValueAt(selectedRow, 0);
+    }
+    public void showMovie(int movieID) {
+        try {
+            Movie_model movie = controller.getMovieById(movieID);
+            if(movie != null) {
+                System.out.println("Tên phim: " + movie.getTitle());
+                System.out.println("Năm ph: " + movie.getReleaseYear());
+                System.out.println("The loai: " + movie.getGenre());
+                System.out.println("Mota: " + movie.getDescription());
+                pnlChiTietFilm pnlCT = menu.getPanel();
+                pnlCT.setMovieDetails(movie);
+                menu.showPanel("chi tiet phim");
+            } else {
+                System.out.println("Khong tim thay ID phim !");
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            System.out.println("Loi truy van!");
+        }
+    }
 }

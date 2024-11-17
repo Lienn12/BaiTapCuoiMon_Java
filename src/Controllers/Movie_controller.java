@@ -92,4 +92,31 @@ public class Movie_controller {
             }
             return movies;
         }
+    
+    public Movie_model getMovieById(int movieID) throws SQLException{
+        String query = "SELECT * FROM MOVIES WHERE MOVIE_ID = ?";
+        try {
+            PreparedStatement prst = conn.prepareStatement(query);
+            prst.setInt(1, movieID);
+            ResultSet rs = prst.executeQuery();
+            if (rs.next()) {
+                return new Movie_model(
+                    rs.getString("title"),
+                    rs.getInt("release_year"),
+                    rs.getString("genre"),
+                    rs.getString("country"),
+                    rs.getString("director"),
+                    rs.getString("cast"),
+                    rs.getFloat("rating"),
+                    rs.getString("description"),
+                    rs.getInt("duration"),
+                    rs.getBytes("cover_image")
+                    
+                );
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }
