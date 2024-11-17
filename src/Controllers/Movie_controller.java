@@ -35,7 +35,7 @@ public class Movie_controller {
         rs.close();
         return dsMovie;
     }
-    public void saveInfo(String name,int year,String director,String cast,String genre, String descrip ,File imageFile) {
+    public void saveInfo(String name,int year,String director,String cast,String genre,String country,int duration,String descrip ,File imageFile) {
         try (FileInputStream fis = new FileInputStream(imageFile);
             ByteArrayOutputStream bos = new ByteArrayOutputStream()) {
             byte[] buffer = new byte[1024];
@@ -44,15 +44,18 @@ public class Movie_controller {
                 bos.write(buffer, 0, bytesRead);
             }
             byte[] imageBytes = bos.toByteArray();
-            String sql = "INSERT INTO MOVIES (TITLE,RELEASE_YEAR,DIRECTOR,CAST,GENRE,DESCRIPTION,COVER_IMAGE) VALUES (?,?,?,?,?,?,?)";
+            String sql = "INSERT INTO MOVIES (TITLE,RELEASE_YEAR,DIRECTOR,CAST,GENRE,COUNTRY,DURATION,DESCRIPTION,COVER_IMAGE) "
+                        + "VALUES (?,?,?,?,?,?,?,?,?)";
             pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, name);
             pstmt.setInt(2, year);
             pstmt.setString(3, director);
             pstmt.setString(4, cast);
             pstmt.setString(5, genre);
-            pstmt.setString(6, descrip);
-            pstmt.setBytes(7, imageBytes);
+            pstmt.setString(6, country);
+            pstmt.setInt(7, duration);
+            pstmt.setString(8, descrip);
+            pstmt.setBytes(9, imageBytes);
 
             pstmt.executeUpdate();
             System.out.println("Lưu thông tin thành công vào cơ sở dữ liệu!");
@@ -60,4 +63,33 @@ public class Movie_controller {
             e.printStackTrace();
         }
     }
+    public boolean DeleteFilm(int movie_id) throws SQLException{
+        String sql="Delete from Movies where movie_id=?";
+        pstmt=conn.prepareStatement(sql);
+        pstmt.setInt(1, movie_id);
+        int row= pstmt.executeUpdate();
+        return row>0;
+    }
+    public List<Movie_model> searchMovies(String column, String query) {
+            List<Movie_model> movies = new ArrayList<>();
+            try {
+                String sql = "SELECT * FROM movies WHERE " + column + " LIKE ?";
+                PreparedStatement pst = conn.prepareStatement(sql);
+                pst.setString(1, "%" + query + "%");
+                ResultSet rs = pst.executeQuery();
+
+                while (rs.next()) {
+                    int movieId = rs.getInt("movie_id");
+                    String title = rs.getString("title");
+                    int releaseYear = rs.getInt("release_year");
+                    String director = rs.getString("director");
+                    String description = rs.getString("description");
+
+//                    movies.add(new Movie_model(movieId, title, releaseYear, director, description));
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+            return movies;
+        }
 }

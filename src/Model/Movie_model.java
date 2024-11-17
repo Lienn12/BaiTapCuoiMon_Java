@@ -22,9 +22,7 @@ public class Movie_model {
 
     public Movie_model() {
     }
-//    public Movie_model(String title) {
-//        this.title=title;
-//    }
+
     public Movie_model(int movieID, String title, int releaseYear, String genre, String country, String director, String cast, float rating, String description, int episodes, byte[] coverImage) {
         this.movieID = movieID;
         this.title = title;

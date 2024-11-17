@@ -36,10 +36,10 @@ public class frmMenu extends javax.swing.JFrame {
         add(pnlMenu, BorderLayout.WEST);
         add(pnlContainer, BorderLayout.CENTER);
         Dimension frameSize = getSize();
-        int width = (int)(frameSize.width * 0.25); // 20% của chiều rộng frame
+        int width = (int)(frameSize.width * 0.2); // 20% của chiều rộng frame
         int height = frameSize.height; // giữ nguyên chiều cao của frame
         pnlMenu.setPreferredSize(new Dimension(width, height));
-        setSize(1000, 600);
+        setSize(1030, 670);
     }
     public void init() {
         cardLayout=new CardLayout();
@@ -73,7 +73,7 @@ public class frmMenu extends javax.swing.JFrame {
         panel.setBackground(new Color(51, 102, 153));
     }
     public void showPanel(String panelName){
-        cardLayout.show(pnlContainer, panelName);
+        cardLayout.show(pnlContainer, panelName); 
     }
     public void setPanel(JPanel panel) {
         this.getContentPane().removeAll();
@@ -141,7 +141,6 @@ public class frmMenu extends javax.swing.JFrame {
         pnlContainer = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(1029, 600));
         setSize(new java.awt.Dimension(1000, 600));
 
         pnlMenu.setBackground(new java.awt.Color(51, 102, 153));
@@ -318,9 +317,9 @@ public class frmMenu extends javax.swing.JFrame {
         pnlMenuLayout.setVerticalGroup(
             pnlMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlMenuLayout.createSequentialGroup()
-                .addContainerGap(40, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 59, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnTrangChu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
                 .addComponent(btnDSphim, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -330,7 +329,7 @@ public class frmMenu extends javax.swing.JFrame {
                 .addComponent(btnDanhGia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
                 .addComponent(btnLogout, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(123, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pnlContainer.setBackground(new java.awt.Color(255, 255, 255));
@@ -344,7 +343,7 @@ public class frmMenu extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addComponent(pnlMenu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
-                .addComponent(pnlContainer, javax.swing.GroupLayout.DEFAULT_SIZE, 800, Short.MAX_VALUE))
+                .addComponent(pnlContainer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

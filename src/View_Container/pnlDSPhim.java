@@ -11,6 +11,9 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.RowFilter;
+import javax.swing.table.TableRowSorter;
 
 
 public final class pnlDSPhim extends javax.swing.JPanel {
@@ -20,7 +23,8 @@ public final class pnlDSPhim extends javax.swing.JPanel {
     private DefaultTableModel tableModel= new DefaultTableModel();
     public pnlDSPhim(frmMenu menu) {
         this.menu = menu;
-        initComponents();        
+        initComponents(); 
+        init();
         String []colsName={"ID","Tên phim","Năm phát hành",""};
         tableModel.setColumnIdentifiers(colsName);
         table.setModel(tableModel);
@@ -38,24 +42,36 @@ public final class pnlDSPhim extends javax.swing.JPanel {
 
             @Override
             public void onDelete(int row) {
+                int movieId= Integer.parseInt(table.getModel().getValueAt(row, 0).toString());
                 if(table.isEditing()){
                     table.getCellEditor().stopCellEditing();
                 }
-                DefaultTableModel tbl = (DefaultTableModel) table.getModel();
-                tbl.removeRow(row);
+                if(JOptionPane.showConfirmDialog(null,"Bạn có chắc chắn muốn xóa phim này không??","Thong bao",2)==0){
+                    try {
+                        movieController.DeleteFilm(movieId);
+                    } catch (SQLException ex) {
+                        Logger.getLogger(pnlDSPhim.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    DefaultTableModel tbl = (DefaultTableModel) table.getModel();
+                    tbl.removeRow(row);
+                }
+                
             }
         };
         table.getColumnModel().getColumn(3).setCellRenderer(new tableAction());
         table.getColumnModel().getColumn(3).setCellEditor(new tblActionCellEditor(event));
     }
-    
+    public void init(){
+//        txtSearch.addOption(new SearchOption("Name"));
+    }
+//    String fgetFieldName
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        txtSearch = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         table = new javax.swing.JTable();
@@ -73,6 +89,12 @@ public final class pnlDSPhim extends javax.swing.JPanel {
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Tìm kiếm:");
+
+        txtSearch.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtSearchKeyReleased(evt);
+            }
+        });
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/plus.png"))); // NOI18N
         jLabel3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(51, 102, 153), 2));
@@ -136,12 +158,12 @@ public final class pnlDSPhim extends javax.swing.JPanel {
                         .addGroup(layout.createSequentialGroup()
                             .addComponent(jLabel2)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 264, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 264, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(200, 200, 200)))
+                            .addGap(146, 146, 146)))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 688, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(55, Short.MAX_VALUE))
         );
@@ -157,7 +179,7 @@ public final class pnlDSPhim extends javax.swing.JPanel {
                     .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel2)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 368, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -167,15 +189,20 @@ public final class pnlDSPhim extends javax.swing.JPanel {
      public void ShowData() {
             try{
                 List<Movie_model> dsMovie= movieController.getMovie(movie);
+                System.out.println("Movies Retrieved: " + dsMovie.size());
                 try{
+                    tableModel.setRowCount(0); 
                     for(int i=0; i<dsMovie.size();i++){
                         Object row[]={
                             dsMovie.get(i).getMovieID(),
                             dsMovie.get(i).getTitle(),
                             dsMovie.get(i).getReleaseYear()
                         };
-                        tableModel.addRow(row);
+                        tableModel.addRow(row);        
                     }
+                    tableModel.fireTableDataChanged();
+                    revalidate();   
+                    repaint();  
                 }catch(Exception ex){
                     ex.printStackTrace();
                 }
@@ -183,10 +210,27 @@ public final class pnlDSPhim extends javax.swing.JPanel {
                 Logger.getLogger(pnlDSPhim.class.getName()).log(Level.SEVERE, null, ex);
             }
     }
+    public void ClearData(){
+        int n = tableModel.getRowCount()-1;
+        for(int i=n;i>=0;i--)
+            tableModel.removeRow(i);
+    }
     private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
         // TODO add your handling code here:
         menu.showPanel("them phim");
     }//GEN-LAST:event_jLabel3MouseClicked
+
+    private void txtSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyReleased
+        String query = txtSearch.getText().toLowerCase(); // Lấy giá trị nhập vào ô tìm kiếm
+           TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(tableModel);
+           table.setRowSorter(sorter);
+
+           if (query.length() == 0) {
+               sorter.setRowFilter(null); // Nếu không có gì được nhập, hiển thị tất cả các dòng
+           } else {
+               sorter.setRowFilter(RowFilter.regexFilter(query)); // Lọc kết quả dựa trên nội dung ô tìm kiếm
+           }
+    }//GEN-LAST:event_txtSearchKeyReleased
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -196,7 +240,7 @@ public final class pnlDSPhim extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JTable table;
+    private javax.swing.JTextField txtSearch;
     // End of variables declaration//GEN-END:variables
 }

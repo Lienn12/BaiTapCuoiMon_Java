@@ -24,8 +24,12 @@ public class Review_model {
     }
     public Review_model(ResultSet rs) throws SQLException {
         this.reviewID = rs.getInt("review_ID");
-//        this.movieModel = new Movie_model(rs.getString("TITLE"));
-        this.userModel = new User_model(rs.getString("USERNAME"));
+        String title = rs.getString("TITLE");
+        this.movieModel = new Movie_model();
+        this.movieModel.setTitle(title);
+        String username = rs.getString("USERNAME");
+        this.userModel = new User_model();
+        this.userModel.setUsername(username);
         this.reviewDate = rs.getDate("review_Date");
     }
     public int getReviewID() {
