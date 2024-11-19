@@ -44,7 +44,12 @@ public final class pnlDSPhim extends javax.swing.JPanel {
 
             @Override
             public void onEdit(int row) {
-                menu.showPanel("sua phim");
+                int movieID = getSelectedMovieID();
+                if (movieID != -1) {
+                    editMovie(movieID);
+                } else {
+                    System.out.println("Không có phim nào được chọn!");
+                }
             }
 
             @Override
@@ -269,6 +274,26 @@ public final class pnlDSPhim extends javax.swing.JPanel {
                 pnlChiTietFilm pnlCT = menu.getPanel();
                 pnlCT.setMovieDetails(movie);
                 menu.showPanel("chi tiet phim");
+            } else {
+                System.out.println("Khong tim thay ID phim !");
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            System.out.println("Loi truy van!");
+        }
+    }
+    public void editMovie(int movieID) {
+        try {
+            Movie_model movie = controller.getMovieById(movieID);
+            if(movie != null) {
+                System.out.println("ID:" + movie.getMovieID());
+                System.out.println("Tên phim: " + movie.getTitle());
+                System.out.println("Năm ph: " + movie.getReleaseYear());
+                System.out.println("The loai: " + movie.getGenre());
+                System.out.println("Mota: " + movie.getDescription());
+                pnlSuaPhim pnlSua = menu.getPanelSua();
+                pnlSua.setMovieDetails(movie);
+                menu.showPanel("sua phim");
             } else {
                 System.out.println("Khong tim thay ID phim !");
             }

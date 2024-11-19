@@ -25,6 +25,7 @@ public class frmMenu extends javax.swing.JFrame {
     private CardLayout cardLayout;
     private pnlDSPhim pnldsPhim; 
     private pnlChiTietFilm pnlChiTiet;
+    private pnlSuaPhim pnlSua;
     public frmMenu()  {
         initComponents();
         setLocationRelativeTo(null);
@@ -48,7 +49,7 @@ public class frmMenu extends javax.swing.JFrame {
         
         pnldsPhim= new pnlDSPhim(this);
         pnlChiTiet= new pnlChiTietFilm (this);
-        pnlSuaPhim pnlSua=new pnlSuaPhim(this);
+        pnlSua=new pnlSuaPhim(this);
         pnlThemPhim pnlThem= new pnlThemPhim(this,pnldsPhim);
 //        PnlDanhSachUser pnlDanhSachUser= new PnlDanhSachUser(this);
         pnlDanhgia pnlDanhgia= new pnlDanhgia(this);
@@ -120,6 +121,9 @@ public class frmMenu extends javax.swing.JFrame {
 
     public  pnlChiTietFilm getPanel(){
         return pnlChiTiet;
+    }
+    public  pnlSuaPhim getPanelSua(){
+        return pnlSua;
     }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
