@@ -19,9 +19,13 @@ public class Star extends JButton{
 
     public Star(){
         setContentAreaFilled(false);
-        setCursor(new Cursor(Cursor.HAND_CURSOR));
+//        setCursor(new Cursor(Cursor.HAND_CURSOR));
         setBackground(new Color(200,200,200));
-        setForeground(Color.yellow);
+//        setForeground(Color.yellow);
+    }
+     public void setColor(Color color) {
+        // Thay đổi màu nền của sao
+        setForeground(color);
     }
     @Override
     public void paint(Graphics grph) {

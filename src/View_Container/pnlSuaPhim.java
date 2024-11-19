@@ -10,7 +10,7 @@ import java.io.File;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
-import View_Main.frmMenu;
+import View_Main.frmMain;
 
 /**
  *
@@ -18,9 +18,9 @@ import View_Main.frmMenu;
  */
 public class pnlSuaPhim extends javax.swing.JPanel {
 
-    private frmMenu menu;
+    private frmMain menu;
    
-     public pnlSuaPhim(frmMenu menu) {
+     public pnlSuaPhim(frmMain menu) {
         this.menu = menu;
         initComponents();
     }

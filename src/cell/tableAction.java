@@ -11,7 +11,7 @@ public class tableAction extends DefaultTableCellRenderer {
     public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
         Component com = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
         pnlAction action = new pnlAction();
-        if(isSelected==false && row%2==0){
+        if(!isSelected){
             action.setBackground(Color.WHITE);
         }else{
             action.setBackground(com.getBackground());

@@ -20,12 +20,16 @@ import javax.swing.*;
  *
  * @author ASUS
  */
-public class frmMenu extends javax.swing.JFrame {
+public final class frmMain extends javax.swing.JFrame {
 
     private CardLayout cardLayout;
     private pnlDSPhim pnldsPhim; 
+    private pnlSuaPhim pnlSua;
+    private pnlThemPhim pnlThem;
     private pnlChiTietFilm pnlChiTiet;
-    public frmMenu()  {
+    private pnlDanhgia pnlDanhgia;
+    private pnlReplyCmt pnlReplycmt;
+    public frmMain()  {
         initComponents();
         setLocationRelativeTo(null);
         init1();
@@ -37,7 +41,7 @@ public class frmMenu extends javax.swing.JFrame {
         add(pnlMenu, BorderLayout.WEST);
         add(pnlContainer, BorderLayout.CENTER);
         Dimension frameSize = getSize();
-        int width = (int)(frameSize.width * 0.2); // 20% của chiều rộng frame
+        int width = (int)(frameSize.width * 0.25); // 20% của chiều rộng frame
         int height = frameSize.height; // giữ nguyên chiều cao của frame
         pnlMenu.setPreferredSize(new Dimension(width, height));
         setSize(1030, 670);
@@ -48,11 +52,11 @@ public class frmMenu extends javax.swing.JFrame {
         
         pnldsPhim= new pnlDSPhim(this);
         pnlChiTiet= new pnlChiTietFilm (this);
-        pnlSuaPhim pnlSua=new pnlSuaPhim(this);
-        pnlThemPhim pnlThem= new pnlThemPhim(this,pnldsPhim);
+        pnlSua=new pnlSuaPhim(this);
+        pnlThem= new pnlThemPhim(this,pnldsPhim);
 //        PnlDanhSachUser pnlDanhSachUser= new PnlDanhSachUser(this);
-        pnlDanhgia pnlDanhgia= new pnlDanhgia(this);
-        pnlReplyCmt pnlReplycmt= new pnlReplyCmt(this);
+        pnlDanhgia= new pnlDanhgia(this);
+        pnlReplycmt= new pnlReplyCmt(this);
         
         pnlContainer.add(pnldsPhim,"danh sach phim");
         pnlContainer.add(pnlChiTiet,"chi tiet phim");
@@ -64,23 +68,15 @@ public class frmMenu extends javax.swing.JFrame {
         
         add(pnlContainer);
         cardLayout.show(pnlContainer, "danh sach phim");
-        setColor(btnDSphim);
     }
     
-    void setColor(JPanel panel){
-        panel.setBackground(new Color(107,153,198));
+    
+    public  pnlChiTietFilm getPanel(){
+        return pnlChiTiet;
     }
-    void resetColor(JPanel panel){
-        panel.setBackground(new Color(51, 102, 153));
-    }
-    public void showPanel(String panelName){
-        cardLayout.show(pnlContainer, panelName); 
-    }
-    public void setPanel(JPanel panel) {
-        this.getContentPane().removeAll();
-        this.getContentPane().add(panel);
-        this.revalidate();
-        this.repaint();
+    
+    public pnlReplyCmt getReply(){
+        return pnlReplycmt;
     }
     private void addMenuListeners() {
         btnDSphim.addMouseListener(new MouseAdapter() {
@@ -117,19 +113,31 @@ public class frmMenu extends javax.swing.JFrame {
             }
         });
     }
-
-    public  pnlChiTietFilm getPanel(){
-        return pnlChiTiet;
+    void setColor(JPanel panel){
+        panel.setOpaque(true);
+        panel.setBackground(new Color(192, 232, 255));
+        panel.setForeground(new Color(5,38,89));
+    }
+    void resetColor(JPanel panel){
+        panel.setOpaque(false);
+        panel.setBackground(new Color(51, 102, 153));
+    }
+    
+    public void showPanel(String panelName){
+        cardLayout.show(pnlContainer, panelName); 
+    }
+    public void setPanel(JPanel panel) {
+        this.getContentPane().removeAll();
+        this.getContentPane().add(panel);
+        this.revalidate();
+        this.repaint();
     }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        pnlMenu = new javax.swing.JPanel();
+        pnlMenu = new View_Main.PnlMenu();
         jLabel1 = new javax.swing.JLabel();
-        btnTrangChu = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
         btnDSphim = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
@@ -142,47 +150,19 @@ public class frmMenu extends javax.swing.JFrame {
         btnLogout = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
-        pnlContainer = new javax.swing.JPanel();
+        btnTrangChu = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        pnlContainer = new View_Main.PnlContainer();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(1029, 650));
         setSize(new java.awt.Dimension(1000, 650));
-
-        pnlMenu.setBackground(new java.awt.Color(51, 102, 153));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/user.png"))); // NOI18N
 
-        btnTrangChu.setBackground(new java.awt.Color(51, 102, 153));
-        btnTrangChu.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                btnTrangChuMousePressed(evt);
-            }
-        });
-
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel2.setText("Trang chủ");
-
-        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/home.png"))); // NOI18N
-
-        javax.swing.GroupLayout btnTrangChuLayout = new javax.swing.GroupLayout(btnTrangChu);
-        btnTrangChu.setLayout(btnTrangChuLayout);
-        btnTrangChuLayout.setHorizontalGroup(
-            btnTrangChuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, btnTrangChuLayout.createSequentialGroup()
-                .addGap(25, 25, 25)
-                .addComponent(jLabel7)
-                .addGap(20, 20, 20)
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(22, Short.MAX_VALUE))
-        );
-        btnTrangChuLayout.setVerticalGroup(
-            btnTrangChuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
-            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-
         btnDSphim.setBackground(new java.awt.Color(51, 102, 153));
+        btnDSphim.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnDSphim.setOpaque(false);
         btnDSphim.setPreferredSize(new java.awt.Dimension(209, 44));
         btnDSphim.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
@@ -201,19 +181,21 @@ public class frmMenu extends javax.swing.JFrame {
         btnDSphimLayout.setHorizontalGroup(
             btnDSphimLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, btnDSphimLayout.createSequentialGroup()
-                .addGap(25, 25, 25)
+                .addGap(30, 30, 30)
                 .addComponent(jLabel8)
-                .addGap(20, 20, 20)
+                .addGap(30, 30, 30)
                 .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         btnDSphimLayout.setVerticalGroup(
             btnDSphimLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
+            .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 44, Short.MAX_VALUE)
             .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         btnDSNguoiDung.setBackground(new java.awt.Color(51, 102, 153));
+        btnDSNguoiDung.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnDSNguoiDung.setOpaque(false);
         btnDSNguoiDung.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 btnDSNguoiDungMousePressed(evt);
@@ -231,9 +213,9 @@ public class frmMenu extends javax.swing.JFrame {
         btnDSNguoiDungLayout.setHorizontalGroup(
             btnDSNguoiDungLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, btnDSNguoiDungLayout.createSequentialGroup()
-                .addGap(25, 25, 25)
+                .addGap(30, 30, 30)
                 .addComponent(jLabel9)
-                .addGap(20, 20, 20)
+                .addGap(30, 30, 30)
                 .addComponent(jLabel4)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -244,6 +226,8 @@ public class frmMenu extends javax.swing.JFrame {
         );
 
         btnDanhGia.setBackground(new java.awt.Color(51, 102, 153));
+        btnDanhGia.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnDanhGia.setOpaque(false);
         btnDanhGia.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 btnDanhGiaMousePressed(evt);
@@ -262,9 +246,9 @@ public class frmMenu extends javax.swing.JFrame {
         btnDanhGiaLayout.setHorizontalGroup(
             btnDanhGiaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, btnDanhGiaLayout.createSequentialGroup()
-                .addGap(25, 25, 25)
+                .addGap(30, 30, 30)
                 .addComponent(jLabel10)
-                .addGap(18, 18, 18)
+                .addGap(30, 30, 30)
                 .addComponent(jLabel5)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -275,6 +259,8 @@ public class frmMenu extends javax.swing.JFrame {
         );
 
         btnLogout.setBackground(new java.awt.Color(51, 102, 153));
+        btnLogout.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnLogout.setOpaque(false);
         btnLogout.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 btnLogoutMousePressed(evt);
@@ -293,9 +279,9 @@ public class frmMenu extends javax.swing.JFrame {
         btnLogoutLayout.setHorizontalGroup(
             btnLogoutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, btnLogoutLayout.createSequentialGroup()
-                .addGap(25, 25, 25)
+                .addGap(30, 30, 30)
                 .addComponent(jLabel11)
-                .addGap(20, 20, 20)
+                .addGap(30, 30, 30)
                 .addComponent(jLabel6)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -305,15 +291,47 @@ public class frmMenu extends javax.swing.JFrame {
             .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
+        btnTrangChu.setBackground(new java.awt.Color(51, 102, 153));
+        btnTrangChu.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnTrangChu.setOpaque(false);
+        btnTrangChu.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btnTrangChuMousePressed(evt);
+            }
+        });
+
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel2.setText("Trang chủ");
+
+        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/home.png"))); // NOI18N
+
+        javax.swing.GroupLayout btnTrangChuLayout = new javax.swing.GroupLayout(btnTrangChu);
+        btnTrangChu.setLayout(btnTrangChuLayout);
+        btnTrangChuLayout.setHorizontalGroup(
+            btnTrangChuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, btnTrangChuLayout.createSequentialGroup()
+                .addGap(30, 30, 30)
+                .addComponent(jLabel7)
+                .addGap(30, 30, 30)
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(18, Short.MAX_VALUE))
+        );
+        btnTrangChuLayout.setVerticalGroup(
+            btnTrangChuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
+            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+
         javax.swing.GroupLayout pnlMenuLayout = new javax.swing.GroupLayout(pnlMenu);
         pnlMenu.setLayout(pnlMenuLayout);
         pnlMenuLayout.setHorizontalGroup(
             pnlMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(btnTrangChu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(btnDSphim, javax.swing.GroupLayout.DEFAULT_SIZE, 229, Short.MAX_VALUE)
+            .addComponent(btnDSphim, javax.swing.GroupLayout.DEFAULT_SIZE, 240, Short.MAX_VALUE)
             .addComponent(btnDSNguoiDung, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(btnDanhGia, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(btnLogout, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(btnTrangChu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(btnDanhGia, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(pnlMenuLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel1)
@@ -322,33 +340,40 @@ public class frmMenu extends javax.swing.JFrame {
         pnlMenuLayout.setVerticalGroup(
             pnlMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlMenuLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(74, 74, 74)
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(77, 77, 77)
                 .addComponent(btnTrangChu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
-                .addComponent(btnDSphim, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnDSphim, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(5, 5, 5)
                 .addComponent(btnDSNguoiDung, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
+                .addGap(5, 5, 5)
                 .addComponent(btnDanhGia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
+                .addGap(5, 5, 5)
                 .addComponent(btnLogout, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(656, Short.MAX_VALUE))
         );
 
-        pnlContainer.setBackground(new java.awt.Color(255, 255, 255));
-        pnlContainer.setPreferredSize(new java.awt.Dimension(800, 600));
-        pnlContainer.setLayout(new java.awt.CardLayout());
+        javax.swing.GroupLayout pnlContainerLayout = new javax.swing.GroupLayout(pnlContainer);
+        pnlContainer.setLayout(pnlContainerLayout);
+        pnlContainerLayout.setHorizontalGroup(
+            pnlContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 794, Short.MAX_VALUE)
+        );
+        pnlContainerLayout.setVerticalGroup(
+            pnlContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(pnlMenu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(pnlMenu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
-                .addComponent(pnlContainer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(pnlContainer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -360,45 +385,43 @@ public class frmMenu extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnTrangChuMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnTrangChuMousePressed
-        setColor(btnTrangChu);
-        resetColor(btnDSphim);
-        resetColor(btnDSNguoiDung);
-        resetColor(btnDanhGia);
-        resetColor(btnLogout);
-        
+                setColor(btnTrangChu);
+                resetColor(btnDSphim);
+                resetColor(btnDSNguoiDung);
+                resetColor(btnDanhGia);
+                resetColor(btnLogout);
     }//GEN-LAST:event_btnTrangChuMousePressed
 
     private void btnDSphimMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDSphimMousePressed
-        resetColor(btnTrangChu);
-        setColor(btnDSphim);
-        resetColor(btnDSNguoiDung);
-        resetColor(btnDanhGia);
-        resetColor(btnLogout);
-
+                resetColor(btnTrangChu);
+                setColor(btnDSphim);
+                resetColor(btnDSNguoiDung);
+                resetColor(btnDanhGia);
+                resetColor(btnLogout);
     }//GEN-LAST:event_btnDSphimMousePressed
 
     private void btnDSNguoiDungMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDSNguoiDungMousePressed
-        resetColor(btnTrangChu);
-        resetColor(btnDSphim);
-        setColor(btnDSNguoiDung);
-        resetColor(btnDanhGia);
-        resetColor(btnLogout);
+                resetColor(btnTrangChu);
+                resetColor(btnDSphim);
+                setColor(btnDSNguoiDung);
+                resetColor(btnDanhGia);
+                resetColor(btnLogout);
     }//GEN-LAST:event_btnDSNguoiDungMousePressed
 
     private void btnDanhGiaMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDanhGiaMousePressed
-        resetColor(btnTrangChu);
-        resetColor(btnDSphim);
-        resetColor(btnDSNguoiDung);
-        setColor(btnDanhGia);
-        resetColor(btnLogout);
+                resetColor(btnTrangChu);
+                resetColor(btnDSphim);
+                resetColor(btnDSNguoiDung);
+                setColor(btnDanhGia);
+                resetColor(btnLogout);
     }//GEN-LAST:event_btnDanhGiaMousePressed
 
     private void btnLogoutMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLogoutMousePressed
-        resetColor(btnTrangChu);
-        resetColor(btnDSphim);
-        resetColor(btnDSNguoiDung);
-        resetColor(btnDanhGia);
-        setColor(btnLogout);
+                resetColor(btnTrangChu);
+                resetColor(btnDSphim);
+                resetColor(btnDSNguoiDung);
+                resetColor(btnDanhGia);
+                setColor(btnLogout);
     }//GEN-LAST:event_btnLogoutMousePressed
 
     /**
@@ -418,21 +441,23 @@ public class frmMenu extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(frmMenu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(frmMain.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(frmMenu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(frmMain.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(frmMenu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(frmMain.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(frmMenu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(frmMain.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new frmMenu().setVisible(true);
+                new frmMain().setVisible(true);
             }
         });
     }
@@ -454,8 +479,8 @@ public class frmMenu extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JPanel pnlContainer;
-    private javax.swing.JPanel pnlMenu;
+    private View_Main.PnlContainer pnlContainer;
+    private View_Main.PnlMenu pnlMenu;
     // End of variables declaration//GEN-END:variables
 
 }

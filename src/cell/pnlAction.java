@@ -56,6 +56,8 @@ public class pnlAction extends javax.swing.JPanel {
         btnView = new cell.ActionButton();
         btnEdit = new cell.ActionButton();
 
+        setBackground(new java.awt.Color(255, 255, 255));
+
         btnRemove.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Xoa.png"))); // NOI18N
         btnRemove.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

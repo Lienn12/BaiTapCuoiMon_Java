@@ -19,9 +19,9 @@ import javax.swing.JPanel;
  * @author ASUS
  */
 public class FrmTrangchu extends javax.swing.JFrame {
-    private frmMenu menu;
+    private frmMain menu;
     public FrmTrangchu() {
-        menu= new frmMenu();
+        menu= new frmMain();
         pnlDSPhim pnldsPhim= new pnlDSPhim(menu);
         pnlChiTietFilm pnlCT= new pnlChiTietFilm (menu);
         pnlSuaPhim pnlSua=new pnlSuaPhim(menu);

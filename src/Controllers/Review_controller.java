@@ -79,4 +79,52 @@ public class Review_controller {
         prst.close();
         return row>0;
     }
+    
+    public Review_model getReply(int reviewId) throws SQLException{
+        String sql= "SELECT Review_ID,USERNAME, REVIEW_DATE,REVIEWS.RATING,COMMENT,COVER_IMAGE,TITLE,RELEASE_YEAR,REPLY \n" +
+                            "FROM USERS, REVIEWS,MOVIES \n" +
+                            "WHERE  REVIEWS.MOVIE_ID=MOVIES.MOVIE_ID AND REVIEWS.USER_ID=USERS.USER_ID AND REVIEW_ID=?";
+        prst= conn.prepareStatement(sql);
+        prst.setInt(1, reviewId);
+        rs= prst.executeQuery();
+        if(rs.next()){
+            String username= rs.getString("Username");
+            Timestamp reviewDate= rs.getTimestamp("Review_Date");
+            int rating = rs.getInt("Rating");
+            String comment =rs.getString("Comment");
+            byte[] img=rs.getBytes("cover_image");
+            String title= rs.getString("Title");
+            int releaseYear= rs.getInt("Release_Year");
+            String reply= rs.getString("Reply");
+            return new Review_model(reviewId, username,reviewDate,rating,comment,img,title,releaseYear,reply);
+        }else{
+            return null;
+        }
+    }
+        
+    public List<String> getRepliesFromDatabase(int reviewId) throws SQLException{
+        List<String> replies = new ArrayList<>();
+        String sql = "SELECT value AS IndividualReply FROM  STRING_SPLIT((SELECT REPLY FROM REVIEWS WHERE REVIEW_ID = ?), ';')";
+        prst= conn.prepareStatement(sql);
+        prst.setInt(1, reviewId);
+        rs=prst.executeQuery();
+        while (rs.next()) {
+            String reply = rs.getString("IndividualReply");
+            if (reply != null && !reply.isEmpty()) {
+                replies.add(reply);
+                    }
+            }
+        return replies;
+    }
+    
+    public boolean setReply(int reviewId,String reply) throws SQLException{
+        String sql="UPDATE REVIEWS SET REPLY=CONCAT(REPLY, '; ', ?), STATUS='responded' WHERE REVIEW_ID= ?";
+        prst=conn.prepareStatement(sql);
+        prst.setString (1, reply);
+        prst.setInt(2, reviewId);
+        int row= prst.executeUpdate();
+        prst.close();
+        return row>0;
+    }
+
 }

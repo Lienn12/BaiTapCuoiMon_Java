@@ -7,20 +7,37 @@ public class Review_model {
     private int reviewID;
     private Movie_model movieModel;
     private User_model userModel;
-    private float rating;
+    private int rating;
     private String comment;
-    private Date reviewDate;
+    private Timestamp  reviewDate;
+    private String reply;
 
     public Review_model() {
     }
 
-    public Review_model(int reviewID, Movie_model movieModel, User_model userModel, float rating, String comment, Date reviewDate) {
+    public Review_model(int reviewID, Movie_model movieModel, User_model userModel, int rating, String comment, Timestamp reviewDate) {
         this.reviewID = reviewID;
         this.movieModel = movieModel;
         this.userModel = userModel;
         this.rating = rating;
         this.comment = comment;
         this.reviewDate = reviewDate;
+    }
+    
+    public Review_model(int reviewID,String username,Timestamp reviewDate,int rating,String comment,byte[] img,String title, int releaseYear,String reply){
+        this.userModel = new User_model(); 
+        this.userModel.setUsername(username);
+        
+        this.movieModel = new Movie_model();
+        this.movieModel.setTitle(title); 
+        this.movieModel.setReleaseYear(releaseYear); 
+        this.movieModel.setImg(img);
+        
+        this.reviewID=reviewID;
+        this.reviewDate = reviewDate;
+        this.comment = comment;
+        this.rating= rating;
+        this.reply= reply;
     }
     public Review_model(ResultSet rs) throws SQLException {
         this.reviewID = rs.getInt("review_ID");
@@ -30,7 +47,7 @@ public class Review_model {
         String username = rs.getString("USERNAME");
         this.userModel = new User_model();
         this.userModel.setUsername(username);
-        this.reviewDate = rs.getDate("review_Date");
+        this.reviewDate = rs.getTimestamp("review_Date");
     }
     public int getReviewID() {
         return reviewID;
@@ -56,11 +73,11 @@ public class Review_model {
         this.userModel = userModel;
     }
 
-    public float getRating() {
+    public int getRating() {
         return rating;
     }
 
-    public void setRating(float rating) {
+    public void setRating(int rating) {
         this.rating = rating;
     }
 
@@ -76,8 +93,16 @@ public class Review_model {
         return reviewDate;
     }
 
-    public void setReviewDate(Date reviewDate) {
+    public void setReviewDate(Timestamp reviewDate) {
         this.reviewDate = reviewDate;
+    }
+
+    public String getReply() {
+        return reply;
+    }
+
+    public void setReply(String reply) {
+        this.reply = reply;
     }
     
 }

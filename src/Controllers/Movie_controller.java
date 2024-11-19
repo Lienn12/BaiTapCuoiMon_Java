@@ -35,7 +35,7 @@ public class Movie_controller {
         rs.close();
         return dsMovie;
     }
-    public void saveInfo(String name,int year,String director,String cast,String genre,String country,int duration,String descrip ,File imageFile) {
+    public void saveInfo(String name,int year,String director,String cast,String genre,String country,int episode,String descrip ,File imageFile) {
         try (FileInputStream fis = new FileInputStream(imageFile);
             ByteArrayOutputStream bos = new ByteArrayOutputStream()) {
             byte[] buffer = new byte[1024];
@@ -44,7 +44,7 @@ public class Movie_controller {
                 bos.write(buffer, 0, bytesRead);
             }
             byte[] imageBytes = bos.toByteArray();
-            String sql = "INSERT INTO MOVIES (TITLE,RELEASE_YEAR,DIRECTOR,CAST,GENRE,COUNTRY,DURATION,DESCRIPTION,COVER_IMAGE) "
+            String sql = "INSERT INTO MOVIES (TITLE,RELEASE_YEAR,DIRECTOR,CAST,GENRE,COUNTRY,EPISODE,DESCRIPTION,COVER_IMAGE) "
                         + "VALUES (?,?,?,?,?,?,?,?,?)";
             pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, name);
@@ -53,7 +53,7 @@ public class Movie_controller {
             pstmt.setString(4, cast);
             pstmt.setString(5, genre);
             pstmt.setString(6, country);
-            pstmt.setInt(7, duration);
+            pstmt.setInt(7, episode);
             pstmt.setString(8, descrip);
             pstmt.setBytes(9, imageBytes);
 
@@ -109,7 +109,7 @@ public class Movie_controller {
                     rs.getString("cast"),
                     rs.getFloat("rating"),
                     rs.getString("description"),
-                    rs.getInt("duration"),
+                    rs.getInt("episode"),
                     rs.getBytes("cover_image")
                     
                 );
