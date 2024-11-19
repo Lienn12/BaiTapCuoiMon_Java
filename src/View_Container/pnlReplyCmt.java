@@ -219,18 +219,24 @@ public class pnlReplyCmt extends javax.swing.JPanel {
         lbTime.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         lbTime.setText("   ");
 
+        star1.setForeground(new java.awt.Color(255, 255, 255));
         star1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         star1.setText("      ");
 
+        star3.setForeground(new java.awt.Color(255, 255, 255));
         star3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         star3.setText("      ");
+        star3.setToolTipText("");
 
+        star2.setForeground(new java.awt.Color(255, 255, 255));
         star2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         star2.setText("      ");
 
+        star4.setForeground(new java.awt.Color(255, 255, 255));
         star4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         star4.setText("      ");
 
+        star5.setForeground(new java.awt.Color(255, 255, 255));
         star5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         star5.setText("      ");
 
@@ -288,7 +294,7 @@ public class pnlReplyCmt extends javax.swing.JPanel {
                     .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(jLabel11)
                         .addComponent(jLabel7)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(25, 25, 25)
                 .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(panelBorder1Layout.createSequentialGroup()
@@ -317,7 +323,7 @@ public class pnlReplyCmt extends javax.swing.JPanel {
                         .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel5)
                             .addComponent(jLabel2))))
-                .addGap(10, 10, 10))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         panelBorder1Layout.setVerticalGroup(
             panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -370,7 +376,6 @@ public class pnlReplyCmt extends javax.swing.JPanel {
         );
 
         lbImg.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lbImg.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         lbImg.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
         lbYear.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
@@ -400,7 +405,7 @@ public class pnlReplyCmt extends javax.swing.JPanel {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(71, Short.MAX_VALUE)
+                .addContainerGap(45, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
@@ -408,14 +413,14 @@ public class pnlReplyCmt extends javax.swing.JPanel {
                         .addComponent(lbBack, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(panelBorder1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 71, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 49, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lbImg, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addComponent(lbYear, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(79, 79, 79))
                             .addComponent(lbTitle, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(72, Short.MAX_VALUE))
+                .addContainerGap(46, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
