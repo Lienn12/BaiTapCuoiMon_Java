@@ -35,7 +35,7 @@ public class Movie_controller {
         rs.close();
         return dsMovie;
     }
-    public void saveInfo(String name,int year,String director,String cast,String genre,String country,int duration,String descrip ,File imageFile) {
+    public void saveInfo(String name,int year,String director,String cast,String genre,String country,int episodes,String descrip ,File imageFile) {
         try (FileInputStream fis = new FileInputStream(imageFile);
             ByteArrayOutputStream bos = new ByteArrayOutputStream()) {
             byte[] buffer = new byte[1024];
@@ -44,7 +44,7 @@ public class Movie_controller {
                 bos.write(buffer, 0, bytesRead);
             }
             byte[] imageBytes = bos.toByteArray();
-            String sql = "INSERT INTO MOVIES (TITLE,RELEASE_YEAR,DIRECTOR,CAST,GENRE,COUNTRY,DURATION,DESCRIPTION,COVER_IMAGE) "
+            String sql = "INSERT INTO MOVIES (TITLE,RELEASE_YEAR,DIRECTOR,CAST,GENRE,COUNTRY,EPISODE,DESCRIPTION,COVER_IMAGE) "
                         + "VALUES (?,?,?,?,?,?,?,?,?)";
             pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, name);
@@ -53,7 +53,7 @@ public class Movie_controller {
             pstmt.setString(4, cast);
             pstmt.setString(5, genre);
             pstmt.setString(6, country);
-            pstmt.setInt(7, duration);
+            pstmt.setInt(7, episodes);
             pstmt.setString(8, descrip);
             pstmt.setBytes(9, imageBytes);
 
@@ -109,13 +109,34 @@ public class Movie_controller {
                     rs.getString("cast"),
                     rs.getFloat("rating"),
                     rs.getString("description"),
-                    rs.getInt("duration"),
+                    rs.getInt("episode"),
                     rs.getBytes("cover_image")
                     
                 );
             }
         } catch (Exception e) {
             e.printStackTrace();
+        }
+        return null;
+    }
+    
+    public Movie_model updateMovie(Movie_model movie) throws SQLException{
+        String query = "UPDATE MOVIES SET TITLE = ?, RELEASE_YEAR = ?, GENRE = ?, DESCRIPTION = ?,COVER_IMAGE=? WHERE MOVIE_ID = ?";
+        try {
+            PreparedStatement prst = conn.prepareStatement(query);
+            prst.setString(1, movie.getTitle());       // TITLE
+            prst.setInt(2, movie.getReleaseYear());          // RELEASE_YEAR
+            prst.setString(3, movie.getGenre());      // GENRE
+            prst.setString(4, movie.getDescription()); // DESCRIPTION
+            prst.setBytes(5, movie.getImg());         // IMAGE
+            prst.setInt(6, movie.getMovieID()); 
+            System.out.println("Movie ID: " + movie.getMovieID());
+            int rowsUpdated = prst.executeUpdate();
+            if (rowsUpdated > 0) {
+                System.out.println("Movie updated successfully!");
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
         }
         return null;
     }
