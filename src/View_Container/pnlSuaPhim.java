@@ -47,12 +47,12 @@ public class pnlSuaPhim extends javax.swing.JPanel {
         jLabel1 = new javax.swing.JLabel();
         btnSave = new javax.swing.JButton();
         btnCancel = new javax.swing.JButton();
-        panelBorder1 = new cell.PanelBorder();
+        panelBorder1 = new org.netbeans.modules.form.InvalidComponent();
         btnUpload = new javax.swing.JLabel();
-        panelBorder2 = new cell.PanelBorder();
+        panelBorder2 = new org.netbeans.modules.form.InvalidComponent();
         lblImage = new javax.swing.JLabel();
         lbBack = new javax.swing.JLabel();
-        panelBorder3 = new cell.PanelBorder();
+        panelBorder3 = new org.netbeans.modules.form.InvalidComponent();
         jLabel3 = new javax.swing.JLabel();
         txtTen = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
@@ -108,18 +108,11 @@ public class pnlSuaPhim extends javax.swing.JPanel {
             }
         });
 
-        panelBorder1.setBackground(new java.awt.Color(125, 160, 202));
-
         btnUpload.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnUpload.setForeground(new java.awt.Color(255, 255, 255));
         btnUpload.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         btnUpload.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/upload.png"))); // NOI18N
         btnUpload.setText("Upload");
-        btnUpload.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnUploadMouseClicked(evt);
-            }
-        });
 
         javax.swing.GroupLayout panelBorder1Layout = new javax.swing.GroupLayout(panelBorder1);
         panelBorder1.setLayout(panelBorder1Layout);
@@ -132,17 +125,13 @@ public class pnlSuaPhim extends javax.swing.JPanel {
             .addComponent(btnUpload, javax.swing.GroupLayout.DEFAULT_SIZE, 46, Short.MAX_VALUE)
         );
 
-        panelBorder2.setBackground(new java.awt.Color(255, 255, 255));
-
         lblImage.setBackground(new java.awt.Color(255, 255, 255));
 
         javax.swing.GroupLayout panelBorder2Layout = new javax.swing.GroupLayout(panelBorder2);
         panelBorder2.setLayout(panelBorder2Layout);
         panelBorder2Layout.setHorizontalGroup(
             panelBorder2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelBorder2Layout.createSequentialGroup()
-                .addGap(0, 47, Short.MAX_VALUE)
-                .addComponent(lblImage, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addComponent(lblImage, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 263, Short.MAX_VALUE)
         );
         panelBorder2Layout.setVerticalGroup(
             panelBorder2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -158,8 +147,6 @@ public class pnlSuaPhim extends javax.swing.JPanel {
                 lbBackMouseClicked(evt);
             }
         });
-
-        panelBorder3.setBackground(new java.awt.Color(255, 255, 255));
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(53, 102, 153));
@@ -442,9 +429,9 @@ public class pnlSuaPhim extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(lbBack, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(38, 38, 38)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(38, 38, 38)
                         .addComponent(panelBorder2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(panelBorder1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -452,8 +439,10 @@ public class pnlSuaPhim extends javax.swing.JPanel {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(panelBorder3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(panelBorder3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(15, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -519,9 +508,9 @@ public class pnlSuaPhim extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lbBack;
     private javax.swing.JLabel lblImage;
-    private cell.PanelBorder panelBorder1;
-    private cell.PanelBorder panelBorder2;
-    private cell.PanelBorder panelBorder3;
+    private org.netbeans.modules.form.InvalidComponent panelBorder1;
+    private org.netbeans.modules.form.InvalidComponent panelBorder2;
+    private org.netbeans.modules.form.InvalidComponent panelBorder3;
     private javax.swing.JTextField txtDaodien;
     private javax.swing.JTextField txtDienVien;
     private javax.swing.JTextArea txtMota;
