@@ -25,7 +25,7 @@ public class User_controller {
      
     public List<User_model> getUser() throws SQLException {
         List<User_model> dsUser= new ArrayList<User_model>();
-        String sql="SELECT USER_ID, USERNAME, GENDERNAME, BIRTH,EMAIL FROM USERS, GENDERS WHERE USERS.GENDERID=GENDERS.GENDERID";        
+        String sql="SELECT USER_ID, USERNAME, GENDERNAME, BIRTH,EMAIL FROM USERS, GENDERS WHERE USERS.GENDERID=GENDERS.GENDERID AND STATUS='VERIFIED'";        
         prst= conn.prepareStatement(sql);
         rs=prst.executeQuery();
         while(rs.next()){
@@ -222,5 +222,13 @@ public class User_controller {
         prst.setString(2, email);
         prst.executeUpdate(); 
         prst.close();
+    }
+    public boolean DeleteData(int userId) throws SQLException{
+        String sql="DELETE FROM USERS WHERE USER_ID=?";
+        prst=conn.prepareStatement(sql);
+        prst.setInt(1,userId);
+        int row=prst.executeUpdate();
+        prst.close();
+        return row>0;
     }
 }

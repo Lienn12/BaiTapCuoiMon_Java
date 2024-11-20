@@ -16,6 +16,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.RenderingHints;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
@@ -26,6 +27,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 /**
  *
@@ -42,8 +45,14 @@ public class pnlReplyCmt extends javax.swing.JPanel {
         initComponents();
         list.setModel(listModel);
         loadIcons();
+        setHide(false);
     }
-
+    
+    public void setHide(boolean a){
+        txtReply.setVisible(a);
+        btnReply.setVisible(a);
+    }
+    
     private void loadIcons() {
         ImageIcon originalEmptyIcon = new ImageIcon(getClass().getResource("/icon/star_Ray.png"));
         Image scaledEmptyImage = originalEmptyIcon.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
@@ -98,6 +107,16 @@ public class pnlReplyCmt extends javax.swing.JPanel {
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, "Lỗi khi tải phản hồi từ cơ sở dữ liệu");
         }
+        actions(reviewModel);
+    }
+    public void actions(Review_model reviewModel) {
+        btnPlus.addMouseListener(new MouseAdapter(){
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                setHide(true);
+            }
+            
+        });
         
         btnReply.addMouseListener(new MouseAdapter() {
             @Override
@@ -121,8 +140,6 @@ public class pnlReplyCmt extends javax.swing.JPanel {
                             }
                         }
                         txtReply.setText("");
-                        
-                        // Cập nhật giao diện list
                         list.revalidate();
                         list.repaint();
                     } else {
@@ -134,7 +151,20 @@ public class pnlReplyCmt extends javax.swing.JPanel {
                 }
             }
         });
-
+        
+        btnDelete.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int selectedIndex = list.getSelectedIndex(); // Lấy chỉ số item đang được chọn
+                if (selectedIndex != -1) { // Kiểm tra xem có item nào được chọn không
+                    String selectedItem = listModel.getElementAt(selectedIndex);
+                    listModel.remove(selectedIndex); // Xóa item khỏi model
+                    JOptionPane.showMessageDialog(menu, "Đã xóa: " + selectedItem);
+                } else {
+                    JOptionPane.showMessageDialog(menu, "Vui lòng chọn một item để xóa!");
+                }
+            }
+        });
     }
     public void clearData(){
         lbUsername.setText("");
@@ -169,8 +199,8 @@ public class pnlReplyCmt extends javax.swing.JPanel {
         jScrollPane4 = new javax.swing.JScrollPane();
         txtReply = new javax.swing.JTextArea();
         btnReply = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
+        btnDelete = new javax.swing.JLabel();
+        btnPlus = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         jSeparator3 = new javax.swing.JSeparator();
         lbImg = new javax.swing.JLabel();
@@ -269,11 +299,11 @@ public class pnlReplyCmt extends javax.swing.JPanel {
         btnReply.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/reply.png"))); // NOI18N
         btnReply.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
-        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/sub.png"))); // NOI18N
+        btnDelete.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        btnDelete.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/sub.png"))); // NOI18N
 
-        jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/add.png"))); // NOI18N
+        btnPlus.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        btnPlus.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/add.png"))); // NOI18N
 
         jSeparator1.setBackground(new java.awt.Color(53, 102, 153));
         jSeparator1.setForeground(new java.awt.Color(53, 102, 153));
@@ -311,9 +341,8 @@ public class pnlReplyCmt extends javax.swing.JPanel {
                         .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnReply))
-                    .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(lbUsername, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 253, Short.MAX_VALUE)
-                        .addComponent(lbTime, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(lbUsername, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lbTime, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(panelBorder1Layout.createSequentialGroup()
                         .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
@@ -321,8 +350,8 @@ public class pnlReplyCmt extends javax.swing.JPanel {
                             .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 254, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel5)
-                            .addComponent(jLabel2))))
+                            .addComponent(btnPlus)
+                            .addComponent(btnDelete))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         panelBorder1Layout.setVerticalGroup(
@@ -359,9 +388,9 @@ public class pnlReplyCmt extends javax.swing.JPanel {
                         .addGap(18, 18, 18)))
                 .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(panelBorder1Layout.createSequentialGroup()
-                        .addComponent(jLabel5)
+                        .addComponent(btnPlus)
                         .addGap(31, 31, 31)
-                        .addComponent(jLabel2))
+                        .addComponent(btnDelete))
                     .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                         .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -449,13 +478,13 @@ public class pnlReplyCmt extends javax.swing.JPanel {
     }//GEN-LAST:event_lbBackMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel btnDelete;
+    private javax.swing.JLabel btnPlus;
     private javax.swing.JLabel btnReply;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JScrollPane jScrollPane1;

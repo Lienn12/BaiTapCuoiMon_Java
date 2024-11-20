@@ -4,9 +4,10 @@
  */
 package View_Main;
 
-//import View_Container.PnlDanhSachUser;
+import View_Container.pnlDanhSachUser;
 import View_Container.pnlChiTietFilm;
 import View_Container.pnlDSPhim;
+import View_Container.pnlDanhSachUser;
 import View_Container.pnlDanhgia;
 import View_Container.pnlReplyCmt;
 import View_Container.pnlSuaPhim;
@@ -27,6 +28,7 @@ public final class frmMain extends javax.swing.JFrame {
     private pnlSuaPhim pnlSua;
     private pnlThemPhim pnlThem;
     private pnlChiTietFilm pnlChiTiet;
+    private pnlDanhSachUser pnlUser;
     private pnlDanhgia pnlDanhgia;
     private pnlReplyCmt pnlReplycmt;
     public frmMain()  {
@@ -54,7 +56,7 @@ public final class frmMain extends javax.swing.JFrame {
         pnlChiTiet= new pnlChiTietFilm (this);
         pnlSua=new pnlSuaPhim(this);
         pnlThem= new pnlThemPhim(this,pnldsPhim);
-//        PnlDanhSachUser pnlDanhSachUser= new PnlDanhSachUser(this);
+        pnlUser= new pnlDanhSachUser(this);
         pnlDanhgia= new pnlDanhgia(this);
         pnlReplycmt= new pnlReplyCmt(this);
         
@@ -62,7 +64,7 @@ public final class frmMain extends javax.swing.JFrame {
         pnlContainer.add(pnlChiTiet,"chi tiet phim");
         pnlContainer.add(pnlSua,"sua phim");
         pnlContainer.add(pnlThem,"them phim");
-//        pnlContainer.add(pnlDanhSachUser,"danh sach user");
+        pnlContainer.add(pnlUser,"danh sach user");
         pnlContainer.add(pnlDanhgia,"danh gia");
         pnlContainer.add(pnlReplycmt, "reply");
         
@@ -77,6 +79,10 @@ public final class frmMain extends javax.swing.JFrame {
     
     public pnlReplyCmt getReply(){
         return pnlReplycmt;
+    }
+    
+    public pnlSuaPhim getPanelSua(){
+        return pnlSua;
     }
     private void addMenuListeners() {
         btnDSphim.addMouseListener(new MouseAdapter() {
