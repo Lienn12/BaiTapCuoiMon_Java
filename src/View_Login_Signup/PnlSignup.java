@@ -33,7 +33,7 @@ public class PnlSignup extends javax.swing.JPanel {
     private void init() {
         new PnlVerifyCode();
         userController = new User_controller();
-//        userModel = new User_model();
+        userModel = new User_model();
         adminController= new Admin_controller();
         new Admin_model();
         initEnterKeyListeners();
@@ -383,6 +383,7 @@ public class PnlSignup extends javax.swing.JPanel {
             String password=passwordHash(txtPass.getText().trim());
             String confirmpass=passwordHash(txtConfirmPass.getText().trim());
             userModel = new User_model(0,username,email,password);
+//            adminModel = new Admin_model(username,password);
             setNullError();
             boolean valid=validateInputs(userModel,password,confirmpass);
             if(valid){
@@ -392,6 +393,7 @@ public class PnlSignup extends javax.swing.JPanel {
             }else{
                 JOptionPane.showMessageDialog(this, "Đăng ký thất bại!!");
             } 
+//            adminController.CheckSignupAdmin(adminModel, password);
         }catch(Exception ex){
             Logger.getLogger(PnlLogin.class.getName()).log(Level.SEVERE,"Loi"+ex.getMessage());
         } 

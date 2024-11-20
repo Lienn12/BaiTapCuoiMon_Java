@@ -1,3 +1,4 @@
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
@@ -70,6 +71,7 @@ public final class frmMain extends javax.swing.JFrame {
         
         add(pnlContainer);
         cardLayout.show(pnlContainer, "danh sach phim");
+        setColor(btnDSphim);
     }
     
     
@@ -85,6 +87,16 @@ public final class frmMain extends javax.swing.JFrame {
         return pnlSua;
     }
     private void addMenuListeners() {
+        btnTrangChu.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                // Chuyển sang panel danh sách phim
+                FrmTrangchu frmTrangchu = new FrmTrangchu();
+                frmTrangchu.setVisible(true);
+                dispose();
+//                setColor(btnTrangChu);
+            }
+        });
         btnDSphim.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -121,7 +133,7 @@ public final class frmMain extends javax.swing.JFrame {
     }
     void setColor(JPanel panel){
         panel.setOpaque(true);
-        panel.setBackground(new Color(192, 232, 255));
+        panel.setBackground(new Color(84, 131, 179));
         panel.setForeground(new Color(5,38,89));
     }
     void resetColor(JPanel panel){
@@ -142,8 +154,12 @@ public final class frmMain extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        pnlContainer = new View_Main.PnlContainer();
         pnlMenu = new View_Main.PnlMenu();
         jLabel1 = new javax.swing.JLabel();
+        btnTrangChu = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
         btnDSphim = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
@@ -156,15 +172,54 @@ public final class frmMain extends javax.swing.JFrame {
         btnLogout = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
-        btnTrangChu = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
-        pnlContainer = new View_Main.PnlContainer();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setSize(new java.awt.Dimension(1000, 650));
 
+        javax.swing.GroupLayout pnlContainerLayout = new javax.swing.GroupLayout(pnlContainer);
+        pnlContainer.setLayout(pnlContainerLayout);
+        pnlContainerLayout.setHorizontalGroup(
+            pnlContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 794, Short.MAX_VALUE)
+        );
+        pnlContainerLayout.setVerticalGroup(
+            pnlContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 650, Short.MAX_VALUE)
+        );
+
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/user.png"))); // NOI18N
+
+        btnTrangChu.setBackground(new java.awt.Color(51, 102, 153));
+        btnTrangChu.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnTrangChu.setOpaque(false);
+        btnTrangChu.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btnTrangChuMousePressed(evt);
+            }
+        });
+
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel2.setText("Trang chủ");
+
+        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/home.png"))); // NOI18N
+
+        javax.swing.GroupLayout btnTrangChuLayout = new javax.swing.GroupLayout(btnTrangChu);
+        btnTrangChu.setLayout(btnTrangChuLayout);
+        btnTrangChuLayout.setHorizontalGroup(
+            btnTrangChuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, btnTrangChuLayout.createSequentialGroup()
+                .addGap(30, 30, 30)
+                .addComponent(jLabel7)
+                .addGap(30, 30, 30)
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(18, Short.MAX_VALUE))
+        );
+        btnTrangChuLayout.setVerticalGroup(
+            btnTrangChuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
+            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
 
         btnDSphim.setBackground(new java.awt.Color(51, 102, 153));
         btnDSphim.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -297,38 +352,6 @@ public final class frmMain extends javax.swing.JFrame {
             .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
-        btnTrangChu.setBackground(new java.awt.Color(51, 102, 153));
-        btnTrangChu.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnTrangChu.setOpaque(false);
-        btnTrangChu.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                btnTrangChuMousePressed(evt);
-            }
-        });
-
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel2.setText("Trang chủ");
-
-        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/home.png"))); // NOI18N
-
-        javax.swing.GroupLayout btnTrangChuLayout = new javax.swing.GroupLayout(btnTrangChu);
-        btnTrangChu.setLayout(btnTrangChuLayout);
-        btnTrangChuLayout.setHorizontalGroup(
-            btnTrangChuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, btnTrangChuLayout.createSequentialGroup()
-                .addGap(30, 30, 30)
-                .addComponent(jLabel7)
-                .addGap(30, 30, 30)
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(18, Short.MAX_VALUE))
-        );
-        btnTrangChuLayout.setVerticalGroup(
-            btnTrangChuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
-            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-
         javax.swing.GroupLayout pnlMenuLayout = new javax.swing.GroupLayout(pnlMenu);
         pnlMenu.setLayout(pnlMenuLayout);
         pnlMenuLayout.setHorizontalGroup(
@@ -358,18 +381,7 @@ public final class frmMain extends javax.swing.JFrame {
                 .addComponent(btnDanhGia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(5, 5, 5)
                 .addComponent(btnLogout, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(656, Short.MAX_VALUE))
-        );
-
-        javax.swing.GroupLayout pnlContainerLayout = new javax.swing.GroupLayout(pnlContainer);
-        pnlContainer.setLayout(pnlContainerLayout);
-        pnlContainerLayout.setHorizontalGroup(
-            pnlContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 794, Short.MAX_VALUE)
-        );
-        pnlContainerLayout.setVerticalGroup(
-            pnlContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+                .addContainerGap(100, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -378,56 +390,56 @@ public final class frmMain extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addComponent(pnlMenu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
+                .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(pnlContainer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(pnlMenu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(pnlContainer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(pnlMenu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnTrangChuMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnTrangChuMousePressed
-                setColor(btnTrangChu);
-                resetColor(btnDSphim);
-                resetColor(btnDSNguoiDung);
-                resetColor(btnDanhGia);
-                resetColor(btnLogout);
+        setColor(btnTrangChu);
+        resetColor(btnDSphim);
+        resetColor(btnDSNguoiDung);
+        resetColor(btnDanhGia);
+        resetColor(btnLogout);
     }//GEN-LAST:event_btnTrangChuMousePressed
 
     private void btnDSphimMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDSphimMousePressed
-                resetColor(btnTrangChu);
-                setColor(btnDSphim);
-                resetColor(btnDSNguoiDung);
-                resetColor(btnDanhGia);
-                resetColor(btnLogout);
+        resetColor(btnTrangChu);
+        setColor(btnDSphim);
+        resetColor(btnDSNguoiDung);
+        resetColor(btnDanhGia);
+        resetColor(btnLogout);
     }//GEN-LAST:event_btnDSphimMousePressed
 
     private void btnDSNguoiDungMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDSNguoiDungMousePressed
-                resetColor(btnTrangChu);
-                resetColor(btnDSphim);
-                setColor(btnDSNguoiDung);
-                resetColor(btnDanhGia);
-                resetColor(btnLogout);
+        resetColor(btnTrangChu);
+        resetColor(btnDSphim);
+        setColor(btnDSNguoiDung);
+        resetColor(btnDanhGia);
+        resetColor(btnLogout);
     }//GEN-LAST:event_btnDSNguoiDungMousePressed
 
     private void btnDanhGiaMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDanhGiaMousePressed
-                resetColor(btnTrangChu);
-                resetColor(btnDSphim);
-                resetColor(btnDSNguoiDung);
-                setColor(btnDanhGia);
-                resetColor(btnLogout);
+        resetColor(btnTrangChu);
+        resetColor(btnDSphim);
+        resetColor(btnDSNguoiDung);
+        setColor(btnDanhGia);
+        resetColor(btnLogout);
     }//GEN-LAST:event_btnDanhGiaMousePressed
 
     private void btnLogoutMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLogoutMousePressed
-                resetColor(btnTrangChu);
-                resetColor(btnDSphim);
-                resetColor(btnDSNguoiDung);
-                resetColor(btnDanhGia);
-                setColor(btnLogout);
+        resetColor(btnTrangChu);
+        resetColor(btnDSphim);
+        resetColor(btnDSNguoiDung);
+        resetColor(btnDanhGia);
+        setColor(btnLogout);
     }//GEN-LAST:event_btnLogoutMousePressed
 
     /**

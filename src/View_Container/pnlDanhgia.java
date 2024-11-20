@@ -15,13 +15,17 @@ import java.awt.GradientPaint;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 
 /**
  *
@@ -33,6 +37,7 @@ public class pnlDanhgia extends javax.swing.JPanel {
     private frmMain menu;
     private pnlReplyCmt pnlReplyCmt;
     private DefaultTableModel tableModel= new DefaultTableModel();
+    private TableRowSorter<DefaultTableModel> sorter; 
     public pnlDanhgia(frmMain menu)  {
         this.menu=menu;
         initComponents();
@@ -40,6 +45,8 @@ public class pnlDanhgia extends javax.swing.JPanel {
         tableModel.setColumnIdentifiers(colsName);
         table.setModel(tableModel);
         ShowData();
+        sorter = new TableRowSorter<>(tableModel);
+        table.setRowSorter(sorter);
         tblActionCmt event = new tblActionCmt() {
             @Override
             public void onReply(int row) {
@@ -65,6 +72,17 @@ public class pnlDanhgia extends javax.swing.JPanel {
         };
         table.getColumnModel().getColumn(4).setCellRenderer(new tableActCmt());
         table.getColumnModel().getColumn(4).setCellEditor(new tblActionCellEditorCmt(event));
+        txtSearch.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                String keyword = txtSearch.getText().trim(); // Tránh từ khóa rỗng
+                if (keyword.isEmpty()) {
+                    sorter.setRowFilter(null); // Hiển thị tất cả dữ liệu nếu không có từ khóa
+                } else {
+                    sorter.setRowFilter(RowFilter.regexFilter("(?i)" + keyword)); // Tìm kiếm không phân biệt hoa thường
+                }
+            }
+        });
     }
     public void ShowData() {
         try{

@@ -4,6 +4,8 @@
  */
 package View_Container;
 
+import Controllers.Movie_controller;
+import Model.Movie_model;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -16,20 +18,32 @@ import java.awt.GradientPaint;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import javax.swing.JOptionPane;
+import javax.swing.ScrollPaneConstants;
 
 /**
  *
  * @author ASUS
  */
-public class pnlSuaPhim extends javax.swing.JPanel {
-
+public final class pnlSuaPhim extends javax.swing.JPanel {
+    private Movie_model movieModel;
+    private Movie_controller control=new Movie_controller();
     private frmMain menu;
-   
+    private File selectedFile;
+    private final pnlDSPhim pnlDSPhim = new pnlDSPhim(menu) ;
+    private int newMovieID;
      public pnlSuaPhim(frmMain menu) {
         this.menu = menu;
+//        this.pnlDSPhim = pnlDSPhim;
         initComponents();
+        txtMota.setLineWrap(true);
+        txtMota.setWrapStyleWord(true);
     }
-    public void setNull(){
+     public void setNull(){
         this.txtTen.setText("");
         this.txtNam.setText("");
         this.txtDaodien.setText("");
@@ -47,12 +61,12 @@ public class pnlSuaPhim extends javax.swing.JPanel {
         jLabel1 = new javax.swing.JLabel();
         btnSave = new javax.swing.JButton();
         btnCancel = new javax.swing.JButton();
-        panelBorder1 = new org.netbeans.modules.form.InvalidComponent();
+        panelBorder1 = new cell.PanelBorder();
         btnUpload = new javax.swing.JLabel();
-        panelBorder2 = new org.netbeans.modules.form.InvalidComponent();
+        panelBorder2 = new cell.PanelBorder();
         lblImage = new javax.swing.JLabel();
         lbBack = new javax.swing.JLabel();
-        panelBorder3 = new org.netbeans.modules.form.InvalidComponent();
+        panelBorder3 = new cell.PanelBorder();
         jLabel3 = new javax.swing.JLabel();
         txtTen = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
@@ -79,7 +93,6 @@ public class pnlSuaPhim extends javax.swing.JPanel {
         jPanel16 = new javax.swing.JPanel();
 
         setBackground(new java.awt.Color(107, 153, 198));
-        setForeground(new java.awt.Color(51, 102, 153));
 
         jLabel1.setBackground(new java.awt.Color(5, 38, 89));
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
@@ -91,11 +104,6 @@ public class pnlSuaPhim extends javax.swing.JPanel {
         btnSave.setForeground(new java.awt.Color(255, 255, 255));
         btnSave.setText("Save");
         btnSave.setBorder(null);
-        btnSave.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSaveActionPerformed(evt);
-            }
-        });
 
         btnCancel.setBackground(new java.awt.Color(5, 38, 89));
         btnCancel.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -108,11 +116,18 @@ public class pnlSuaPhim extends javax.swing.JPanel {
             }
         });
 
+        panelBorder1.setBackground(new java.awt.Color(125, 160, 202));
+
         btnUpload.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnUpload.setForeground(new java.awt.Color(255, 255, 255));
         btnUpload.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         btnUpload.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/upload.png"))); // NOI18N
         btnUpload.setText("Upload");
+        btnUpload.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnUploadMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout panelBorder1Layout = new javax.swing.GroupLayout(panelBorder1);
         panelBorder1.setLayout(panelBorder1Layout);
@@ -125,13 +140,17 @@ public class pnlSuaPhim extends javax.swing.JPanel {
             .addComponent(btnUpload, javax.swing.GroupLayout.DEFAULT_SIZE, 46, Short.MAX_VALUE)
         );
 
+        panelBorder2.setBackground(new java.awt.Color(255, 255, 255));
+
         lblImage.setBackground(new java.awt.Color(255, 255, 255));
 
         javax.swing.GroupLayout panelBorder2Layout = new javax.swing.GroupLayout(panelBorder2);
         panelBorder2.setLayout(panelBorder2Layout);
         panelBorder2Layout.setHorizontalGroup(
             panelBorder2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(lblImage, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 263, Short.MAX_VALUE)
+            .addGroup(panelBorder2Layout.createSequentialGroup()
+                .addComponent(lblImage, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         panelBorder2Layout.setVerticalGroup(
             panelBorder2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -147,6 +166,8 @@ public class pnlSuaPhim extends javax.swing.JPanel {
                 lbBackMouseClicked(evt);
             }
         });
+
+        panelBorder3.setBackground(new java.awt.Color(255, 255, 255));
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(53, 102, 153));
@@ -429,9 +450,9 @@ public class pnlSuaPhim extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(lbBack, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(38, 38, 38)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(38, 38, 38)
                         .addComponent(panelBorder2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(panelBorder1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -439,52 +460,116 @@ public class pnlSuaPhim extends javax.swing.JPanel {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(panelBorder3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(15, Short.MAX_VALUE))
+                    .addComponent(panelBorder3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(27, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
-
-    }//GEN-LAST:event_btnSaveActionPerformed
-
+    private void lbBackMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbBackMouseClicked
+        if (pnlDSPhim != null) {
+            pnlDSPhim.ClearData(); // Xóa dữ liệu cũ
+            pnlDSPhim.ShowData();  // Tải lại dữ liệu mới
+        }
+        menu.showPanel("danh sach phim");
+    }//GEN-LAST:event_lbBackMouseClicked
+    
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
         setNull();
     }//GEN-LAST:event_btnCancelActionPerformed
 
     private void btnUploadMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnUploadMouseClicked
-//        // TODO add your handling code here:
-//        JFileChooser fileChooser = new JFileChooser();
-//        fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);// chỉ hiển thị file
-//        int returnValue = fileChooser.showOpenDialog(this);
-//        if(returnValue==JFileChooser.APPROVE_OPTION){
-//            selectedFile = fileChooser.getSelectedFile();
-//            //lấy đưuòng danx file để lưu vào 1 trường
-//            String pathFile = selectedFile.getAbsolutePath();
-//            //            String pathFl = fl.getAbsolutePath().replace("//", "--");
-//            BufferedImage img0;
-//            try{
-//                img0 = ImageIO.read(selectedFile);
-//                Image img = img0.getScaledInstance(lblImage.getWidth(),lblImage.getHeight(),Image.SCALE_SMOOTH);
-//                lblImage.setIcon(new ImageIcon(img));
-//            }catch(Exception e){
-//
-//            }
-//
-//        }
+        // TODO add your handling code here:
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);// chỉ hiển thị file
+        int returnValue = fileChooser.showOpenDialog(this);
+        if(returnValue==JFileChooser.APPROVE_OPTION){
+            selectedFile = fileChooser.getSelectedFile();
+            //lấy đưuòng danx file để lưu vào 1 trường
+            String pathFile = selectedFile.getAbsolutePath();
+            //            String pathFl = fl.getAbsolutePath().replace("//", "--");
+            BufferedImage img0;
+            try{
+                img0 = ImageIO.read(selectedFile);
+                Image img = img0.getScaledInstance(lblImage.getWidth(),lblImage.getHeight(),Image.SCALE_SMOOTH);
+                lblImage.setIcon(new ImageIcon(img));
+            }catch(Exception e){
+
+            }
+            
+        }
     }//GEN-LAST:event_btnUploadMouseClicked
+                                      
+    public Movie_model getMovieDetails() {
+        Movie_model movie = new Movie_model();
+        movie.setTitle(txtTen.getText()); // Lấy tên phim
+        movie.setReleaseYear(Integer.parseInt(txtNam.getText())); // Lấy năm phát hành
+        movie.setDirector(txtDaodien.getText());
+        movie.setCast(txtDienVien.getText());
+        movie.setGenre(txtTheLoai.getText()); // Lấy thể loại
+        movie.setCountry(txtQuocgia.getText());
+        movie.setEpisodes(Integer.parseInt(txtSoTap.getText()));
+        movie.setDescription(txtMota.getText()); // Lấy mô tả
+        jScrollPane1.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        jScrollPane1.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+        // Chuyển đổi ảnh từ JLabel sang byte[]
+        byte[] imageBytes = null;
+        if (lblImage.getIcon() != null) {
+            ImageIcon icon = (ImageIcon) lblImage.getIcon();
+            Image image = icon.getImage();
+            try {
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                BufferedImage bufferedImage = new BufferedImage(image.getWidth(null), image.getHeight(null), BufferedImage.TYPE_INT_RGB);
+                Graphics2D g2d = bufferedImage.createGraphics();
+                g2d.drawImage(image, 0, 0, null);
+                g2d.dispose();
+                ImageIO.write(bufferedImage, "jpg", baos);
+                imageBytes = baos.toByteArray();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        movie.setImg(imageBytes); // Lấy ảnh
+        return movie;
+    }
 
-    private void lbBackMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbBackMouseClicked
-//        if (pnlDSPhim != null) {
-//            pnlDSPhim.ClearData(); // Xóa dữ liệu cũ
-//            pnlDSPhim.ShowData();  // Tải lại dữ liệu mới
-//        }
-        menu.showPanel("danh sach phim");
-    }//GEN-LAST:event_lbBackMouseClicked
-
-
+    public void setMovieDetails(Movie_model movie) {
+        newMovieID= movie.getMovieID();
+        txtNam.setText(String.valueOf(movie.getReleaseYear())); 
+        txtTen.setText(movie.getTitle()); 
+        txtDaodien.setText(movie.getDirector());
+        txtDienVien.setText(movie.getCast());
+        txtTheLoai.setText(movie.getGenre());
+        txtQuocgia.setText(movie.getCountry());
+        txtSoTap.setText(String.valueOf(movie.getEpisodes()));
+        txtMota.setText(movie.getDescription()); 
+        if(movie.getImg() !=null && movie.getImg().length >0){
+            try {
+                ByteArrayInputStream bis = new ByteArrayInputStream(movie.getImg());
+                Image img = ImageIO.read(bis);
+                if (img != null) {
+                    ImageIcon icon = new ImageIcon(img.getScaledInstance(lblImage.getWidth(), lblImage.getHeight(), Image.SCALE_SMOOTH));
+                    lblImage.setIcon(icon);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        btnSave.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    Movie_model movie = getMovieDetails(); 
+                    movie.setMovieID(newMovieID);
+                    if(control.updateMovie(movie)){
+                        JOptionPane.showMessageDialog(menu, "Đã sửa thành công");
+                    }
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                    JOptionPane.showMessageDialog(menu, "Lỗi: " + ex.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
+                }
+            }  
+        });
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnSave;
@@ -508,9 +593,9 @@ public class pnlSuaPhim extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lbBack;
     private javax.swing.JLabel lblImage;
-    private org.netbeans.modules.form.InvalidComponent panelBorder1;
-    private org.netbeans.modules.form.InvalidComponent panelBorder2;
-    private org.netbeans.modules.form.InvalidComponent panelBorder3;
+    private cell.PanelBorder panelBorder1;
+    private cell.PanelBorder panelBorder2;
+    private cell.PanelBorder panelBorder3;
     private javax.swing.JTextField txtDaodien;
     private javax.swing.JTextField txtDienVien;
     private javax.swing.JTextArea txtMota;

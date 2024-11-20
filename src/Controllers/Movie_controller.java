@@ -100,23 +100,38 @@ public class Movie_controller {
             prst.setInt(1, movieID);
             ResultSet rs = prst.executeQuery();
             if (rs.next()) {
-                return new Movie_model(
-                    rs.getString("title"),
-                    rs.getInt("release_year"),
-                    rs.getString("genre"),
-                    rs.getString("country"),
-                    rs.getString("director"),
-                    rs.getString("cast"),
-                    rs.getFloat("rating"),
-                    rs.getString("description"),
-                    rs.getInt("episode"),
-                    rs.getBytes("cover_image")
-                    
-                );
+                    String name= rs.getString("title");
+                    int  year=rs.getInt("release_year");
+                    String genre=rs.getString("genre");
+                    String country=rs.getString("country");
+                    String director=rs.getString("director");
+                    String cast= rs.getString("cast");
+                    float rating=rs.getFloat("rating");
+                    String des=rs.getString("description");
+                    int episode=rs.getInt("episode");
+                    byte[] img=rs.getBytes("cover_image");
+                return new Movie_model(movieID,name,year,genre,country,director,cast,rating,des,episode,img);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
+    }
+    public boolean updateMovie(Movie_model movie) throws SQLException{
+        String query = "UPDATE MOVIES SET TITLE = ?, RELEASE_YEAR = ?,DIRECTOR=?,CAST=?, GENRE = ?,COUNTRY=?,EPISODE=?, DESCRIPTION = ?,COVER_IMAGE=? WHERE MOVIE_ID = ?";
+            PreparedStatement prst = conn.prepareStatement(query);
+            prst.setString(1, movie.getTitle());       // TITLE
+            prst.setInt(2, movie.getReleaseYear());          // RELEASE_YEAR
+            prst.setString(3, movie.getDirector());
+            prst.setString(4, movie.getCast());
+            prst.setString(5, movie.getGenre());      // GENRE
+            prst.setString(6, movie.getCountry());
+            prst.setInt(7, movie.getEpisodes());
+            prst.setString(8, movie.getDescription()); // DESCRIPTION
+            prst.setBytes(9, movie.getImg());         // IMAGE
+            prst.setInt(10, movie.getMovieID()); 
+            int rowsUpdated = prst.executeUpdate();
+            System.out.println("controller id "+ movie.getDescription());
+            return rowsUpdated>0;
     }
 }

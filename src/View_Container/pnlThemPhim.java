@@ -46,6 +46,7 @@ public final class pnlThemPhim extends javax.swing.JPanel {
         this.txtMota.setText("");
         this.lblImage.setIcon(null);
     }
+     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {

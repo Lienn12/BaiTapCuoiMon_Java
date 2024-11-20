@@ -161,8 +161,8 @@ public class PnlVerifyCode extends javax.swing.JPanel {
             if (userController.verifyCodeWithUser(userModel.getUserID(), getInputCode())) {
                 userController.doneVerify(userModel.getUserID());
                 JOptionPane.showMessageDialog(this, "Verify chính xác");
-                frmTrangchu.setVisible(true);
-                frmLoginSignup.dispose();
+                frmLoginSignup.showPanel("Login");
+//                frmLoginSignup.dispose();
             } else {
                 JOptionPane.showMessageDialog(this, "Verify không chính xác");
             }

@@ -12,6 +12,8 @@ import java.awt.GradientPaint;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.logging.Level;
@@ -26,7 +28,8 @@ public final class pnlDSPhim extends javax.swing.JPanel {
     private final Movie_controller movieController= new Movie_controller();
     private frmMain menu;
     private DefaultTableModel tableModel= new DefaultTableModel();
-    private Movie_controller controller;
+    private TableRowSorter<DefaultTableModel> sorter; 
+//    int total = 0;
     public pnlDSPhim(frmMain menu) {
         this.menu = menu;
         initComponents(); 
@@ -34,8 +37,9 @@ public final class pnlDSPhim extends javax.swing.JPanel {
         String []colsName={"ID","Tên phim","Năm phát hành",""};
         tableModel.setColumnIdentifiers(colsName);
         table.setModel(tableModel);
-        controller = new Movie_controller();
         ShowData();
+        sorter = new TableRowSorter<>(tableModel);
+        table.setRowSorter(sorter);
         tblActionEvent event = new tblActionEvent() {
             @Override
             public void onView(int row) {
@@ -49,7 +53,12 @@ public final class pnlDSPhim extends javax.swing.JPanel {
 
             @Override
             public void onEdit(int row) {
-                menu.showPanel("sua phim");
+                int movieID = getSelectedMovieID();
+                if (movieID != -1) {
+                    editMovie(movieID);
+                } else {
+                    System.out.println("Không có phim nào được chọn!");
+                }
             }
 
             @Override
@@ -64,14 +73,25 @@ public final class pnlDSPhim extends javax.swing.JPanel {
                     } catch (SQLException ex) {
                         Logger.getLogger(pnlDSPhim.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                    DefaultTableModel tbl = (DefaultTableModel) table.getModel();
-                    tbl.removeRow(row);
+                    tableModel.removeRow(row);
                 }
                 
             }
         };
         table.getColumnModel().getColumn(3).setCellRenderer(new tableAction());
         table.getColumnModel().getColumn(3).setCellEditor(new tblActionCellEditor(event));
+        
+        txtSearch.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                String keyword = txtSearch.getText().trim(); // Tránh từ khóa rỗng
+                if (keyword.isEmpty()) {
+                    sorter.setRowFilter(null); // Hiển thị tất cả dữ liệu nếu không có từ khóa
+                } else {
+                    sorter.setRowFilter(RowFilter.regexFilter("(?i)" + keyword)); // Tìm kiếm không phân biệt hoa thường
+                }
+            }
+        });
     }
     
     public void init(){
@@ -84,13 +104,9 @@ public final class pnlDSPhim extends javax.swing.JPanel {
 
         jLabel1 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        jLabel4 = new javax.swing.JLabel();
         panelBorder1 = new cell.PanelBorder();
         jScrollPane1 = new javax.swing.JScrollPane();
         table = new cell.Table();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
         panelBorder2 = new cell.PanelBorder();
         txtSearch = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
@@ -109,8 +125,6 @@ public final class pnlDSPhim extends javax.swing.JPanel {
                 jLabel3MouseClicked(evt);
             }
         });
-
-        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/seacrhxanh.png"))); // NOI18N
 
         panelBorder1.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -147,38 +161,20 @@ public final class pnlDSPhim extends javax.swing.JPanel {
         table.setSelectionBackground(new java.awt.Color(239, 244, 255));
         jScrollPane1.setViewportView(table);
 
-        jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(5, 38, 89));
-        jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel5.setText("TỔNG: ");
-
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel2.setText("     ");
-
         javax.swing.GroupLayout panelBorder1Layout = new javax.swing.GroupLayout(panelBorder1);
         panelBorder1.setLayout(panelBorder1Layout);
         panelBorder1Layout.setHorizontalGroup(
             panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelBorder1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1)
-                    .addGroup(panelBorder1Layout.createSequentialGroup()
-                        .addComponent(jLabel5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel2)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 674, Short.MAX_VALUE)
                 .addContainerGap())
         );
         panelBorder1Layout.setVerticalGroup(
             panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelBorder1Layout.createSequentialGroup()
-                .addGap(11, 11, 11)
-                .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 352, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 386, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -219,11 +215,7 @@ public final class pnlDSPhim extends javax.swing.JPanel {
                         .addComponent(jLabel6)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(panelBorder2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(42, 42, 42)
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(26, 26, 26)
-                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 72, Short.MAX_VALUE))
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -239,10 +231,8 @@ public final class pnlDSPhim extends javax.swing.JPanel {
                     .addComponent(jLabel1))
                 .addGap(34, 34, 34)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(panelBorder2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE))
                 .addGap(29, 29, 29)
                 .addComponent(panelBorder1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -253,7 +243,8 @@ public final class pnlDSPhim extends javax.swing.JPanel {
         // TODO add your handling code here:
         menu.showPanel("them phim");
     }//GEN-LAST:event_jLabel3MouseClicked
-     public void ShowData() {
+     
+    public void ShowData() {
             try{
                 List<Movie_model> dsMovie= movieController.getMovie(movie);
                 try{
@@ -264,7 +255,8 @@ public final class pnlDSPhim extends javax.swing.JPanel {
                             dsMovie.get(i).getTitle(),
                             dsMovie.get(i).getReleaseYear()
                         };
-                        tableModel.addRow(row);        
+                        tableModel.addRow(row); 
+//                        total++;
                     }
                     tableModel.fireTableDataChanged();
                     revalidate();   
@@ -272,10 +264,12 @@ public final class pnlDSPhim extends javax.swing.JPanel {
                 }catch(Exception ex){
                     ex.printStackTrace();
                 }
+//                lbTong.setText(String.valueOf(total));
             }catch(SQLException ex){
                 Logger.getLogger(pnlDSPhim.class.getName()).log(Level.SEVERE, null, ex);
             }
     }
+     
     public void ClearData(){
         int n = tableModel.getRowCount()-1;
         for(int i=n;i>=0;i--)
@@ -283,12 +277,8 @@ public final class pnlDSPhim extends javax.swing.JPanel {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JScrollPane jScrollPane1;
     private cell.PanelBorder panelBorder1;
@@ -307,7 +297,7 @@ public final class pnlDSPhim extends javax.swing.JPanel {
     }
     public void showMovie(int movieID) {
         try {
-            Movie_model movie = controller.getMovieById(movieID);
+            Movie_model movie = movieController.getMovieById(movieID);
             if(movie != null) {
                 System.out.println("Tên phim: " + movie.getTitle());
                 System.out.println("Năm ph: " + movie.getReleaseYear());
@@ -316,6 +306,26 @@ public final class pnlDSPhim extends javax.swing.JPanel {
                 pnlChiTietFilm pnlCT = menu.getPanel();
                 pnlCT.setMovieDetails(movie);
                 menu.showPanel("chi tiet phim");
+            } else {
+                System.out.println("Khong tim thay ID phim !");
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            System.out.println("Loi truy van!");
+        }
+    }
+    public void editMovie(int movieID) {
+        try {
+            Movie_model movie = movieController.getMovieById(movieID);
+            if(movie != null) {
+                System.out.println("ID:" + movie.getMovieID());
+                System.out.println("Tên phim: " + movie.getTitle());
+                System.out.println("Năm ph: " + movie.getReleaseYear());
+                System.out.println("The loai: " + movie.getGenre());
+                System.out.println("Mota: " + movie.getDescription());
+                pnlSuaPhim pnlSua = menu.getPanelSua();
+                pnlSua.setMovieDetails(movie);
+                menu.showPanel("sua phim");
             } else {
                 System.out.println("Khong tim thay ID phim !");
             }
