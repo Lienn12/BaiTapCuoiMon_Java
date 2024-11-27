@@ -4,6 +4,7 @@
  */
 package Model;
 import java.sql.*;
+import java.util.List;
 
 
 public class Movie_model {
@@ -145,5 +146,9 @@ public class Movie_model {
     public void setImg(byte[] coverImage) {
         this.coverImage = coverImage;
     }
-
+    
+    public void updateRating(List<Review_model> reviews) { 
+        float avgRating = Review_model.AvgRating(reviews); 
+        this.rating = avgRating; 
+    }
 }

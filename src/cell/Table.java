@@ -24,9 +24,7 @@ public class Table extends JTable{
             @Override
             public Component getTableCellRendererComponent(JTable table, Object o, boolean isSelected, boolean hasFocus, int row, int column) {
                 TableHeader header= new TableHeader(o +"");
-                if(column==3){
-                    header.setHorizontalAlignment(JLabel.CENTER);
-                }
+ 
                 return header;
             }
                

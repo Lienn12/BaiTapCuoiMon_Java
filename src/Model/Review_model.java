@@ -2,6 +2,7 @@
 package Model;
 import java.sql.*;
 import java.util.Date;
+import java.util.List;
 
 public class Review_model {
     private int reviewID;
@@ -104,5 +105,15 @@ public class Review_model {
     public void setReply(String reply) {
         this.reply = reply;
     }
-    
+     
+    public static float AvgRating(List<Review_model> reviews) { 
+        if (reviews == null || reviews.isEmpty()) { 
+            return 0; 
+        } 
+        float sum = 0; 
+        for (Review_model review : reviews) { 
+            sum += review.getRating(); 
+        } 
+        return sum / reviews.size(); 
+    }
 }

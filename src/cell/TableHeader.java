@@ -22,7 +22,7 @@ public class TableHeader extends JLabel{
     protected void paintComponent(Graphics g) {
         Graphics2D g2= (Graphics2D) g;
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
-        g2.setColor(new Color(230,230,230));
+//        g2.setColor(new Color(230,230,230));
         g2.drawLine(0,getHeight()-1,getWidth(), getHeight()-1);
         super.paintComponent(g); 
     }

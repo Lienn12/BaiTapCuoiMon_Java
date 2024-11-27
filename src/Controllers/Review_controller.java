@@ -71,7 +71,7 @@ public class Review_controller {
         return row>0;
     }
     
-    public boolean DeleteData(int reviewId) throws SQLException{
+    public boolean DeleteReview(int reviewId) throws SQLException{
         String sql="DELETE FROM REVIEWS WHERE REVIEW_ID=?";
         prst=conn.prepareStatement(sql);
         prst.setInt(1,reviewId);
@@ -126,5 +126,14 @@ public class Review_controller {
         prst.close();
         return row>0;
     }
-
+    
+    public boolean deleteReply(int reviewId,String reply ) throws SQLException{
+        String sql="UPDATE reviews SET reply = REPLACE(reply, ?, '') WHERE review_ID = ? ";
+        prst=conn.prepareStatement(sql);
+        prst.setString(1, reply);
+        prst.setInt(2, reviewId);
+        int row= prst.executeUpdate();
+        prst.close();
+        return row>0;
+    }
 }

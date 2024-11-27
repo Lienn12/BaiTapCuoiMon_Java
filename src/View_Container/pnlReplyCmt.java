@@ -128,12 +128,11 @@ public class pnlReplyCmt extends javax.swing.JPanel {
                         JOptionPane.showMessageDialog(null, "Vui lòng nhập phản hồi");
                         return;
                     }
+                    
                     boolean isAdded = reviewController.setReply(reviewModel.getReviewID(), reply);
-                    System.out.println("Phản hồi thêm thành công: " + isAdded);
                     if (isAdded) {
                         String allReplies = reviewModel.getReply();
                         reviewModel.setReply(allReplies + "; " + reply);
-                        System.out.println("getReply: "+ reviewModel.getReply());
                         for (String line : lines) {
                             if (!line.trim().isEmpty()) {
                                 listModel.addElement(line); 
@@ -155,9 +154,14 @@ public class pnlReplyCmt extends javax.swing.JPanel {
         btnDelete.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                int selectedIndex = list.getSelectedIndex(); // Lấy chỉ số item đang được chọn
-                if (selectedIndex != -1) { // Kiểm tra xem có item nào được chọn không
+                int selectedIndex = list.getSelectedIndex(); 
+                if (selectedIndex != -1) { 
                     String selectedItem = listModel.getElementAt(selectedIndex);
+                    try {
+                        reviewController.deleteReply(reviewModel.getReviewID(), selectedItem);
+                    } catch (SQLException ex) {
+                        Logger.getLogger(pnlReplyCmt.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                     listModel.remove(selectedIndex); // Xóa item khỏi model
                     JOptionPane.showMessageDialog(menu, "Đã xóa: " + selectedItem);
                 } else {

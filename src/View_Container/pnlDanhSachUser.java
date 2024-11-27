@@ -91,6 +91,9 @@ public final class pnlDanhSachUser extends javax.swing.JPanel {
 
         panelBorder1.setBackground(new java.awt.Color(255, 255, 255));
 
+        jScrollPane1.setBackground(new java.awt.Color(255, 255, 255));
+        jScrollPane1.setBorder(null);
+
         table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null},
@@ -118,15 +121,15 @@ public final class pnlDanhSachUser extends javax.swing.JPanel {
             }
         });
         table.setGridColor(new java.awt.Color(255, 255, 255));
-        table.setSelectionBackground(new java.awt.Color(255, 255, 255));
+        table.setSelectionBackground(new java.awt.Color(239, 244, 255));
         jScrollPane1.setViewportView(table);
         if (table.getColumnModel().getColumnCount() > 0) {
             table.getColumnModel().getColumn(0).setMinWidth(35);
             table.getColumnModel().getColumn(0).setPreferredWidth(35);
             table.getColumnModel().getColumn(0).setMaxWidth(35);
-            table.getColumnModel().getColumn(5).setMinWidth(20);
-            table.getColumnModel().getColumn(5).setPreferredWidth(20);
-            table.getColumnModel().getColumn(5).setMaxWidth(20);
+            table.getColumnModel().getColumn(5).setMinWidth(35);
+            table.getColumnModel().getColumn(5).setPreferredWidth(35);
+            table.getColumnModel().getColumn(5).setMaxWidth(35);
         }
 
         javax.swing.GroupLayout panelBorder1Layout = new javax.swing.GroupLayout(panelBorder1);

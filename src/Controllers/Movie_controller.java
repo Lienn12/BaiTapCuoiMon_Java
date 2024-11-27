@@ -63,13 +63,31 @@ public class Movie_controller {
             e.printStackTrace();
         }
     }
-    public boolean DeleteFilm(int movie_id) throws SQLException{
-        String sql="Delete from Movies where movie_id=?";
-        pstmt=conn.prepareStatement(sql);
-        pstmt.setInt(1, movie_id);
-        int row= pstmt.executeUpdate();
-        return row>0;
+    public boolean DeleteFilm(int movie_id) throws SQLException {
+        String deleteReviews = "DELETE FROM Reviews WHERE movie_id = ?";
+        String deleteMovies = "DELETE FROM Movies WHERE movie_id = ?";
+
+        try {
+            conn.setAutoCommit(false);
+            pstmt = conn.prepareStatement(deleteReviews);
+            pstmt.setInt(1, movie_id);
+            pstmt.executeUpdate();
+
+            pstmt = conn.prepareStatement(deleteMovies);
+            pstmt.setInt(1, movie_id);
+            int rows = pstmt.executeUpdate();
+
+            conn.commit(); 
+            return rows > 0;
+        } catch (SQLException e) {
+            conn.rollback(); 
+            throw e;
+        } finally {
+            conn.setAutoCommit(true); 
+            if (pstmt != null) pstmt.close();
+        }
     }
+
     public List<Movie_model> searchMovies(String column, String query) {
             List<Movie_model> movies = new ArrayList<>();
             try {
@@ -133,5 +151,6 @@ public class Movie_controller {
             int rowsUpdated = prst.executeUpdate();
             System.out.println("controller id "+ movie.getDescription());
             return rowsUpdated>0;
+            
     }
 }

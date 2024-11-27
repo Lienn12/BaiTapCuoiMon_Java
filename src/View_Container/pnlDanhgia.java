@@ -62,7 +62,7 @@ public class pnlDanhgia extends javax.swing.JPanel {
                 }
                 if(JOptionPane.showConfirmDialog(null,"Bạn có chắc chắn muốn xóa phim này không??","Thong bao",2)==0){
                     try {
-                        reviewController.DeleteData(reviewId);
+                        reviewController.DeleteReview(reviewId);
                     } catch (Exception ex) {
                         Logger.getLogger(pnlDanhgia.class.getName()).log(Level.SEVERE, null, ex);
                     }
