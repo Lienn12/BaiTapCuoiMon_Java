@@ -19,6 +19,23 @@ public class Review_controller {
         conn=new dbConnect().getConnect();
     }
     
+    public void updateMovieRatings() {
+        String sql = """
+            UPDATE MOVIES
+            SET RATING = (
+                SELECT AVG(CAST(RATING AS FLOAT))
+                FROM REVIEWS
+                WHERE REVIEWS.MOVIE_ID = MOVIES.MOVIE_ID
+            );
+        """;
+        try (PreparedStatement prst = conn.prepareStatement(sql)) {
+            prst.executeUpdate();
+            System.out.println("Cập nhật RATING thành công!");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public List<Review_model> getReview() throws SQLException {
         List<Review_model> dsReview= new ArrayList<Review_model>();
         String sql="SELECT REVIEW_ID,USERNAME,TITLE,REVIEW_DATE FROM REVIEWS,USERS,MOVIES WHERE REVIEWS.MOVIE_ID=MOVIES.MOVIE_ID AND REVIEWS.USER_ID=USERS.USER_ID";        
@@ -57,6 +74,7 @@ public class Review_controller {
         prst.setTimestamp(6, new Timestamp(reviewModel.getReviewDate().getTime()));
         int row= prst.executeUpdate();
         prst.close();
+        updateMovieRatings();
         return row>0;
     }
     
@@ -68,6 +86,7 @@ public class Review_controller {
         prst.setTimestamp(3, new Timestamp(reviewModel.getReviewDate().getTime()));
         int row=prst.executeUpdate();
         prst.close();
+        updateMovieRatings();
         return row>0;
     }
     
@@ -77,6 +96,7 @@ public class Review_controller {
         prst.setInt(1,reviewId);
         int row=prst.executeUpdate();
         prst.close();
+        updateMovieRatings();
         return row>0;
     }
     

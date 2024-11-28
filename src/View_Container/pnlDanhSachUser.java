@@ -2,6 +2,7 @@ package View_Container;
 
 import Controllers.User_controller;
 import Model.User_model;
+import Scrollbar.ScrollBarCustom;
 import View_Main.frmMain;
 import cell.tableActUser;
 import cell.tblActionCellEditorUser;
@@ -15,6 +16,8 @@ import java.lang.System.Logger;
 import java.lang.System.Logger.Level;
 import java.util.List;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -29,9 +32,15 @@ public final class pnlDanhSachUser extends javax.swing.JPanel {
     public pnlDanhSachUser(frmMain menu) {
         this.menu=menu;
         initComponents();  
-        String []colsName={"ID","Tài khoản","Giới tính","Ngày sinh","Emai",""};
+        String []colsName={"ID","Tài khoản","Giới tính","Ngày sinh","Emai","HD"};
         tableModel.setColumnIdentifiers(colsName);
         table.setModel(tableModel);
+        spTable.setVerticalScrollBar(new ScrollBarCustom());
+        spTable.getVerticalScrollBar().setBackground(Color.WHITE);
+        JPanel p=new JPanel();
+        p.setBackground(Color.WHITE);
+        spTable.setCorner(JScrollPane.UPPER_RIGHT_CORNER,p);
+        spTable.getViewport().setBackground(Color.white);
         ShowData();
         tblActionUser event = new tblActionUser() {
             @Override
@@ -80,8 +89,8 @@ public final class pnlDanhSachUser extends javax.swing.JPanel {
 
         jLabel1 = new javax.swing.JLabel();
         panelBorder1 = new cell.PanelBorder();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        table = new cell.Table();
+        spTable = new javax.swing.JScrollPane();
+        table = new Table.Table();
 
         setBackground(new java.awt.Color(106, 153, 198));
 
@@ -91,8 +100,9 @@ public final class pnlDanhSachUser extends javax.swing.JPanel {
 
         panelBorder1.setBackground(new java.awt.Color(255, 255, 255));
 
-        jScrollPane1.setBackground(new java.awt.Color(255, 255, 255));
-        jScrollPane1.setBorder(null);
+        spTable.setBackground(new java.awt.Color(255, 255, 255));
+        spTable.setBorder(null);
+        spTable.setForeground(new java.awt.Color(255, 255, 255));
 
         table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -102,7 +112,7 @@ public final class pnlDanhSachUser extends javax.swing.JPanel {
                 {null, null, null, null, null, null}
             },
             new String [] {
-                "ID", "Tài khoản ", "Giới tính ", "Ngày sinh", "Email", ""
+                "ID", "Tài khoản ", "Giới tính ", "Ngày sinh", "Email", "HD"
             }
         ) {
             Class[] types = new Class [] {
@@ -122,7 +132,7 @@ public final class pnlDanhSachUser extends javax.swing.JPanel {
         });
         table.setGridColor(new java.awt.Color(255, 255, 255));
         table.setSelectionBackground(new java.awt.Color(239, 244, 255));
-        jScrollPane1.setViewportView(table);
+        spTable.setViewportView(table);
         if (table.getColumnModel().getColumnCount() > 0) {
             table.getColumnModel().getColumn(0).setMinWidth(35);
             table.getColumnModel().getColumn(0).setPreferredWidth(35);
@@ -138,14 +148,14 @@ public final class pnlDanhSachUser extends javax.swing.JPanel {
             panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelBorder1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 670, Short.MAX_VALUE)
+                .addComponent(spTable, javax.swing.GroupLayout.DEFAULT_SIZE, 670, Short.MAX_VALUE)
                 .addContainerGap())
         );
         panelBorder1Layout.setVerticalGroup(
             panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelBorder1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 432, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(spTable, javax.swing.GroupLayout.PREFERRED_SIZE, 432, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -163,20 +173,20 @@ public final class pnlDanhSachUser extends javax.swing.JPanel {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(45, 45, 45)
+                .addGap(30, 30, 30)
                 .addComponent(jLabel1)
-                .addGap(41, 41, 41)
+                .addGap(25, 25, 25)
                 .addComponent(panelBorder1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(72, Short.MAX_VALUE))
+                .addContainerGap(53, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JScrollPane jScrollPane1;
     private cell.PanelBorder panelBorder1;
-    private cell.Table table;
+    private javax.swing.JScrollPane spTable;
+    private Table.Table table;
     // End of variables declaration//GEN-END:variables
     @Override
       protected void paintComponent(Graphics g) { 
@@ -188,7 +198,6 @@ public final class pnlDanhSachUser extends javax.swing.JPanel {
           int height = getHeight();
           GradientPaint gp = new GradientPaint(0,0, Color.decode("#ffffff"), 0, getHeight(), Color.decode("#6B99C6"));
             g2.setPaint(gp);
-          g2.fillRoundRect(0, 0, width, height, 15, 15);
-          g2.fillRect(0, 0, width - 20, height);
+            g2.fillRect(0, 0, width, height);
       }
 }

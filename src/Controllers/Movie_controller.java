@@ -151,6 +151,5 @@ public class Movie_controller {
             int rowsUpdated = prst.executeUpdate();
             System.out.println("controller id "+ movie.getDescription());
             return rowsUpdated>0;
-            
     }
 }

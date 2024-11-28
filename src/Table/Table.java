@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package cell;
+package Table;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -24,7 +24,8 @@ public class Table extends JTable{
             @Override
             public Component getTableCellRendererComponent(JTable table, Object o, boolean isSelected, boolean hasFocus, int row, int column) {
                 TableHeader header= new TableHeader(o +"");
- 
+                if(column==5)
+                    header.setHorizontalAlignment(JLabel.CENTER);
                 return header;
             }
                
@@ -43,6 +44,7 @@ public class Table extends JTable{
                     else{
                         com.setBackground(Color.WHITE);
                     }
+                    
                     return com;
                 }
                 return new JLabel("");

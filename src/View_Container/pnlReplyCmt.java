@@ -425,6 +425,7 @@ public class pnlReplyCmt extends javax.swing.JPanel {
 
         lbBack.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lbBack.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/backxanh.png"))); // NOI18N
+        lbBack.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         lbBack.setMaximumSize(new java.awt.Dimension(32, 48));
         lbBack.setPreferredSize(new java.awt.Dimension(50, 48));
         lbBack.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -458,11 +459,11 @@ public class pnlReplyCmt extends javax.swing.JPanel {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(45, 45, 45)
+                .addGap(30, 30, 30)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(lbBack, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                .addGap(29, 29, 29)
+                .addGap(25, 25, 25)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(lbImg, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -473,7 +474,7 @@ public class pnlReplyCmt extends javax.swing.JPanel {
                         .addGap(70, 70, 70))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(panelBorder1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(37, Short.MAX_VALUE))))
+                        .addContainerGap(31, Short.MAX_VALUE))))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -523,8 +524,6 @@ public class pnlReplyCmt extends javax.swing.JPanel {
           int height = getHeight();
           GradientPaint gp = new GradientPaint(0,0, Color.decode("#ffffff"), 0, getHeight(), Color.decode("#6B99C6"));
             g2.setPaint(gp);
-//          g2.setColor(Color.decode("#FFFFFF"));
-          g2.fillRoundRect(0, 0, width, height, 15, 15);
-          g2.fillRect(0, 0, width - 20, height);
+           g2.fillRect(0, 0, width, height);
       }
 }

@@ -6,6 +6,7 @@ package View_Container;
 
 import Controllers.Review_controller;
 import Model.Review_model;
+import Scrollbar.ScrollBarCustom;
 import View_Main.frmMain;
 import cell.tableActCmt;
 import cell.tblActionCellEditorCmt;
@@ -23,6 +24,8 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
@@ -44,6 +47,12 @@ public class pnlDanhgia extends javax.swing.JPanel {
         String []colsName={"ID","Tài khoản","Phim","Date",""};
         tableModel.setColumnIdentifiers(colsName);
         table.setModel(tableModel);
+        spTable.setVerticalScrollBar(new ScrollBarCustom());
+        spTable.getVerticalScrollBar().setBackground(Color.WHITE);
+        JPanel p=new JPanel();
+        p.setBackground(Color.WHITE);
+        spTable.setCorner(JScrollPane.UPPER_RIGHT_CORNER,p);
+        spTable.getViewport().setBackground(Color.white);
         ShowData();
         sorter = new TableRowSorter<>(tableModel);
         table.setRowSorter(sorter);
@@ -72,17 +81,6 @@ public class pnlDanhgia extends javax.swing.JPanel {
         };
         table.getColumnModel().getColumn(4).setCellRenderer(new tableActCmt());
         table.getColumnModel().getColumn(4).setCellEditor(new tblActionCellEditorCmt(event));
-        txtSearch.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyReleased(KeyEvent e) {
-                String keyword = txtSearch.getText().trim(); // Tránh từ khóa rỗng
-                if (keyword.isEmpty()) {
-                    sorter.setRowFilter(null); // Hiển thị tất cả dữ liệu nếu không có từ khóa
-                } else {
-                    sorter.setRowFilter(RowFilter.regexFilter("(?i)" + keyword)); // Tìm kiếm không phân biệt hoa thường
-                }
-            }
-        });
     }
     public void ShowData() {
         try{
@@ -139,11 +137,8 @@ public class pnlDanhgia extends javax.swing.JPanel {
 
         jLabel1 = new javax.swing.JLabel();
         panelBorder1 = new cell.PanelBorder();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        table = new cell.Table();
-        jLabel6 = new javax.swing.JLabel();
-        panelBorder2 = new cell.PanelBorder();
-        txtSearch = new javax.swing.JTextField();
+        spTable = new javax.swing.JScrollPane();
+        table = new Table.Table();
 
         setBackground(new java.awt.Color(244, 244, 244));
 
@@ -154,8 +149,8 @@ public class pnlDanhgia extends javax.swing.JPanel {
 
         panelBorder1.setBackground(new java.awt.Color(255, 255, 255));
 
-        jScrollPane2.setBackground(new java.awt.Color(255, 255, 255));
-        jScrollPane2.setBorder(null);
+        spTable.setBackground(new java.awt.Color(255, 255, 255));
+        spTable.setBorder(null);
 
         table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -179,7 +174,7 @@ public class pnlDanhgia extends javax.swing.JPanel {
         table.setGridColor(new java.awt.Color(255, 255, 255));
         table.setSelectionBackground(new java.awt.Color(239, 244, 255));
         table.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
-        jScrollPane2.setViewportView(table);
+        spTable.setViewportView(table);
 
         javax.swing.GroupLayout panelBorder1Layout = new javax.swing.GroupLayout(panelBorder1);
         panelBorder1.setLayout(panelBorder1Layout);
@@ -187,39 +182,15 @@ public class pnlDanhgia extends javax.swing.JPanel {
             panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelBorder1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 673, Short.MAX_VALUE)
+                .addComponent(spTable, javax.swing.GroupLayout.DEFAULT_SIZE, 673, Short.MAX_VALUE)
                 .addContainerGap())
         );
         panelBorder1Layout.setVerticalGroup(
             panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelBorder1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 402, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(spTable, javax.swing.GroupLayout.PREFERRED_SIZE, 438, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
-        );
-
-        jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        jLabel6.setForeground(new java.awt.Color(5, 38, 89));
-        jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel6.setText("Tìm kiếm");
-
-        panelBorder2.setBackground(new java.awt.Color(255, 255, 255));
-
-        txtSearch.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        txtSearch.setBorder(null);
-
-        javax.swing.GroupLayout panelBorder2Layout = new javax.swing.GroupLayout(panelBorder2);
-        panelBorder2.setLayout(panelBorder2Layout);
-        panelBorder2Layout.setHorizontalGroup(
-            panelBorder2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelBorder2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(txtSearch, javax.swing.GroupLayout.DEFAULT_SIZE, 292, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        panelBorder2Layout.setVerticalGroup(
-            panelBorder2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(txtSearch, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -229,10 +200,6 @@ public class pnlDanhgia extends javax.swing.JPanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(58, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel6)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(panelBorder2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jLabel1)
                     .addComponent(panelBorder1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(57, Short.MAX_VALUE))
@@ -240,27 +207,20 @@ public class pnlDanhgia extends javax.swing.JPanel {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(44, 44, 44)
+                .addGap(30, 30, 30)
                 .addComponent(jLabel1)
-                .addGap(34, 34, 34)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(panelBorder2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(31, 31, 31)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
                 .addComponent(panelBorder1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(57, Short.MAX_VALUE))
+                .addContainerGap(47, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JScrollPane jScrollPane2;
     private cell.PanelBorder panelBorder1;
-    private cell.PanelBorder panelBorder2;
-    private cell.Table table;
-    private javax.swing.JTextField txtSearch;
+    private javax.swing.JScrollPane spTable;
+    private Table.Table table;
     // End of variables declaration//GEN-END:variables
     @Override
       protected void paintComponent(Graphics g) { 
@@ -272,8 +232,6 @@ public class pnlDanhgia extends javax.swing.JPanel {
           int height = getHeight();
           GradientPaint gp = new GradientPaint(0,0, Color.decode("#ffffff"), 0, getHeight(), Color.decode("#6B99C6"));
             g2.setPaint(gp);
-//          g2.setColor(Color.decode("#FFFFFF"));
-          g2.fillRoundRect(0, 0, width, height, 15, 15);
-          g2.fillRect(0, 0, width - 20, height);
+          g2.fillRect(0, 0, width, height);
       }
 }

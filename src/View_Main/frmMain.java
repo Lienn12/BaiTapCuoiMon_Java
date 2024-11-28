@@ -42,7 +42,10 @@ public final class frmMain extends javax.swing.JFrame {
     public void init1(){
         setLayout(new BorderLayout());
         add(pnlMenu, BorderLayout.WEST);
-        add(pnlContainer, BorderLayout.CENTER);
+        add(pnlMain, BorderLayout.CENTER);
+        pnlMain.setLayout(new BorderLayout());
+        pnlMain.add(pnlContainer, BorderLayout.CENTER);
+        pnlMain.add(pnlHeader, BorderLayout.NORTH);
         Dimension frameSize = getSize();
         int width = (int)(frameSize.width * 0.25); // 20% của chiều rộng frame
         int height = frameSize.height; // giữ nguyên chiều cao của frame
@@ -69,7 +72,6 @@ public final class frmMain extends javax.swing.JFrame {
         pnlContainer.add(pnlDanhgia,"danh gia");
         pnlContainer.add(pnlReplycmt, "reply");
         
-        add(pnlContainer);
         cardLayout.show(pnlContainer, "danh sach phim");
         setColor(btnDSphim);
     }
@@ -91,8 +93,8 @@ public final class frmMain extends javax.swing.JFrame {
             @Override
             public void mouseClicked(MouseEvent e) {
                 // Chuyển sang panel danh sách phim
-                FrmTrangchu frmTrangchu = new FrmTrangchu();
-                frmTrangchu.setVisible(true);
+//                FrmTrangchu frmTrangchu = new FrmTrangchu();
+//                frmTrangchu.setVisible(true);
                 dispose();
 //                setColor(btnTrangChu);
             }
@@ -154,7 +156,6 @@ public final class frmMain extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        pnlContainer = new View_Main.PnlContainer();
         pnlMenu = new View_Main.PnlMenu();
         jLabel1 = new javax.swing.JLabel();
         btnTrangChu = new javax.swing.JPanel();
@@ -172,20 +173,12 @@ public final class frmMain extends javax.swing.JFrame {
         btnLogout = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
+        pnlMain = new View_Main.PnlContainer();
+        pnlHeader = new cell.PnlHeader();
+        pnlContainer = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setSize(new java.awt.Dimension(1000, 650));
-
-        javax.swing.GroupLayout pnlContainerLayout = new javax.swing.GroupLayout(pnlContainer);
-        pnlContainer.setLayout(pnlContainerLayout);
-        pnlContainerLayout.setHorizontalGroup(
-            pnlContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 794, Short.MAX_VALUE)
-        );
-        pnlContainerLayout.setVerticalGroup(
-            pnlContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 650, Short.MAX_VALUE)
-        );
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/user.png"))); // NOI18N
 
@@ -384,19 +377,51 @@ public final class frmMain extends javax.swing.JFrame {
                 .addContainerGap(100, Short.MAX_VALUE))
         );
 
+        pnlContainer.setBackground(new java.awt.Color(255, 255, 255));
+
+        javax.swing.GroupLayout pnlContainerLayout = new javax.swing.GroupLayout(pnlContainer);
+        pnlContainer.setLayout(pnlContainerLayout);
+        pnlContainerLayout.setHorizontalGroup(
+            pnlContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        pnlContainerLayout.setVerticalGroup(
+            pnlContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 471, Short.MAX_VALUE)
+        );
+
+        javax.swing.GroupLayout pnlMainLayout = new javax.swing.GroupLayout(pnlMain);
+        pnlMain.setLayout(pnlMainLayout);
+        pnlMainLayout.setHorizontalGroup(
+            pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlMainLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addGroup(pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(pnlContainer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(pnlHeader, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+        );
+        pnlMainLayout.setVerticalGroup(
+            pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlMainLayout.createSequentialGroup()
+                .addComponent(pnlHeader, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
+                .addComponent(pnlContainer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+            .addGroup(layout.createSequentialGroup()
                 .addComponent(pnlMenu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(pnlContainer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 0, 0)
+                .addComponent(pnlMain, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(pnlContainer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(pnlMenu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(pnlMain, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -497,7 +522,9 @@ public final class frmMain extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private View_Main.PnlContainer pnlContainer;
+    private javax.swing.JPanel pnlContainer;
+    private cell.PnlHeader pnlHeader;
+    private View_Main.PnlContainer pnlMain;
     private View_Main.PnlMenu pnlMenu;
     // End of variables declaration//GEN-END:variables
 

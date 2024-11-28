@@ -6,7 +6,6 @@ package View_Login_Signup;
 
 import Controllers.Email_controller;
 import View_Main.Frm_Login_Signup;
-import View_Main.FrmTrangchu;
 import java.awt.*;
 import Controllers.User_controller;
 import Model.Message_model;
@@ -20,7 +19,6 @@ public class PnlVerifyCode extends javax.swing.JPanel {
     private final User_controller userController;
     private User_model userModel;
     private Frm_Login_Signup frmLoginSignup;
-    private final FrmTrangchu frmTrangchu;
     
     public void setFrmLoginSignup(Frm_Login_Signup frmLoginSignup) {
         this.frmLoginSignup = frmLoginSignup;
@@ -28,7 +26,6 @@ public class PnlVerifyCode extends javax.swing.JPanel {
     public PnlVerifyCode() {
         initComponents(); 
         userController= new User_controller();
-        frmTrangchu= new FrmTrangchu();
     }
     @Override
     protected void paintComponent(Graphics g) {

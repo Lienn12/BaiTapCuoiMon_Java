@@ -2,6 +2,7 @@
 package View_Container;
 import Controllers.Movie_controller;
 import Model.Movie_model;
+import Scrollbar.ScrollBarCustom;
 import javax.swing.table.DefaultTableModel;
 import cell.tableAction;
 import cell.tblActionCellEditor;
@@ -19,6 +20,8 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.RowFilter;
 import javax.swing.table.TableRowSorter;
 
@@ -29,7 +32,6 @@ public final class pnlDSPhim extends javax.swing.JPanel {
     private frmMain menu;
     private DefaultTableModel tableModel= new DefaultTableModel();
     private TableRowSorter<DefaultTableModel> sorter; 
-//    int total = 0;
     public pnlDSPhim(frmMain menu) {
         this.menu = menu;
         initComponents(); 
@@ -40,6 +42,12 @@ public final class pnlDSPhim extends javax.swing.JPanel {
         ShowData();
         sorter = new TableRowSorter<>(tableModel);
         table.setRowSorter(sorter);
+        spTable.setVerticalScrollBar(new ScrollBarCustom());
+        spTable.getVerticalScrollBar().setBackground(Color.WHITE);
+        JPanel p=new JPanel();
+        p.setBackground(Color.WHITE);
+        spTable.setCorner(JScrollPane.UPPER_RIGHT_CORNER,p);
+        spTable.getViewport().setBackground(Color.white);
         tblActionEvent event = new tblActionEvent() {
             @Override
             public void onView(int row) {
@@ -81,17 +89,7 @@ public final class pnlDSPhim extends javax.swing.JPanel {
         table.getColumnModel().getColumn(3).setCellRenderer(new tableAction());
         table.getColumnModel().getColumn(3).setCellEditor(new tblActionCellEditor(event));
         
-        txtSearch.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyReleased(KeyEvent e) {
-                String keyword = txtSearch.getText().trim(); // Tránh từ khóa rỗng
-                if (keyword.isEmpty()) {
-                    sorter.setRowFilter(null); // Hiển thị tất cả dữ liệu nếu không có từ khóa
-                } else {
-                    sorter.setRowFilter(RowFilter.regexFilter("(?i)" + keyword)); // Tìm kiếm không phân biệt hoa thường
-                }
-            }
-        });
+
     }
     
     public void init(){
@@ -105,11 +103,8 @@ public final class pnlDSPhim extends javax.swing.JPanel {
         jLabel1 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         panelBorder1 = new cell.PanelBorder();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        table = new cell.Table();
-        panelBorder2 = new cell.PanelBorder();
-        txtSearch = new javax.swing.JTextField();
-        jLabel6 = new javax.swing.JLabel();
+        spTable = new javax.swing.JScrollPane();
+        table = new Table.Table();
 
         setToolTipText("");
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -120,6 +115,7 @@ public final class pnlDSPhim extends javax.swing.JPanel {
         jLabel1.setText("Danh sách Phim");
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/plusXanh.png"))); // NOI18N
+        jLabel3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jLabel3.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jLabel3MouseClicked(evt);
@@ -128,8 +124,8 @@ public final class pnlDSPhim extends javax.swing.JPanel {
 
         panelBorder1.setBackground(new java.awt.Color(255, 255, 255));
 
-        jScrollPane1.setBackground(new java.awt.Color(255, 255, 255));
-        jScrollPane1.setBorder(null);
+        spTable.setBackground(new java.awt.Color(255, 255, 255));
+        spTable.setBorder(null);
 
         table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -159,7 +155,7 @@ public final class pnlDSPhim extends javax.swing.JPanel {
         });
         table.setGridColor(new java.awt.Color(255, 255, 255));
         table.setSelectionBackground(new java.awt.Color(239, 244, 255));
-        jScrollPane1.setViewportView(table);
+        spTable.setViewportView(table);
 
         javax.swing.GroupLayout panelBorder1Layout = new javax.swing.GroupLayout(panelBorder1);
         panelBorder1.setLayout(panelBorder1Layout);
@@ -167,40 +163,16 @@ public final class pnlDSPhim extends javax.swing.JPanel {
             panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelBorder1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 674, Short.MAX_VALUE)
+                .addComponent(spTable, javax.swing.GroupLayout.DEFAULT_SIZE, 674, Short.MAX_VALUE)
                 .addContainerGap())
         );
         panelBorder1Layout.setVerticalGroup(
             panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelBorder1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 386, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        panelBorder2.setBackground(new java.awt.Color(255, 255, 255));
-
-        txtSearch.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        txtSearch.setBorder(null);
-
-        javax.swing.GroupLayout panelBorder2Layout = new javax.swing.GroupLayout(panelBorder2);
-        panelBorder2.setLayout(panelBorder2Layout);
-        panelBorder2Layout.setHorizontalGroup(
-            panelBorder2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelBorder2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(txtSearch, javax.swing.GroupLayout.DEFAULT_SIZE, 292, Short.MAX_VALUE)
+                .addComponent(spTable)
                 .addContainerGap())
         );
-        panelBorder2Layout.setVerticalGroup(
-            panelBorder2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(txtSearch, javax.swing.GroupLayout.Alignment.TRAILING)
-        );
-
-        jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        jLabel6.setForeground(new java.awt.Color(5, 38, 89));
-        jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel6.setText("Tìm kiếm");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -210,12 +182,6 @@ public final class pnlDSPhim extends javax.swing.JPanel {
                 .addContainerGap(57, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(panelBorder1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addGap(6, 6, 6)
-                        .addComponent(jLabel6)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(panelBorder2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -225,17 +191,13 @@ public final class pnlDSPhim extends javax.swing.JPanel {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(57, 57, 57)
+                .addGap(30, 30, 30)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel3)
                     .addComponent(jLabel1))
-                .addGap(34, 34, 34)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(panelBorder2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE))
-                .addGap(29, 29, 29)
+                .addGap(25, 25, 25)
                 .addComponent(panelBorder1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(47, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -279,12 +241,9 @@ public final class pnlDSPhim extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JScrollPane jScrollPane1;
     private cell.PanelBorder panelBorder1;
-    private cell.PanelBorder panelBorder2;
-    private cell.Table table;
-    private javax.swing.JTextField txtSearch;
+    private javax.swing.JScrollPane spTable;
+    private Table.Table table;
     // End of variables declaration//GEN-END:variables
     public int getSelectedMovieID() {
         int selectedRow = table.getSelectedRow();
@@ -344,8 +303,6 @@ public final class pnlDSPhim extends javax.swing.JPanel {
           int height = getHeight();
           GradientPaint gp = new GradientPaint(0,0, Color.decode("#ffffff"), 0, getHeight(), Color.decode("#6B99C6"));
             g2.setPaint(gp);
-//          g2.setColor(Color.decode("#FFFFFF"));
-          g2.fillRoundRect(0, 0, width, height, 15, 15);
-          g2.fillRect(0, 0, width - 20, height);
+           g2.fillRect(0, 0, width, height);
       }
 }
