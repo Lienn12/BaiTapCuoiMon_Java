@@ -218,7 +218,6 @@ public final class pnlDSPhim extends javax.swing.JPanel {
                             dsMovie.get(i).getReleaseYear()
                         };
                         tableModel.addRow(row); 
-//                        total++;
                     }
                     tableModel.fireTableDataChanged();
                     revalidate();   
@@ -226,7 +225,6 @@ public final class pnlDSPhim extends javax.swing.JPanel {
                 }catch(Exception ex){
                     ex.printStackTrace();
                 }
-//                lbTong.setText(String.valueOf(total));
             }catch(SQLException ex){
                 Logger.getLogger(pnlDSPhim.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -248,18 +246,18 @@ public final class pnlDSPhim extends javax.swing.JPanel {
     public int getSelectedMovieID() {
         int selectedRow = table.getSelectedRow();
         if (selectedRow == -1) {
-            // Không có dòng nào được chọn
             return -1;
         }
-        // Lấy giá trị từ cột ID (cột 0)
         return (int) table.getValueAt(selectedRow, 0);
     }
     public void showMovie(int movieID) {
         try {
+            System.out.println("showMovie: movieID: " + movieID);
             Movie_model movie = movieController.getMovieById(movieID);
+            System.out.println("showMovie: movieID " + movie);
             if(movie != null) {
                 System.out.println("Tên phim: " + movie.getTitle());
-                System.out.println("Năm ph: " + movie.getReleaseYear());
+                System.out.println("Năm phim: " + movie.getReleaseYear());
                 System.out.println("The loai: " + movie.getGenre());
                 System.out.println("Mota: " + movie.getDescription());
                 pnlChiTietFilm pnlCT = menu.getPanel();

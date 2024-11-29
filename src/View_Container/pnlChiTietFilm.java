@@ -329,13 +329,21 @@ public class pnlChiTietFilm extends javax.swing.JPanel {
         } else {
             lblYear.setText(String.valueOf(movie.getReleaseYear())); 
             lblName.setText(movie.getTitle()); 
-            lblTheLoai.setText(movie.getGenre()); 
+            if (movie.getGenre() != null) {
+            lblTheLoai.setText(movie.getGenre().getGenreName());
+        } else {
+            lblTheLoai.setText("Không có thể loại");
+        }
             lblMota.setText(movie.getDescription());
             lblCast.setText(movie.getCast());
-            lblCountry.setText(movie.getCountry());
+            if (movie.getCountry() != null) {
+            lblCountry.setText(movie.getCountry().getCountrysName());
+        } else {
+            lblCountry.setText("Không có quốc gia");
+        }
             lblDaodien.setText(movie.getDirector());
             lblRating.setText(String.valueOf(movie.getRating()));
-            lblTap.setText(String.valueOf(movie.getEpisodes()));
+            lblTap.setText(String.valueOf(movie.getEpisodes())); 
             if(movie.getImg() !=null && movie.getImg().length >0){
                 try {
                     ByteArrayInputStream bis = new ByteArrayInputStream(movie.getImg());

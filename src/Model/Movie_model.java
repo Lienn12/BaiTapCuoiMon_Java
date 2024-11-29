@@ -11,8 +11,9 @@ public class Movie_model {
     private int movieID;
     private String title;
     private int releaseYear;
-    private String genre;
-    private String country;
+    private Genres genre;
+    private Formats format;
+    private Countries country;
     private String director;
     private String cast;
     private float rating;
@@ -24,10 +25,22 @@ public class Movie_model {
     public Movie_model() {
     }
 
-    public Movie_model(String title, int releaseYear, String genre, String country, String director, String cast, float rating, String description, int episodes, byte[] coverImage) {
+    public Movie_model(String title, float rating, byte[] coverImage) {
+        this.title = title;
+        this.rating = rating;
+        this.coverImage = coverImage;
+    }
+
+    public Movie_model(String title, byte[] coverImage){
+        this.title = title;
+         this.coverImage = coverImage;
+    }
+
+    public Movie_model(String title, int releaseYear, Genres genre, Formats format, Countries country, String director, String cast, float rating, String description, int episodes, byte[] coverImage) {
         this.title = title;
         this.releaseYear = releaseYear;
         this.genre = genre;
+        this.format = format;
         this.country = country;
         this.director = director;
         this.cast = cast;
@@ -36,12 +49,13 @@ public class Movie_model {
         this.episodes = episodes;
         this.coverImage = coverImage;
     }
-
-    public Movie_model(int movieID, String title, int releaseYear, String genre, String country, String director, String cast, float rating, String description, int episodes, byte[] coverImage) {
+    
+    public Movie_model(int movieID, String title, int releaseYear, Genres genre, Formats format, Countries country, String director, String cast, float rating, String description, int episodes, byte[] coverImage) {
         this.movieID = movieID;
         this.title = title;
         this.releaseYear = releaseYear;
         this.genre = genre;
+        this.format = format;
         this.country = country;
         this.director = director;
         this.cast = cast;
@@ -50,7 +64,7 @@ public class Movie_model {
         this.episodes = episodes;
         this.coverImage = coverImage;
     }
-
+    
 
     public Movie_model(ResultSet rs) throws SQLException {
         this.movieID = rs.getInt("movie_id");
@@ -83,19 +97,26 @@ public class Movie_model {
         this.releaseYear = releaseYear;
     }
 
-    public String getGenre() {
+    public Genres getGenre() {
         return genre;
     }
 
-    public void setGenre(String genre) {
+    public void setGenre(Genres genre) {
         this.genre = genre;
     }
-
-    public String getCountry() {
+    
+    public Formats getFormat (){
+        return format;
+    }
+    public void setFormat(Formats format){
+        this.format=format;
+    }
+    
+    public Countries getCountry() {
         return country;
     }
 
-    public void setCountry(String country) {
+    public void setCountry(Countries country) {
         this.country = country;
     }
 

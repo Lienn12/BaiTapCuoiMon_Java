@@ -6,13 +6,28 @@ package Scrollbar;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import javax.swing.JScrollBar;
 
 public class ScrollBarCustom extends JScrollBar{
-    public ScrollBarCustom(){
+    private Color originalColor; 
+    public ScrollBarCustom() {
         setUI(new ModernScrollBarUI());
-        setPreferredSize(new Dimension(8,8));
-        setForeground(new Color(242,242,242));
+        setPreferredSize(new Dimension(8, 8));
+        setForeground(new Color(240,240,240));
         setBackground(Color.WHITE);
+        originalColor = getForeground();
+        addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                setForeground(new Color(158, 158, 158)); 
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                setForeground(new Color(240,240,240)); 
+            }
+        });
     }
 }
