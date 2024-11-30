@@ -55,8 +55,8 @@ public final class frmMain extends javax.swing.JFrame {
         pnlMain.add(pnlContainer, BorderLayout.CENTER);
         pnlMain.add(pnlHeader, BorderLayout.NORTH);
         Dimension frameSize = getSize();
-        int width = (int)(frameSize.width * 0.25); // 20% của chiều rộng frame
-        int height = frameSize.height; // giữ nguyên chiều cao của frame
+        int width = (int)(frameSize.width * 0.25); 
+        int height = frameSize.height; 
         pnlMenu.setPreferredSize(new Dimension(width, height));
         setSize(1040, 670);
     }
@@ -67,8 +67,8 @@ public final class frmMain extends javax.swing.JFrame {
             pnlTrangchu = new PnlTrangChu(this);
             pnldsPhim= new pnlDSPhim(this);
             pnlChiTiet= new pnlChiTietFilm (this);
-            pnlSua=new pnlSuaPhim(this);
-            pnlThem= new pnlThemPhim(this,pnldsPhim);
+            pnlSua=new pnlSuaPhim(this,pnldsPhim);
+            pnlThem= new pnlThemPhim(this,pnldsPhim,pnlTrangchu);
             pnlUser= new pnlDanhSachUser(this);
             pnlDanhgia= new pnlDanhgia(this);
             pnlReplycmt= new pnlReplyCmt(this);
@@ -115,7 +115,11 @@ public final class frmMain extends javax.swing.JFrame {
         btnTrangChu.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
+                pnlTrangchu.updatePhimList();
+                spTrangChu.revalidate(); // Đảm bảo layout được cập nhật
+                spTrangChu.repaint(); 
                 showPanel("trang chu");
+                
                 setColor(btnTrangChu);
             }
         });

@@ -66,6 +66,8 @@ public class ModernScrollBarUI extends BasicScrollBarUI{
        }
        g2.setColor(Color.WHITE);
        g2.fillRect(x, y, width, height);
+        g2.fillRoundRect(x, y, width, height, 5, 5);
+
    }
 
     @Override
@@ -85,6 +87,7 @@ public class ModernScrollBarUI extends BasicScrollBarUI{
         }
         g2.setColor(scrollbar.getForeground());
         g2.fillRect(x, y, width, height);
+        g2.fillRoundRect(x, y, width, height, 5, 5);
     }   
     private class ScrollBarButton extends JButton{
         public ScrollBarButton(){

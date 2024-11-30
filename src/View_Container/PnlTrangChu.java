@@ -6,7 +6,10 @@ package View_Container;
 
 import Controllers.Movie_controller;
 import Model.Movie_model;
+import View_Container.Home.PnlPhimLoai;
+import View_Container.Home.PnlPhimTrangchu;
 import View_Main.frmMain;
+import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.GradientPaint;
 import java.awt.Graphics;
@@ -24,60 +27,36 @@ import javax.swing.ImageIcon;
  * @author lienn
  */
 public class PnlTrangChu extends javax.swing.JPanel {
-    
+    private CardLayout cardLayout;
+    private PnlPhimTrangchu pnlPhimTrangchu;
+    private PnlPhimLoai pnlPhimLoai;
     private frmMain main;
     private final Movie_model movieModel=new Movie_model();
     private final Movie_controller movieController = new Movie_controller();
     public PnlTrangChu(frmMain main) {
         this.main=main;
         initComponents();
-        loadDataPhimdx();
-        loadDataPhimbo();
-        loadDataPhimle();
+        init();
     }
-
-    private void loadDataForPanel(View_Container.pnlPhim panel, List<Movie_model> movies) {
-        if (movies != null && !movies.isEmpty()) {
-            panel.removeAll();
-            for (Movie_model movie : movies) {
-                panel.addImage(movie);  
-            }
-            panel.revalidate();
-            panel.repaint();
-        } else {
-            System.out.println("Không có phim để hiển thị!");
-        }
+    public void init(){
+        cardLayout=new CardLayout();
+        pnlPhim.setLayout(cardLayout);
+        
+        pnlPhimLoai = new PnlPhimLoai(this);
+        pnlPhimTrangchu= new PnlPhimTrangchu(this);
+        pnlPhim.add(pnlPhimTrangchu,"phim trang chu");
+        pnlPhim.add(pnlPhimLoai,"phim loai");
+        showPanel("phim loai");
     }
-
-    // Sử dụng phương thức chung trong các phương thức loadData
-    public void loadDataPhimdx() {
-        try {
-            List<Movie_model> dsmoviedx = movieController.getImage();
-            loadDataForPanel(pnlPhimdexuat, dsmoviedx);  
-        } catch (SQLException ex) {
-            Logger.getLogger(PnlTrangChu.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    public void showPanel(String panelName){
+        cardLayout.show(pnlPhim, panelName); 
     }
-
-    public void loadDataPhimbo() {
-        try {
-            List<Movie_model> dsmoviebo = movieController.getphimbo();
-            loadDataForPanel(pnlPhimbo, dsmoviebo);
-        } catch (SQLException ex) {
-            Logger.getLogger(PnlTrangChu.class.getName()).log(Level.SEVERE, null, ex);
-        }
-         
-    }
-
-    public void loadDataPhimle() {
-        try {
-            List<Movie_model> dsmoviedx = movieController.getphimle();
-            loadDataForPanel(pnlPhimle, dsmoviedx);  
-        } catch (SQLException ex) {
-            Logger.getLogger(PnlTrangChu.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-    
+    public void updatePhimList() {
+    // Cập nhật danh sách phim trong pnlPhimTrangchu (hoặc các dữ liệu bạn muốn thay đổi)
+    // Ví dụ: tải lại phim từ cơ sở dữ liệu, hoặc làm mới giao diện
+    this.repaint();  // Vẽ lại pnlPhimTrangchu
+    this.revalidate();  // Đảm bảo layout được cập nhật
+}
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -88,14 +67,7 @@ public class PnlTrangChu extends javax.swing.JPanel {
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        pnlPhimdexuat = new View_Container.pnlPhim();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
-        pnlPhimbo = new View_Container.pnlPhim();
-        jLabel8 = new javax.swing.JLabel();
-        pnlPhimle = new View_Container.pnlPhim();
-        jLabel9 = new javax.swing.JLabel();
-        jSeparator1 = new javax.swing.JSeparator();
+        pnlPhim = new javax.swing.JPanel();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
@@ -144,63 +116,32 @@ public class PnlTrangChu extends javax.swing.JPanel {
                 .addContainerGap())
         );
 
-        jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        jLabel6.setForeground(new java.awt.Color(5, 38, 89));
-        jLabel6.setText("Phim đề xuất");
-
-        jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(5, 38, 89));
-        jLabel7.setText("Phim bộ mới cập nhật");
-
-        jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        jLabel8.setForeground(new java.awt.Color(5, 38, 89));
-        jLabel8.setText("Phim lẻ mới cập nhật");
-
-        jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        jLabel9.setForeground(new java.awt.Color(5, 38, 89));
-        jLabel9.setText("Bảng đánh giá");
+        javax.swing.GroupLayout pnlPhimLayout = new javax.swing.GroupLayout(pnlPhim);
+        pnlPhim.setLayout(pnlPhimLayout);
+        pnlPhimLayout.setHorizontalGroup(
+            pnlPhimLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        pnlPhimLayout.setVerticalGroup(
+            pnlPhimLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 405, Short.MAX_VALUE)
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(25, 25, 25)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel9)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jLabel8)
-                        .addComponent(jLabel7)
-                        .addComponent(jLabel6)
-                        .addComponent(pnlPhimdexuat, javax.swing.GroupLayout.DEFAULT_SIZE, 731, Short.MAX_VALUE)
-                        .addComponent(pnlPhimbo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(pnlPhimle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(pnlPhim, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(30, 30, 30)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel6)
-                .addGap(9, 9, 9)
-                .addComponent(pnlPhimdexuat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(20, 20, 20)
-                .addComponent(jLabel7)
-                .addGap(9, 9, 9)
-                .addComponent(pnlPhimbo, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(20, 20, 20)
-                .addComponent(jLabel8)
-                .addGap(9, 9, 9)
-                .addComponent(pnlPhimle, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(20, 20, 20)
-                .addComponent(jLabel9)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(413, Short.MAX_VALUE))
+                .addGap(0, 0, 0)
+                .addComponent(pnlPhim, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -211,15 +152,8 @@ public class PnlTrangChu extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JSeparator jSeparator1;
-    private View_Container.pnlPhim pnlPhimbo;
-    private View_Container.pnlPhim pnlPhimdexuat;
-    private View_Container.pnlPhim pnlPhimle;
+    private javax.swing.JPanel pnlPhim;
     // End of variables declaration//GEN-END:variables
     @Override
       protected void paintComponent(Graphics g) { 
@@ -231,6 +165,6 @@ public class PnlTrangChu extends javax.swing.JPanel {
           int height = getHeight();
           GradientPaint gp = new GradientPaint(0,0, Color.decode("#ffffff"), 0, getHeight(), Color.decode("#6B99C6"));
             g2.setPaint(gp);
-          g2.fillRect(0, 0, width, height);
+            g2.fillRect(0, 0, width, height);
       }
 }

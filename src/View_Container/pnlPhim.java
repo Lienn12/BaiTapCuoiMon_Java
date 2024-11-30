@@ -4,7 +4,10 @@
  */
 package View_Container;
 
+import View_Container.Home.pnlitemImage;
 import Model.Movie_model;
+import java.awt.Color;
+import java.awt.Graphics;
 
 /**
  *
@@ -14,6 +17,7 @@ public class pnlPhim extends javax.swing.JLayeredPane {
 
     public pnlPhim() {
         initComponents();
+        sp.setBackground(new Color(255,255,255,128));
         panel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 20, 0)); 
     }
     @SuppressWarnings("unchecked")
@@ -42,26 +46,31 @@ public class pnlPhim extends javax.swing.JLayeredPane {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(sp)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(100, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap(10, Short.MAX_VALUE)
                 .addComponent(scrollBarCustom1, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(100, Short.MAX_VALUE))
+                .addContainerGap(10, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(sp, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
+                .addComponent(sp, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(scrollBarCustom1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0))
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
     public void addImage(Movie_model movieModel){
-        pnlitemImage item= new pnlitemImage();
-        item.setData(movieModel);
+        pnlitemImage item= new pnlitemImage(movieModel);
         panel.add(item);
         panel.repaint();
         panel.revalidate();
+    }
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        g.setColor(new Color(255,255,255,128)); // Màu xanh dương với độ trong suốt 50%
+        g.fillRect(0, 0, getWidth(), getHeight());
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

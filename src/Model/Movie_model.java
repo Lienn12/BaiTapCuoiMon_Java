@@ -31,11 +31,14 @@ public class Movie_model {
         this.coverImage = coverImage;
     }
 
-    public Movie_model(String title, byte[] coverImage){
+    public Movie_model(String title, float rating, String description, byte[] coverImage) {
         this.title = title;
-         this.coverImage = coverImage;
+        this.rating = rating;
+        this.description = description;
+        this.coverImage = coverImage;
     }
 
+    
     public Movie_model(String title, int releaseYear, Genres genre, Formats format, Countries country, String director, String cast, float rating, String description, int episodes, byte[] coverImage) {
         this.title = title;
         this.releaseYear = releaseYear;
