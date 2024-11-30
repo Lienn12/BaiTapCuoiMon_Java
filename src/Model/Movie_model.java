@@ -19,10 +19,14 @@ public class Movie_model {
     private float rating;
     private String description;
     private int episodes;
-    private byte[] coverImage; // Thêm thuộc tính để lưu trữ ảnh
-
+    private byte[] coverImage; 
+    private String vidpath;
 
     public Movie_model() {
+    }
+
+    public Movie_model(String vidpath) {
+        this.vidpath = vidpath;
     }
 
     public Movie_model(String title, float rating, byte[] coverImage) {
@@ -39,7 +43,7 @@ public class Movie_model {
     }
 
     
-    public Movie_model(String title, int releaseYear, Genres genre, Formats format, Countries country, String director, String cast, float rating, String description, int episodes, byte[] coverImage) {
+    public Movie_model(String title, int releaseYear, Genres genre, Formats format, Countries country, String director, String cast, float rating, String description, int episodes, byte[] coverImage, String vidpath) {
         this.title = title;
         this.releaseYear = releaseYear;
         this.genre = genre;
@@ -51,9 +55,10 @@ public class Movie_model {
         this.description = description;
         this.episodes = episodes;
         this.coverImage = coverImage;
+        this.vidpath = vidpath;
     }
     
-    public Movie_model(int movieID, String title, int releaseYear, Genres genre, Formats format, Countries country, String director, String cast, float rating, String description, int episodes, byte[] coverImage) {
+    public Movie_model(int movieID, String title, int releaseYear, Genres genre, Formats format, Countries country, String director, String cast, float rating, String description, int episodes, byte[] coverImage,String vidpath) {
         this.movieID = movieID;
         this.title = title;
         this.releaseYear = releaseYear;
@@ -66,6 +71,7 @@ public class Movie_model {
         this.description = description;
         this.episodes = episodes;
         this.coverImage = coverImage;
+        this.vidpath = vidpath;
     }
     
 
@@ -169,6 +175,14 @@ public class Movie_model {
 
     public void setImg(byte[] coverImage) {
         this.coverImage = coverImage;
+    }
+
+    public String getVidpath() {
+        return vidpath;
+    }
+
+    public void setVidpath(String vidpath) {
+        this.vidpath = vidpath;
     }
 
 }

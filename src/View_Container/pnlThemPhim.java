@@ -43,6 +43,7 @@ public final class pnlThemPhim extends javax.swing.JPanel {
     private final Formats format = new Formats();
     private frmMain menu;
     private File selectedFile;
+    private String selectedVidPath;
     private final pnlDSPhim pnlDSPhim ;
     private PnlTrangChu pnlTrangChu ;
     private final Movie_controller movie_controller=new Movie_controller();
@@ -215,6 +216,8 @@ public final class pnlThemPhim extends javax.swing.JPanel {
         cbQuocGia = new Combobox.ComboboxSuggestion<>();
         btnUpload = new cell.PanelBorder();
         lbUpload = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
+        lblUpVid = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(107, 153, 198));
 
@@ -606,6 +609,36 @@ public final class pnlThemPhim extends javax.swing.JPanel {
             .addComponent(lbUpload, javax.swing.GroupLayout.DEFAULT_SIZE, 46, Short.MAX_VALUE)
         );
 
+        jPanel1.setBackground(new java.awt.Color(102, 187, 255));
+        jPanel1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 255, 255), 1, true));
+
+        lblUpVid.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lblUpVid.setForeground(new java.awt.Color(255, 255, 255));
+        lblUpVid.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblUpVid.setText("Up Video");
+        lblUpVid.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblUpVidMouseClicked(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lblUpVid, javax.swing.GroupLayout.DEFAULT_SIZE, 167, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lblUpVid, javax.swing.GroupLayout.DEFAULT_SIZE, 59, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -625,7 +658,11 @@ public final class pnlThemPhim extends javax.swing.JPanel {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnUpload, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(95, 95, 95))))
+                        .addGap(95, 95, 95))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(79, 79, 79))))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -645,7 +682,9 @@ public final class pnlThemPhim extends javax.swing.JPanel {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(panelBorder2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(39, 39, 39)
-                        .addComponent(btnUpload, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(btnUpload, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(panelBorder3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -706,11 +745,11 @@ public final class pnlThemPhim extends javax.swing.JPanel {
             return;
         }
         String descrip = txtMota.getText();
-        if (name.isEmpty() || year<=0 || director.isEmpty() || cast.isEmpty() || genre==null ||country==null||tap<0|| descrip.isEmpty() || selectedFile == null) {
+        if (name.isEmpty() || year<=0 || director.isEmpty() || cast.isEmpty() || genre==null ||country==null||tap<0|| descrip.isEmpty() || selectedFile == null || selectedVidPath.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Vui lòng điền thông tin đầy đủ!");
             return;
         }
-        movie_controller.saveInfo(name,year,director,cast,genreId,formatId,countryId,tap,descrip,selectedFile);
+        movie_controller.saveInfo(name,year,director,cast,genreId,formatId,countryId,tap,descrip,selectedFile,selectedVidPath);
         JOptionPane.showMessageDialog(menu, "Đã thêm thành công");
        
         setNull();
@@ -747,6 +786,25 @@ public final class pnlThemPhim extends javax.swing.JPanel {
         btnUpload.setBackground(new Color(51, 102, 153));
     }//GEN-LAST:event_btnUploadMouseExited
 
+    private void lblUpVidMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblUpVidMouseClicked
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("Chọn tệp video");
+        fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        // Thiết lập bộ lọc chỉ cho phép chọn tệp video
+        fileChooser.setFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("Video Files", "mp4", "avi", "mkv", "flv"));
+        // Hiển thị hộp thoại chọn tệp
+        int result = fileChooser.showOpenDialog(menu);
+        if (result == JFileChooser.APPROVE_OPTION) {
+            File selectedFileVideo = fileChooser.getSelectedFile();
+            selectedVidPath = selectedFileVideo.getAbsolutePath();
+            lblUpVid.setText("Đã chọn!");
+            System.out.println("Video da chon: " + selectedVidPath);
+        }else {
+            // Không chọn file
+            System.out.println("Không có tệp nào được chọn.");
+        }
+    }//GEN-LAST:event_lblUpVidMouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancel;
@@ -765,6 +823,7 @@ public final class pnlThemPhim extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel13;
     private javax.swing.JPanel jPanel15;
@@ -777,6 +836,7 @@ public final class pnlThemPhim extends javax.swing.JPanel {
     private javax.swing.JLabel lbBack;
     private javax.swing.JLabel lbUpload;
     private javax.swing.JLabel lblImage;
+    private javax.swing.JLabel lblUpVid;
     private cell.PanelBorder panelBorder2;
     private cell.PanelBorder panelBorder3;
     private javax.swing.JTextField txtDaodien;

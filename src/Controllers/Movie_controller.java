@@ -39,7 +39,7 @@ public class Movie_controller {
         rs.close();
         return dsMovie;
     }
-    public void saveInfo(String name,int year,String director,String cast,int genreID,int formatID,int countryID,int episode,String descrip ,File imageFile) {
+    public void saveInfo(String name,int year,String director,String cast,int genreID,int formatID,int countryID,int episode,String descrip ,File imageFile, String vidpath) {
         try (FileInputStream fis = new FileInputStream(imageFile);
             ByteArrayOutputStream bos = new ByteArrayOutputStream()) {
             byte[] buffer = new byte[1024];
@@ -48,8 +48,8 @@ public class Movie_controller {
                 bos.write(buffer, 0, bytesRead);
             }
             byte[] imageBytes = bos.toByteArray();
-            String sql = "INSERT INTO MOVIES (TITLE,RELEASE_YEAR,DIRECTOR,CAST,GENRE_ID,FORMAT_ID,COUNTRY_ID,EPISODE,DESCRIPTION,COVER_IMAGE) "
-                        + "VALUES (?,?,?,?,?,?,?,?,?,?)";
+            String sql = "INSERT INTO MOVIES (TITLE,RELEASE_YEAR,DIRECTOR,CAST,GENRE_ID,FORMAT_ID,COUNTRY_ID,EPISODE,DESCRIPTION,COVER_IMAGE,TRAILER) "
+                        + "VALUES (?,?,?,?,?,?,?,?,?,?,?)";
             pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, name);
             pstmt.setInt(2, year);
@@ -61,8 +61,9 @@ public class Movie_controller {
             pstmt.setInt(8, episode);
             pstmt.setString(9, descrip);
             pstmt.setBytes(10, imageBytes);
+            pstmt.setString(11, vidpath);
             pstmt.executeUpdate();
-            System.out.println("Lưu thông tin thành công vào cơ sở dữ liệu!");
+            System.out.println("Saved to SQL successfully!");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -136,11 +137,12 @@ public class Movie_controller {
                 String movieCountry=rs.getString("country_name"); 
                 float rating=rs.getFloat("rating");
         }
+        return null;
     }
     
     public Movie_model getMovieById(int movieID) throws SQLException{
         String query = """
-                       SELECT MOVIE_ID, TITLE, RELEASE_YEAR, GENRE_NAME, COUNTRY_NAME, FORMAT_NAME, DIRECTOR, CAST, RATING, DESCRIPTION, EPISODE, COVER_IMAGE 
+                       SELECT MOVIE_ID, TITLE, RELEASE_YEAR, GENRE_NAME, COUNTRY_NAME, FORMAT_NAME, DIRECTOR, CAST, RATING, DESCRIPTION, EPISODE, COVER_IMAGE, TRAILER 
                        FROM MOVIES, COUNTRIES, GENRES,FORMATS
                        WHERE MOVIES.COUNTRY_ID = COUNTRIES.COUNTRY_ID
                          AND MOVIES.GENRE_ID = GENRES.GENRE_ID
@@ -152,18 +154,19 @@ public class Movie_controller {
             prst.setInt(1, movieID);
             ResultSet rs = prst.executeQuery();
             if (rs.next()) {
-                    String name= rs.getString("title");
-                    int  year=rs.getInt("release_year");
-                    String genre=rs.getString("genre_name");
-                    String format=rs.getString("format_name");
-                    String country=rs.getString("country_name");
-                    String director=rs.getString("director");
-                    String cast= rs.getString("cast");
-                    float rating=rs.getFloat("rating");
-                    String des=rs.getString("description");
-                    int episode=rs.getInt("episode");
-                    byte[] img=rs.getBytes("cover_image");
-                return new Movie_model(movieID,name,year,new Genres(0,genre),new Formats(0,format),new Countries(0,country),director,cast,rating,des,episode,img);
+                String name= rs.getString("title");
+                int  year=rs.getInt("release_year");
+                String genre=rs.getString("genre_name");
+                String format=rs.getString("format_name");
+                String country=rs.getString("country_name");
+                String director=rs.getString("director");
+                String cast= rs.getString("cast");
+                float rating=rs.getFloat("rating");
+                String des=rs.getString("description");
+                int episode=rs.getInt("episode");
+                byte[] img=rs.getBytes("cover_image");
+                String vidpath=rs.getString("trailer");
+                return new Movie_model(movieID,name,year,new Genres(0,genre),new Formats(0,format),new Countries(0,country),director,cast,rating,des,episode,img,vidpath);
              } else {
             System.out.println("Movie not found for movieID: " + movieID);
         }

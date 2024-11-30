@@ -2,7 +2,7 @@ package View_Container;
 import Model.Movie_model;
 import java.awt.Image;
 import java.io.ByteArrayInputStream;
-import View_Main.frmMain;
+import View_Main.frmMainUser;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GradientPaint;
@@ -18,10 +18,10 @@ import javax.swing.JPanel;
 import uk.co.caprica.vlcj.player.base.MediaPlayer;
 import uk.co.caprica.vlcj.player.component.EmbeddedMediaPlayerComponent;
 
-public class pnlChiTietFilm extends javax.swing.JPanel {
-    private  frmMain menu;
+public class pnlChiTietFilmUser extends javax.swing.JPanel {
+    private  frmMainUser menu;
     private  String filmName , vidPath;
-    public pnlChiTietFilm(frmMain menu) {
+    public pnlChiTietFilmUser(frmMainUser menu) {
         this.menu = menu;
         initComponents();
         this.setMovieDetails(new Movie_model());
@@ -65,7 +65,7 @@ public class pnlChiTietFilm extends javax.swing.JPanel {
         jPanel3 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
         pnlPlay = new cell.PanelBorder();
-        btnTrailer = new javax.swing.JLabel();
+        jLabel14 = new javax.swing.JLabel();
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(5, 38, 89));
@@ -172,11 +172,11 @@ public class pnlChiTietFilm extends javax.swing.JPanel {
 
         pnlPlay.setBackground(new java.awt.Color(125, 160, 202));
 
-        btnTrailer.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        btnTrailer.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/play.png"))); // NOI18N
-        btnTrailer.addMouseListener(new java.awt.event.MouseAdapter() {
+        jLabel14.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel14.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/play.png"))); // NOI18N
+        jLabel14.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnTrailerMouseClicked(evt);
+                jLabel14MouseClicked(evt);
             }
         });
 
@@ -186,14 +186,14 @@ public class pnlChiTietFilm extends javax.swing.JPanel {
             pnlPlayLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlPlayLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(btnTrailer, javax.swing.GroupLayout.DEFAULT_SIZE, 237, Short.MAX_VALUE)
+                .addComponent(jLabel14, javax.swing.GroupLayout.DEFAULT_SIZE, 237, Short.MAX_VALUE)
                 .addContainerGap())
         );
         pnlPlayLayout.setVerticalGroup(
             pnlPlayLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlPlayLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(btnTrailer, javax.swing.GroupLayout.DEFAULT_SIZE, 65, Short.MAX_VALUE)
+                .addComponent(jLabel14, javax.swing.GroupLayout.DEFAULT_SIZE, 65, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -312,21 +312,21 @@ public class pnlChiTietFilm extends javax.swing.JPanel {
         menu.showPanel("danh sach phim");
     }//GEN-LAST:event_lbBackMouseClicked
 
-    private void btnTrailerMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnTrailerMouseClicked
+    private void jLabel14MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel14MouseClicked
         String videoPath = vidPath;
         if (videoPath == null || videoPath.isEmpty()) {
             JOptionPane.showMessageDialog(null, "Không tìm thấy đường dẫn video!");
             return;
         }
         playVideoWithVLC(videoPath); // Gọi hàm để phát video
-    }//GEN-LAST:event_btnTrailerMouseClicked
+    }//GEN-LAST:event_jLabel14MouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel btnTrailer;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel2;
@@ -353,10 +353,10 @@ public class pnlChiTietFilm extends javax.swing.JPanel {
             lblYear.setText(String.valueOf(movie.getReleaseYear())); 
             lblName.setText(movie.getTitle()); 
             if (movie.getGenre() != null) {
-            lblTheLoai.setText(movie.getGenre().getGenreName());
-        } else {
-            lblTheLoai.setText("Không có thể loại");
-        }
+                lblTheLoai.setText(movie.getGenre().getGenreName());
+            } else {
+                lblTheLoai.setText("Không có thể loại");
+            }
             lblMota.setText(movie.getDescription());
             lblCast.setText(movie.getCast());
             if (movie.getCountry() != null) {
@@ -383,15 +383,17 @@ public class pnlChiTietFilm extends javax.swing.JPanel {
             filmName = movie.getTitle();
         }
     }
-    
     public void playVideoWithVLC(String videoPath) {
+        // Sử dụng VLCJ để phát video
         // Kiểm tra nếu thư viện VLC đã được cài đặt
         System.setProperty("jna.library.path", "C:/Program Files/VideoLAN/VLC"); // Đảm bảo đúng đường dẫn tới thư viện VLC
+
         // Tạo JFrame cho giao diện
         JFrame frame = new JFrame(filmName);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setSize(800, 600);
         frame.setLayout(new BorderLayout());
+
         // Tạo thành phần phát video VLCJ
         EmbeddedMediaPlayerComponent mediaPlayerComponent = new EmbeddedMediaPlayerComponent();
         frame.add(mediaPlayerComponent, BorderLayout.CENTER);
@@ -399,10 +401,12 @@ public class pnlChiTietFilm extends javax.swing.JPanel {
         JButton playButton = new JButton("PLAY");
         // Tạo JButton để tạm dừng video
         JButton pauseButton = new JButton("PAUSE");
+
         // Tạo JPanel để chứa các nút
         JPanel buttonPanel = new JPanel();
         buttonPanel.add(playButton);
         buttonPanel.add(pauseButton);
+
         // Thêm JPanel chứa các nút vào JFrame
         frame.add(buttonPanel, BorderLayout.SOUTH);
         // Hiển thị JFrame
