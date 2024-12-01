@@ -10,4 +10,5 @@ package cell;
  */
 public interface tblActionUser_DSPhim {
     public void onView(int row);
+    public void onRemove(int row);
 }

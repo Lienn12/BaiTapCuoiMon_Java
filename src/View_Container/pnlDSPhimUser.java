@@ -53,7 +53,22 @@ public final class pnlDSPhimUser extends javax.swing.JPanel {
                     System.out.println("Không có phim nào được chọn!");
                 }
             }
-
+            @Override
+            public void onRemove(int row) {
+                int movieId= Integer.parseInt(table.getModel().getValueAt(row, 0).toString());
+                if(table.isEditing()){
+                    table.getCellEditor().stopCellEditing();
+                }
+                if(JOptionPane.showConfirmDialog(null,"Bạn có chắc chắn muốn xóa phim này không??","Thong bao",2)==0){
+                    try {
+                        movieController.DeleteFilm(movieId);
+                    } catch (SQLException ex) {
+                        Logger.getLogger(pnlDSPhim.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    tableModel.removeRow(row);
+                }
+                
+            }
         };
         table.getColumnModel().getColumn(3).setCellRenderer(new tableActUser_DSPhim());
         table.getColumnModel().getColumn(3).setCellEditor(new tblActionCellEditorUser_DSPhim(event));
