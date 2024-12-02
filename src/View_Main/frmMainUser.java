@@ -12,7 +12,7 @@ import View_Container_User.PnlTrangChuUser;
 import View_Container_User.PnlChiTietFilmUser;
 import View_Container_User.PnlFavorite;
 import View_Main.Frm_Login_Signup;
-//import View_Container_Admin.pnlDSPhimUser;
+import View_Container_User.pnlCaNhan;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -32,7 +32,7 @@ public final class frmMainUser extends javax.swing.JFrame {
     private PnlTrangChuUser pnlTrangchu;
     private PnlFavorite pnlFavorite; 
     private PnlChiTietFilmUser pnlChiTietFilmUser;
-
+    private pnlCaNhan pnlcanhan;
     public frmMainUser()  {
         initComponents();
         setLocationRelativeTo(null);
@@ -60,12 +60,13 @@ public final class frmMainUser extends javax.swing.JFrame {
             pnlTrangchu = new PnlTrangChuUser(this);
             pnlFavorite= new PnlFavorite(this);
             pnlChiTietFilmUser = new PnlChiTietFilmUser(this,pnlTrangchu);
-            
+            pnlcanhan = new pnlCaNhan(this);
             spTrangChu = createScrollPane(pnlTrangchu);
             spchitiet = createScrollPane(pnlChiTietFilmUser);
             pnlContainer.add(spTrangChu,"trang chu");
             pnlContainer.add(pnlFavorite,"danh sach yeu thich");
             pnlContainer.add(spchitiet,"chi tiet phim");
+            pnlContainer.add(pnlcanhan,"ca nhan");
             cardLayout.show(pnlContainer, "trang chu");
             setColor(btnTrangChu);
         }
@@ -80,6 +81,9 @@ public final class frmMainUser extends javax.swing.JFrame {
     }
     public  PnlChiTietFilmUser getPanel(){
         return pnlChiTietFilmUser;
+    }
+    public pnlCaNhan getpnlCaNhan(){
+        return pnlcanhan;
     }
     public void showMovieDetail(Movie_model movie) {
         pnlChiTietFilmUser.showMovie(movie.getMovieID());
@@ -107,7 +111,7 @@ public final class frmMainUser extends javax.swing.JFrame {
         btnCaNhan.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                showPanel("yeu thich");
+                showPanel("ca nhan");
                 setColor(btnCaNhan);
             }
         });
@@ -192,7 +196,7 @@ public final class frmMainUser extends javax.swing.JFrame {
                 .addComponent(jLabel7)
                 .addGap(30, 30, 30)
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(18, Short.MAX_VALUE))
+                .addContainerGap(54, Short.MAX_VALUE))
         );
         btnTrangChuLayout.setVerticalGroup(
             btnTrangChuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -215,7 +219,6 @@ public final class frmMainUser extends javax.swing.JFrame {
         jLabel3.setText("Yêu thích");
 
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/favorite.png"))); // NOI18N
 
         javax.swing.GroupLayout btnDSYeuThichLayout = new javax.swing.GroupLayout(btnDSYeuThich);
         btnDSYeuThich.setLayout(btnDSYeuThichLayout);
@@ -225,12 +228,12 @@ public final class frmMainUser extends javax.swing.JFrame {
                 .addGap(30, 30, 30)
                 .addComponent(jLabel4)
                 .addGap(30, 30, 30)
-                .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 138, Short.MAX_VALUE)
+                .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 202, Short.MAX_VALUE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         btnDSYeuThichLayout.setVerticalGroup(
             btnDSYeuThichLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
+            .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, 44, Short.MAX_VALUE)
             .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
@@ -249,7 +252,6 @@ public final class frmMainUser extends javax.swing.JFrame {
         jLabel5.setText("Thông tin cá nhân");
 
         jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/personal.png"))); // NOI18N
 
         javax.swing.GroupLayout btnCaNhanLayout = new javax.swing.GroupLayout(btnCaNhan);
         btnCaNhan.setLayout(btnCaNhanLayout);
@@ -260,7 +262,7 @@ public final class frmMainUser extends javax.swing.JFrame {
                 .addComponent(jLabel8)
                 .addGap(30, 30, 30)
                 .addComponent(jLabel5)
-                .addContainerGap(28, Short.MAX_VALUE))
+                .addContainerGap(92, Short.MAX_VALUE))
         );
         btnCaNhanLayout.setVerticalGroup(
             btnCaNhanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -306,7 +308,7 @@ public final class frmMainUser extends javax.swing.JFrame {
         pnlMenu.setLayout(pnlMenuLayout);
         pnlMenuLayout.setHorizontalGroup(
             pnlMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(btnDSYeuThich, javax.swing.GroupLayout.DEFAULT_SIZE, 272, Short.MAX_VALUE)
+            .addComponent(btnDSYeuThich, javax.swing.GroupLayout.DEFAULT_SIZE, 276, Short.MAX_VALUE)
             .addComponent(btnLogout, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(btnTrangChu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(btnCaNhan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)

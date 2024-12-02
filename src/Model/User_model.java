@@ -51,6 +51,7 @@ public class User_model {
         this.email = email;
         this.password = password;
     }
+    
     public int getUserID() {
         return userID;
     }

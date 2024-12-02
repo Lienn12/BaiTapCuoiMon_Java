@@ -62,6 +62,10 @@ public class User_controller {
        //chọn phương thực thi phù hợp với truy vấn
        rs=prst.executeQuery();
        boolean exist=rs.next();
+       if(exist){
+           int userid = rs.getInt("user_id");
+           userModel.setUserID(userid);
+       }
        rs.close();
        prst.close();
        return exist;
@@ -236,5 +240,20 @@ public class User_controller {
         int row=prst.executeUpdate();
         prst.close();
         return row>0;
+    }
+    
+    public User_model getInfo(int userid) throws  SQLException{
+        String sql = "SELECT USER_ID, USERNAME, GENDERNAME, BIRTH,EMAIL FROM USERS, GENDERS WHERE USERS.GENDERID=GENDERS.GENDERID AND USER_ID=?";
+        prst = conn.prepareStatement(sql);
+        prst.setInt(1, userid);
+        rs = prst.executeQuery();
+        if(rs.next()){
+            User_model userInfo = new User_model();
+            userInfo.setUserID(rs.getInt("USER_ID"));
+            userInfo.setUsername(rs.getString("USERNAME"));
+            userInfo.setUsername(rs.getString("FULL_NAME"));
+            userInfo.setEmail(rs.getString("EMAIL"));
+        }
+        return null;
     }
 }

@@ -11,6 +11,7 @@ import View_Main.Frm_Login_Signup;
 import Controllers.User_controller;
 import Model.Admin_model;
 import Model.User_model;
+import View_Container_User.pnlCaNhan;
 import View_Main.frmMain;
 import View_Main.frmMainUser;
 import java.awt.event.*;
@@ -288,6 +289,8 @@ public class PnlLogin extends javax.swing.JPanel {
                     JOptionPane.showMessageDialog(this,"Đăng nhập thành công");
                     frmMainUser.setVisible(true);
                     frmLoginSignup.dispose();
+                    pnlCaNhan pnlInfo = frmMainUser.getpnlCaNhan();
+                    pnlInfo.setInfo(userID);
                 }else 
                     if(adminController.CheckLoginAdmin(adminModel, password)){
                      JOptionPane.showMessageDialog(this,"Đăng nhập thành công");
