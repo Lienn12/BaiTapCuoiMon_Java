@@ -118,7 +118,7 @@ public final class frmMain extends javax.swing.JFrame {
                 spTrangChu.revalidate();
                 spTrangChu.repaint(); 
                 showPanel("trang chu");
-                
+                pnlTrangchu.showPanel("phim trang chu");
                 setColor(btnTrangChu);
             }
         });

@@ -4,11 +4,17 @@
  */
 package View_Container_User;
 
+import Model.Movie_model;
 import Model.Review_model;
+import View_Container_Admin.pnlChiTietFilm;
+import View_Main.frmMain;
+import View_Main.frmMainUser;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import javax.imageio.ImageIO;
@@ -16,18 +22,31 @@ import javax.swing.ImageIcon;
 
 
 public class ItemReviewUser extends javax.swing.JPanel {
+    private frmMainUser main;
+    private Movie_model movieModel;
     public Review_model getData(){
         return reviewModel;     
     }
     private Review_model reviewModel;
-    public ItemReviewUser(Review_model reviewModel) {
+    public ItemReviewUser(Movie_model movieModel,Review_model reviewModel,frmMainUser main) {
         this.reviewModel= reviewModel;
+        this.movieModel=movieModel;
+        this.main=main;
         initComponents();
         setOpaque(false);
         panel.setBackground(new Color(255,255,255,128));
         lbUser.setText(reviewModel.getUserModel().getUsername());
         lbstar.setText(String.valueOf(reviewModel.getRating()));
         txaCmt.setText(reviewModel.getComment());
+        
+        this.addMouseListener(new MouseAdapter(){
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                System.out.println("da an");
+                showMovieDetail();
+            }
+            
+        });
     }
     
     @Override
@@ -36,7 +55,11 @@ public class ItemReviewUser extends javax.swing.JPanel {
         g.setColor(new Color(255,255,255)); 
         g.fillRect(0, 0, getWidth(), getHeight());
     }
-
+    private void showMovieDetail() {
+           PnlChiTietFilmUser pnlCT = main.getPanel();
+           pnlCT.showPanel("phim trang chu");
+           main.showMovieDetail(movieModel); 
+    }
     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents

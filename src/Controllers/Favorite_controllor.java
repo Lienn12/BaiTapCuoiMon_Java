@@ -44,13 +44,24 @@ public class Favorite_controllor {
             throw new SQLException("Không tìm thấy MOVIE_ID cho FAVORITE_ID = " + favoriteID);
         }
     }
-    public boolean insertFavorite (Favorites favorite) throws SQLException{
-        String sql="INSERT INTO FAVORITE (USER_ID, MOVIE_ID) VALUES (?, ?)";
+    public boolean insertFavorite (int movieId) throws SQLException{
+        String sql="INSERT INTO FAVORITES (MOVIE_ID) VALUES (?)";
         pstmt= conn.prepareStatement(sql);
-        pstmt.setInt(1, favorite.getUser().getUserID());
-        pstmt.setInt(2,favorite.getMovie().getMovieID());
+//        pstmt.setInt(1, userId);
+        pstmt.setInt(1, movieId);
         int row= pstmt.executeUpdate();
         pstmt.close();
         return row>0;
+    }
+    public boolean checkMovie(int movieId) throws SQLException{
+        String sql="SELECT FAVORITE_ID FROM FAVORITES WHERE MOVIE_ID= ?";
+        pstmt=conn.prepareStatement(sql);
+        pstmt.setInt(1, movieId);
+        rs= pstmt.executeQuery();
+        if(rs.next())
+            return true;
+        rs.close();
+        pstmt.close();
+        return false;
     }
 }

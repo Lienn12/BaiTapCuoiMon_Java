@@ -159,6 +159,7 @@ public class Review_controller {
     }
     
     public List<Review_model> getReviewUser(int movieId) throws SQLException{
+        System.out.println("Fetching reviews for movieId: " + movieId);
         List<Review_model> dsReviewUser=  new ArrayList<Review_model>();
         String sql="""
                    SELECT USERNAME ,MOVIES.MOVIE_ID,REVIEWS.RATING,COMMENT 

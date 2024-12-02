@@ -98,11 +98,13 @@ public class PnlitemImageUser extends javax.swing.JPanel {
             }
             @Override
             public void mouseClicked(MouseEvent e) {
-                    showMovieDetail();
+                showMovieDetail();
             }
         });
     }
     private void showMovieDetail() {
+        PnlChiTietFilmUser pnlCT = main.getPanel();
+        pnlCT.showPanel("back phim trang chu");
         main.showMovieDetail(movieModel); 
     }
     public void init(){

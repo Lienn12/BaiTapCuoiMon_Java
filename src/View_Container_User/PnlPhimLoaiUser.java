@@ -45,9 +45,10 @@ public class PnlPhimLoaiUser extends javax.swing.JPanel {
     private final Genre_controller genreController= new Genre_controller();
     private final Format_controller formatController = new Format_controller();
      private DefaultComboBoxModel<Object> cbmodel;
-    public PnlPhimLoaiUser(PnlTrangChuUser pnlTrangChu,Movie_model movieModel) {
+    public PnlPhimLoaiUser(PnlTrangChuUser pnlTrangChu,Movie_model movieModel,frmMainUser main) {
         this.pnlTrangChu=pnlTrangChu;
         this.movieModel=movieModel;
+        this.main=main;
         initComponents();
         loadData();
         panel.setLayout(new WrapLayout(WrapLayout.LEADING));

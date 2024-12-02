@@ -6,6 +6,7 @@
 package View_Main;
 
 import Model.Movie_model;
+import Model.Review_model;
 import Scrollbar.ScrollBarCustom;
 import View_Container_User.PnlTrangChuUser;
 import View_Container_User.PnlChiTietFilmUser;
@@ -58,17 +59,15 @@ public final class frmMainUser extends javax.swing.JFrame {
             
             pnlTrangchu = new PnlTrangChuUser(this);
             pnlFavorite= new PnlFavorite(this);
-            pnlChiTietFilmUser = new PnlChiTietFilmUser(this);
+            pnlChiTietFilmUser = new PnlChiTietFilmUser(this,pnlTrangchu);
             
             spTrangChu = createScrollPane(pnlTrangchu);
             spchitiet = createScrollPane(pnlChiTietFilmUser);
             pnlContainer.add(spTrangChu,"trang chu");
             pnlContainer.add(pnlFavorite,"danh sach yeu thich");
             pnlContainer.add(spchitiet,"chi tiet phim");
-
             cardLayout.show(pnlContainer, "trang chu");
             setColor(btnTrangChu);
-
         }
     
     private JScrollPane createScrollPane(JPanel panel) {
@@ -86,11 +85,13 @@ public final class frmMainUser extends javax.swing.JFrame {
         pnlChiTietFilmUser.showMovie(movie.getMovieID());
         cardLayout.show(pnlContainer, "chi tiet phim");
     }
+
     private void addMenuListeners() {
         btnTrangChu.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 showPanel("trang chu");
+                pnlTrangchu.showPanel("phim trang chu");
                 setColor(btnTrangChu);
             }
         });

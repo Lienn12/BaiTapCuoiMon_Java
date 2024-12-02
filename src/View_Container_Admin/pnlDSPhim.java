@@ -257,6 +257,7 @@ public final class pnlDSPhim extends javax.swing.JPanel {
             System.out.println("showMovie: movieID " + movie);
             if(movie != null) {
                 pnlChiTietFilm pnlCT = menu.getPanel();
+                pnlCT.showPanel("back danh sach phim");
                 pnlCT.setMovieDetails(movie);
                 menu.showPanel("chi tiet phim");
             } else {
