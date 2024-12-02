@@ -21,7 +21,13 @@ public class User_model {
         
     public User_model() {
     }
-
+    
+    public User_model(String username) {
+       this.username=username;
+    }
+    public User_model(int userID) {
+       this.userID=userID;
+    }
     public User_model(int userID, String username, String email, String gender, Date birth, String password, String verifyCode) {
         this.userID = userID;
         this.username = username;

@@ -15,7 +15,12 @@ public class Review_model {
 
     public Review_model() {
     }
-
+    public Review_model(int rating, String comment, int movieId,int userID) {
+        this.userModel = new User_model(userID);
+        this.movieModel = new Movie_model(movieId); 
+        this.comment = comment;
+        this.rating = rating;
+    }
     public Review_model(int reviewID, Movie_model movieModel, User_model userModel, int rating, String comment, Timestamp reviewDate) {
         this.reviewID = reviewID;
         this.movieModel = movieModel;
@@ -40,6 +45,13 @@ public class Review_model {
         this.rating= rating;
         this.reply= reply;
     }
+    public Review_model(String username, int rating, String comment, int movieId) {
+        this.userModel = new User_model(username);
+        this.movieModel = new Movie_model(movieId); 
+        this.comment = comment;
+        this.rating = rating;
+    }
+
     public Review_model(ResultSet rs) throws SQLException {
         this.reviewID = rs.getInt("review_ID");
         String title = rs.getString("TITLE");
@@ -105,6 +117,12 @@ public class Review_model {
     public void setReply(String reply) {
         this.reply = reply;
     }
-     
+      @Override
+    public String toString() {
+        return "Review_model{" +
+                "rating=" + rating +
+                ", comment='" + comment + '\'' +
+                '}';
+    }
 
 }

@@ -28,21 +28,24 @@ public class Movie_model {
     public Movie_model(String vidpath) {
         this.vidpath = vidpath;
     }
-
-    public Movie_model(String title, float rating, byte[] coverImage) {
+    public Movie_model(int movieID){
+        this.movieID =movieID;
+    }
+    public Movie_model(int movieID,String title, float rating, byte[] coverImage) {
+         this.movieID=movieID;
         this.title = title;
         this.rating = rating;
         this.coverImage = coverImage;
     }
 
-    public Movie_model(String title, float rating, String description, byte[] coverImage) {
+    public Movie_model(int movieID,String title, float rating, String description, byte[] coverImage) {
+        this.movieID=movieID;
         this.title = title;
         this.rating = rating;
         this.description = description;
         this.coverImage = coverImage;
     }
-
-    
+   
     public Movie_model(String title, int releaseYear, Genres genre, Formats format, Countries country, String director, String cast, float rating, String description, int episodes, byte[] coverImage, String vidpath) {
         this.title = title;
         this.releaseYear = releaseYear;

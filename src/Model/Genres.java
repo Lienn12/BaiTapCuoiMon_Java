@@ -7,9 +7,6 @@ public class Genres {
     public Genres() {
     }
 
-    public Genres(String genreName) {
-        this.genreName = genreName;
-    }
     
     public Genres(int genreId, String genreName) {
         this.genreId = genreId;

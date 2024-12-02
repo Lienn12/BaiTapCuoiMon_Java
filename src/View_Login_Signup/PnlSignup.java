@@ -2,9 +2,11 @@
 package View_Login_Signup;
 
 import Controllers.Admin_controller;
+import Controllers.Email_controller;
 import View_Main.Frm_Login_Signup;
 import Controllers.User_controller;
 import Model.Admin_model;
+import Model.Message_model;
 import Model.User_model;
 import java.awt.event.*;
 import java.security.MessageDigest;
@@ -374,7 +376,7 @@ public class PnlSignup extends javax.swing.JPanel {
         lberrorPass.setText("");
         lberrorConfirm.setText("");
     }
-    
+
     //đăng ký 
     private void btnSignupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSignupActionPerformed
         try{

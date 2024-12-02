@@ -3,6 +3,7 @@ package Controllers;
 
 
 
+import Model.Movie_model;
 import Model.Review_model;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -155,5 +156,29 @@ public class Review_controller {
         int row= prst.executeUpdate();
         prst.close();
         return row>0;
+    }
+    
+    public List<Review_model> getReviewUser(int movieId) throws SQLException{
+        List<Review_model> dsReviewUser=  new ArrayList<Review_model>();
+        String sql="""
+                   SELECT USERNAME ,MOVIES.MOVIE_ID,REVIEWS.RATING,COMMENT 
+                   FROM MOVIES,USERS, REVIEWS 
+                   WHERE MOVIES.MOVIE_ID= REVIEWS.MOVIE_ID 
+                   	AND REVIEWS.USER_ID=USERS.USER_ID
+                   	AND MOVIES.MOVIE_ID =?
+                   """;
+        prst= conn.prepareStatement(sql);
+        prst.setInt(1, movieId);
+        rs=prst.executeQuery();
+        while(rs.next()){
+            String username= rs.getString("username");
+            int rating = rs.getInt("RATING");
+            String comment= rs.getString("comment");
+            Review_model reviewModel= new Review_model(username,rating,comment,movieId);
+            dsReviewUser.add(reviewModel);
+        }
+        prst.close();
+        rs.close();
+        return dsReviewUser;
     }
 }

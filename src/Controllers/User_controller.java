@@ -173,16 +173,22 @@ public class User_controller {
     }
     
     //gửi mã xác thực 
-    public boolean sendVerificationCode(User_model userModel) throws SQLException {
-        String verifyCode = generateVerifyCode(); 
-        userModel.setVerifyCode(verifyCode); 
-        Message_model ms = new Email_controller().sendEmail(userModel.getEmail(), verifyCode);
+    public boolean sendVerificationCode(User_model userModel) throws SQLException { 
+        Message_model ms = new Email_controller().sendEmail(userModel.getEmail(), userModel.getVerifyCode());
         if (ms.isSuccess()) {
             return true;
         }
         return false;
     }
-    
+    public boolean sendPassCode(User_model userModel) throws SQLException {
+        String verifyCode = generateVerifyCode(); 
+        userModel.setVerifyCode(verifyCode); 
+        Message_model ms = new Email_controller().sendEmail(userModel.getEmail(), userModel.getVerifyCode());
+        if (ms.isSuccess()) {
+            return true;
+        }
+        return false;
+    }
     
     public void ForgotPassword(User_model userModel) throws SQLException {
         prst = conn.prepareStatement("SELECT USER_ID FROM USERS WHERE EMAIL=? AND STATUS='VERIFIED'");

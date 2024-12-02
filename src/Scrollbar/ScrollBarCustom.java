@@ -17,6 +17,8 @@ public class ScrollBarCustom extends JScrollBar{
         setPreferredSize(new Dimension(8, 8));
         setForeground(new Color(240,240,240));
         setBackground(Color.WHITE);
+        setUnitIncrement(20); // Tăng tốc độ cuộn nhỏ
+        setBlockIncrement(100);
         originalColor = getForeground();
         addMouseListener(new MouseAdapter() {
             @Override

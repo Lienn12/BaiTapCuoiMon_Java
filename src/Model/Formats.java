@@ -7,10 +7,6 @@ public class Formats {
     public Formats() {
     }
 
-    public Formats(String formatName) {
-        this.formatName = formatName;
-    }
-    
     public Formats(int formatId, String formatName) {
         this.formatId = formatId;
         this.formatName = formatName;

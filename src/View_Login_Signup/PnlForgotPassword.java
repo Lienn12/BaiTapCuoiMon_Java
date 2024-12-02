@@ -208,7 +208,7 @@ public class PnlForgotPassword extends javax.swing.JPanel {
                 lberrorEmail.setText("Email không tồn tại");
             } else {
                 userController.ForgotPassword(userModel);
-                userController.sendVerificationCode(userModel); 
+                userController.sendPassCode(userModel); 
             }
         } catch (Exception ex) {
             Logger.getLogger(PnlForgotPassword.class.getName()).log(Level.SEVERE, "Lỗi: " + ex.getMessage());

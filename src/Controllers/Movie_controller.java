@@ -93,53 +93,96 @@ public class Movie_controller {
         }
     }
 
-    public List<Movie_model> searchMovies(String genre, String country, String format, String sort) throws SQLException {
+    public List<Movie_model> searchMovies(int genre, int country, int format, int sort) throws SQLException {
+        List<Movie_model> dsMovie=  new ArrayList<Movie_model>();
         StringBuilder  sql=new StringBuilder("""
-                   SELECT MOVIE_ID, TITLE, RELEASE_YEAR,RATING, GENRE_NAME, COUNTRY_NAME, FORMAT_NAME
+                   SELECT MOVIE_ID, TITLE, RELEASE_YEAR,RATING,COVER_IMAGE, DESCRIPTION
                    FROM MOVIES, COUNTRIES, GENRES,FORMATS
                    WHERE MOVIES.COUNTRY_ID = COUNTRIES.COUNTRY_ID
-                     AND MOVIES.GENRE_ID = GENRES.GENRE_ID
-                     AND MOVIES.FORMAT_ID = FORMATS.FORMAT_ID AND 1=1
+                    AND MOVIES.GENRE_ID = GENRES.GENRE_ID
+                    AND MOVIES.FORMAT_ID = FORMATS.FORMAT_ID 
+                    AND (GENRES.GENRE_ID = ? OR ? =  1)
+                    AND (COUNTRIES.COUNTRY_ID = ? OR ? =  1)
+                    AND (FORMATS.FORMAT_ID = ? OR ? = 1)
                    """);
-        if(!genre.equals("Tất cả")){
-            sql.append(" AND GENRE_NAME =?");
-        }           
-        if(!country.equals("Tất cả")){
-            sql.append(" AND COUNTRY_NAME =?");
-        }
-        if(!format.equals("Tất cả")){
-            sql.append(" AND FORMAT_NAME=?");
-        }
-        if(sort.equals("Tên phim (A-Z)")){
+        if(sort==1){
             sql.append(" ORDER BY title ASC");
-        }else if(sort.equals("Năm phát hành(mới nhất)")){
+        }else if(sort==2){
             sql.append(" ORDER BY RELEASE_YEAR DESC");
-        }else if(sort.equals("ĐÁNH GIÁ")){
+        }else if(sort==3){
             sql.append(" ORDER BY RATING DESC");
         }
         PreparedStatement prst = conn.prepareStatement(sql.toString());
-        int index =1;
-             if (!genre.equals("Tất cả")) {
-                prst.setString(index++, genre);
-            }
-            if (!country.equals("Tất cả")) {
-                prst.setString(index++, country);
-            }
-            if (!format.equals("Tất cả")) {
-                prst.setString(index++, format);
-            }
+        prst.setInt(1, genre);
+        prst.setInt(2, genre);
+        prst.setInt(3, country);
+        prst.setInt(4, country);
+        prst.setInt(5, format);
+        prst.setInt(6, format);
         ResultSet rs = prst.executeQuery();
         while(rs.next()){
-                String movieTitle= rs.getString("title");
-                int  moviYear=rs.getInt("release_year");
-                String movieGenre=rs.getString("genre_name");
-                String movieFormat=rs.getString("format_name");
-                String movieCountry=rs.getString("country_name"); 
-                float rating=rs.getFloat("rating");
+              int movieId= rs.getInt("MOVIE_ID");
+                String title= rs.getString("TITLE");
+                float rating =rs.getFloat("Rating");
+                byte[] img= rs.getBytes("COVER_IMAGE");
+                String des= rs.getString("DESCRIPTION");
+                Movie_model movie= new Movie_model(movieId,title,rating,des,img);
+                dsMovie.add(movie);
         }
-        return null;
+        prst.close();
+        rs.close();
+        return dsMovie;
     }
-    
+    public List<Movie_model> getMoviesByGenreID(int genreId) throws SQLException {
+        String sql = """
+                    SELECT MOVIE_ID,TITLE, RATING, COVER_IMAGE, DESCRIPTION
+                    FROM MOVIES, GENRES
+                    WHERE MOVIES.GENRE_ID = GENRES.GENRE_ID
+                    AND GENRES.GENRE_ID = ?
+                    """;
+        pstmt = conn.prepareStatement(sql);
+        pstmt.setInt(1, genreId);
+        rs = pstmt.executeQuery();
+        
+        List<Movie_model> movieList = new ArrayList<>();
+        
+        while (rs.next()) {
+            int movieId= rs.getInt("MOVIE_ID");
+            String title = rs.getString("TITLE");
+            float rating = rs.getFloat("RATING");
+            byte[] img = rs.getBytes("COVER_IMAGE");
+            String description = rs.getString("DESCRIPTION");
+            
+            Movie_model movie = new Movie_model(movieId,title, rating, description, img);
+            movieList.add(movie);
+        }       
+        return movieList;
+    }
+    public List<Movie_model> getMoviesByCountryID(int coutryId) throws SQLException {
+        String sql = """
+                    SELECT MOVIE_ID,TITLE, RATING, COVER_IMAGE, DESCRIPTION
+                    FROM MOVIES, COUNTRIES
+                    WHERE MOVIES.COUNTRY_ID = COUNTRIES.COUNTRY_ID
+                    AND COUNTRIES.COUNTRY_ID = ?
+                    """;
+        pstmt = conn.prepareStatement(sql);
+        pstmt.setInt(1, coutryId);
+        rs = pstmt.executeQuery();
+        
+        List<Movie_model> movieList = new ArrayList<>();
+        
+        while (rs.next()) {
+            int movieId= rs.getInt("MOVIE_ID");
+            String title = rs.getString("TITLE");
+            float rating = rs.getFloat("RATING");
+            byte[] img = rs.getBytes("COVER_IMAGE");
+            String description = rs.getString("DESCRIPTION");
+            
+            Movie_model movie = new Movie_model(movieId,title, rating, description, img);
+            movieList.add(movie);
+        }       
+        return movieList;
+    }
     public Movie_model getMovieById(int movieID) throws SQLException{
         String query = """
                        SELECT MOVIE_ID, TITLE, RELEASE_YEAR, GENRE_NAME, COUNTRY_NAME, FORMAT_NAME, DIRECTOR, CAST, RATING, DESCRIPTION, EPISODE, COVER_IMAGE, TRAILER 
@@ -198,15 +241,16 @@ public class Movie_controller {
     
     public List<Movie_model> getImage() throws SQLException{
         List<Movie_model> dsMovie=  new ArrayList<Movie_model>();
-        String sql="SELECT TITLE,RATING, COVER_IMAGE, DESCRIPTION FROM MOVIES";
+        String sql="SELECT MOVIE_ID,TITLE,RATING, COVER_IMAGE, DESCRIPTION FROM MOVIES";
         pstmt= conn.prepareStatement(sql);
         rs=pstmt.executeQuery();
         while(rs.next()){
+            int movieId= rs.getInt("MOVIE_ID");
             String title= rs.getString("TITLE");
             float rating =rs.getFloat("Rating");
             byte[] img= rs.getBytes("COVER_IMAGE");
             String des= rs.getString("DESCRIPTION");
-            Movie_model movie= new Movie_model(title,rating,des,img);
+            Movie_model movie= new Movie_model(movieId,title,rating,des,img);
             dsMovie.add(movie);
         }
         pstmt.close();
@@ -215,15 +259,16 @@ public class Movie_controller {
     }
     public List<Movie_model> getphimbo() throws SQLException{
         List<Movie_model> dsMovie=  new ArrayList<Movie_model>();
-        String sql="SELECT TITLE,RATING, COVER_IMAGE, DESCRIPTION FROM MOVIES WHERE GENRE_ID= 1";
+        String sql="SELECT MOVIE_ID,TITLE,RATING, COVER_IMAGE, DESCRIPTION FROM MOVIES WHERE GENRE_ID= 2";
         pstmt= conn.prepareStatement(sql);
         rs=pstmt.executeQuery();
         while(rs.next()){
+            int movieId= rs.getInt("MOVIE_ID");
             String title= rs.getString("TITLE");
             float rating =rs.getFloat("Rating");
             byte[] img= rs.getBytes("COVER_IMAGE");
             String des= rs.getString("DESCRIPTION");
-            Movie_model movie= new Movie_model(title,rating,des,img);
+            Movie_model movie= new Movie_model(movieId,title,rating,des,img);
             dsMovie.add(movie);
         }
         pstmt.close();
@@ -232,15 +277,16 @@ public class Movie_controller {
     }
     public List<Movie_model> getphimle() throws SQLException{
         List<Movie_model> dsMovie=  new ArrayList<Movie_model>();
-        String sql="SELECT TITLE,RATING, COVER_IMAGE, DESCRIPTION FROM MOVIES WHERE GENRE_ID= 2";
+        String sql="SELECT MOVIE_ID,TITLE,RATING, COVER_IMAGE, DESCRIPTION FROM MOVIES WHERE GENRE_ID= 3";
         pstmt= conn.prepareStatement(sql);
         rs=pstmt.executeQuery();
         while(rs.next()){
+            int movieId= rs.getInt("MOVIE_ID");
             String title= rs.getString("TITLE");
             float rating =rs.getFloat("Rating");
             byte[] img= rs.getBytes("COVER_IMAGE");
             String des= rs.getString("DESCRIPTION");
-            Movie_model movie= new Movie_model(title,rating,des,img);
+            Movie_model movie= new Movie_model(movieId,title,rating,des,img);
             dsMovie.add(movie);
         }
         pstmt.close();
@@ -249,14 +295,15 @@ public class Movie_controller {
     }
     public List<Movie_model> getReview() throws SQLException{
         List<Movie_model> dsMovie=  new ArrayList<Movie_model>();
-        String sql="SELECT TOP 5 TITLE,RATING,COVER_IMAGE FROM MOVIES ORDER BY RATING DESC";
+        String sql="SELECT TOP 5 MOVIE_ID,TITLE,RATING,COVER_IMAGE FROM MOVIES ORDER BY RATING DESC";
         pstmt= conn.prepareStatement(sql);
         rs=pstmt.executeQuery();
         while(rs.next()){
+            int movieId= rs.getInt("MOVIE_ID");
             String title= rs.getString("TITLE");
             float rating = rs.getFloat("RATING");
             byte[] img= rs.getBytes("COVER_IMAGE");
-            Movie_model movie= new Movie_model(title,rating,img);
+            Movie_model movie= new Movie_model(movieId,title,rating,img);
             dsMovie.add(movie);
         }
         System.out.println("getReview(): dsMovie: "+ dsMovie);
@@ -264,4 +311,6 @@ public class Movie_controller {
         rs.close();
         return dsMovie;
     }
+    
+    
 }

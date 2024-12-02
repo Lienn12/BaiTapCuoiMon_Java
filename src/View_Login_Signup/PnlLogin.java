@@ -11,6 +11,8 @@ import View_Main.Frm_Login_Signup;
 import Controllers.User_controller;
 import Model.Admin_model;
 import Model.User_model;
+import View_Main.frmMain;
+import View_Main.frmMainUser;
 import java.awt.event.*;
 import java.security.MessageDigest;
 import java.util.logging.Level;
@@ -24,7 +26,8 @@ import javax.swing.*;
 public class PnlLogin extends javax.swing.JPanel {
     private Frm_Login_Signup frmLoginSignup;
     private User_controller userController;
-//    private FrmTrangchu frmTrangchu;
+    private frmMain frmMain;
+    private frmMainUser frmMainUser;
     private User_model userModel;
     private Admin_model adminModel;
     private Admin_controller adminController;
@@ -37,7 +40,8 @@ public class PnlLogin extends javax.swing.JPanel {
     public void init(){
         userController = new User_controller();
         userModel=new User_model();
-//        frmTrangchu= new FrmTrangchu();
+        frmMain= new frmMain();
+        frmMainUser= new frmMainUser();
         adminController= new Admin_controller();
         adminModel = new Admin_model();
         lbshowPass.setVisible(false);
@@ -271,8 +275,7 @@ public class PnlLogin extends javax.swing.JPanel {
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
         try{
             String username = txtUsername.getText().trim();
-            String password = passwordHash(txtPass.getText()).trim();
-            
+            String password = passwordHash(txtPass.getText()).trim();            
             adminModel.setUsername(username);
             userModel.setUsername(username);
             if(username.isEmpty() || password.isEmpty()){
@@ -281,11 +284,15 @@ public class PnlLogin extends javax.swing.JPanel {
                  return;
             }else{
                 if(userController.CheckLoginUser(userModel, password)){
+                    int userID = userModel.getUserID(); 
                     JOptionPane.showMessageDialog(this,"Đăng nhập thành công");
+                    frmMainUser.setVisible(true);
+                    frmLoginSignup.dispose();
                 }else 
                     if(adminController.CheckLoginAdmin(adminModel, password)){
                      JOptionPane.showMessageDialog(this,"Đăng nhập thành công");
-//                     frmTrangchu.setVisible(true);
+                     frmMain.setVisible(true);
+                     frmLoginSignup.dispose();
                 }
                 else{
                     JOptionPane.showMessageDialog(this,"Usernam hoặc password không chính xác!!");

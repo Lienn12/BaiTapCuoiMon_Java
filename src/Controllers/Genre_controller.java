@@ -5,6 +5,7 @@
 package Controllers;
 
 import Model.Genres;
+import Model.Movie_model;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -21,6 +22,7 @@ public class Genre_controller {
     PreparedStatement pstmt=null;
     ResultSet rs=null;
     private Genres genre;
+    private Movie_model movieModel;
     public Genre_controller(){
         conn=new dbConnect().getConnect();
     }
@@ -39,4 +41,5 @@ public class Genre_controller {
         rs.close();
         return dsGenre;
     }
+    
 }

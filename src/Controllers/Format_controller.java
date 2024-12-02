@@ -20,7 +20,7 @@ public class Format_controller {
     public Format_controller(){
         conn=new dbConnect().getConnect();
     }
-    public List<Formats> getFormat(Formats genreModel) throws SQLException{
+    public List<Formats> getFormat(Formats formatModel) throws SQLException{
         List<Formats> dsFormat=  new ArrayList<Formats>();
         String sql="SELECT * FROM Formats";
         pstmt= conn.prepareStatement(sql);

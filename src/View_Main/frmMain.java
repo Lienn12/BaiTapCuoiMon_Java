@@ -5,16 +5,17 @@
  */
 package View_Main;
 
+import Model.Movie_model;
 import Scrollbar.ScrollBarCustom;
-import View_Container.PnlTrangChu;
-import View_Container.pnlDanhSachUser;
-import View_Container.pnlChiTietFilm;
-import View_Container.pnlDSPhim;
-import View_Container.pnlDanhSachUser;
-import View_Container.pnlDanhgia;
-import View_Container.pnlReplyCmt;
-import View_Container.pnlSuaPhim;
-import View_Container.pnlThemPhim;
+import View_Container_Admin.PnlTrangChu;
+import View_Container_Admin.pnlDanhSachUser;
+import View_Container_Admin.pnlChiTietFilm;
+import View_Container_Admin.pnlDSPhim;
+import View_Container_Admin.pnlDanhSachUser;
+import View_Container_Admin.pnlDanhgia;
+import View_Container_Admin.pnlReplyCmt;
+import View_Container_Admin.pnlSuaPhim;
+import View_Container_Admin.pnlThemPhim;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -23,10 +24,7 @@ import java.awt.event.MouseWheelListener;
 import java.sql.SQLException;
 import javax.swing.*;
 import javax.swing.border.Border;
-/**
- *
- * @author ASUS
- */
+
 public final class frmMain extends javax.swing.JFrame {
     private CardLayout cardLayout;
     private JScrollPane spTrangChu;
@@ -76,7 +74,6 @@ public final class frmMain extends javax.swing.JFrame {
             spTrangChu = createScrollPane(pnlTrangchu);
             spThem = createScrollPane(pnlThem);
             spSua = createScrollPane(pnlSua);
-            
             pnlContainer.add(spTrangChu,"trang chu");
             pnlContainer.add(pnldsPhim,"danh sach phim");
             pnlContainer.add(pnlChiTiet,"chi tiet phim");
@@ -85,7 +82,6 @@ public final class frmMain extends javax.swing.JFrame {
             pnlContainer.add(pnlUser,"danh sach user");
             pnlContainer.add(pnlDanhgia,"danh gia");
             pnlContainer.add(pnlReplycmt, "reply");
-
 
             cardLayout.show(pnlContainer, "trang chu");
             setColor(btnTrangChu);
@@ -111,12 +107,15 @@ public final class frmMain extends javax.swing.JFrame {
     public pnlSuaPhim getPanelSua(){
         return pnlSua;
     }
+    public void showMovieDetail(Movie_model movie) {
+        pnldsPhim.showMovie(movie.getMovieID());
+        cardLayout.show(pnlContainer, "chi tiet phim");
+    }
     private void addMenuListeners() {
         btnTrangChu.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                pnlTrangchu.updatePhimList();
-                spTrangChu.revalidate(); // Đảm bảo layout được cập nhật
+                spTrangChu.revalidate();
                 spTrangChu.repaint(); 
                 showPanel("trang chu");
                 
@@ -421,9 +420,9 @@ public final class frmMain extends javax.swing.JFrame {
             pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlMainLayout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
-                .addGroup(pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(pnlContainer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(pnlHeader, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(pnlHeader, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(pnlContainer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
         pnlMainLayout.setVerticalGroup(
             pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
