@@ -29,7 +29,7 @@ public class PnlLogin extends javax.swing.JPanel {
     private User_controller userController;
     private frmMain frmMain;
     private frmMainUser frmMainUser;
-    private User_model userModel;
+    private User_model userModel,userInfo;
     private Admin_model adminModel;
     private Admin_controller adminController;
     public PnlLogin(Frm_Login_Signup frmLoginSignup) {
@@ -41,6 +41,7 @@ public class PnlLogin extends javax.swing.JPanel {
     public void init(){
         userController = new User_controller();
         userModel=new User_model();
+        userInfo = new User_model();
         frmMain= new frmMain();
         frmMainUser= new frmMainUser();
         adminController= new Admin_controller();
@@ -287,10 +288,11 @@ public class PnlLogin extends javax.swing.JPanel {
                 if(userController.CheckLoginUser(userModel, password)){
                     int userID = userModel.getUserID(); 
                     JOptionPane.showMessageDialog(this,"Đăng nhập thành công");
+                    userInfo = userController.getInfo(userID);
                     frmMainUser.setVisible(true);
                     frmLoginSignup.dispose();
                     pnlCaNhan pnlInfo = frmMainUser.getpnlCaNhan();
-                    pnlInfo.setInfo(userID);
+                    pnlInfo.setInfo(userInfo);
                 }else 
                     if(adminController.CheckLoginAdmin(adminModel, password)){
                      JOptionPane.showMessageDialog(this,"Đăng nhập thành công");

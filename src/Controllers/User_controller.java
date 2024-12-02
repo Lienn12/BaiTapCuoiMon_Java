@@ -61,8 +61,9 @@ public class User_controller {
        prst.setString(2, password);
        //chọn phương thực thi phù hợp với truy vấn
        rs=prst.executeQuery();
-       boolean exist=rs.next();
-       if(exist){
+       boolean exist=false;
+       if(rs.next()){
+           exist = true;
            int userid = rs.getInt("user_id");
            userModel.setUserID(userid);
        }
@@ -243,17 +244,24 @@ public class User_controller {
     }
     
     public User_model getInfo(int userid) throws  SQLException{
-        String sql = "SELECT USER_ID, USERNAME, GENDERNAME, BIRTH,EMAIL FROM USERS, GENDERS WHERE USERS.GENDERID=GENDERS.GENDERID AND USER_ID=?";
+        String sql = "SELECT USER_ID, USERNAME, GENDER, BIRTH,EMAIL FROM USERS WHERE USER_ID=?";
+        User_model userInfo = null;
         prst = conn.prepareStatement(sql);
         prst.setInt(1, userid);
         rs = prst.executeQuery();
         if(rs.next()){
-            User_model userInfo = new User_model();
+            userInfo = new User_model();
             userInfo.setUserID(rs.getInt("USER_ID"));
             userInfo.setUsername(rs.getString("USERNAME"));
-            userInfo.setUsername(rs.getString("FULL_NAME"));
+            userInfo.setGender(rs.getString("GENDER"));
             userInfo.setEmail(rs.getString("EMAIL"));
+            
         }
-        return null;
+        return userInfo;
     }
+    
+//    public boolean updateInfo(User_model user_model)throws SQLException{
+//        String sql = "UPDATE USERS SET BIRTH=?, GENDER=?,EMAIL=? WHERE USER_ID=?";
+//        
+//    }
 }
