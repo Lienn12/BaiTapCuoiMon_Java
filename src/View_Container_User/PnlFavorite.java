@@ -48,7 +48,6 @@ public final class PnlFavorite extends javax.swing.JPanel {
         String []colsName={"ID","Tên phim","Năm phát hành",""};
         tableModel.setColumnIdentifiers(colsName);
         table.setModel(tableModel);
-        ShowData();
         spTable.setVerticalScrollBar(new ScrollBarCustom());
         spTable.getVerticalScrollBar().setBackground(Color.WHITE);
         JPanel p=new JPanel();
@@ -59,8 +58,9 @@ public final class PnlFavorite extends javax.swing.JPanel {
             @Override
             public void onView(int row) {
                 int movieID = getMovieIdFromFavorite();
+                int userID= getUserIdFromFavorite();
                 if (movieID != -1) {
-                    showMovie(movieID);
+                    showMovie(movieID,userID);
                 } else {
                     System.out.println("Không có phim nào được chọn!");
                 }
@@ -179,9 +179,9 @@ public final class PnlFavorite extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
      
-    public void ShowData() {
+    public void ShowData(int userID) {
             try{
-                List<Favorites> dsFavorite= favoriteControllor.getFavorite(favorite);
+                List<Favorites> dsFavorite= favoriteControllor.getFavorite(userID);
                 try{
                     tableModel.setRowCount(0); 
                     for(int i=0; i<dsFavorite.size();i++){
@@ -220,8 +220,8 @@ public final class PnlFavorite extends javax.swing.JPanel {
         if (selectedRow == -1) {
             return -1; 
         }
+        
         int favoriteID = (int) table.getValueAt(selectedRow, 0);
-
         try {
             int movieID = favoriteControllor.getMovieId(favoriteID);
             return movieID;
@@ -231,7 +231,22 @@ public final class PnlFavorite extends javax.swing.JPanel {
             return -1; 
         }
     }
-    public void showMovie(int movieID) {
+    public int getUserIdFromFavorite() {
+        int selectedRow = table.getSelectedRow();  
+        if (selectedRow == -1) {
+            return -1; 
+        }
+        int favoriteID = (int) table.getValueAt(selectedRow, 0);
+        try {
+            int userID = favoriteControllor.getUserId(favoriteID);
+            return userID;
+             
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return -1; 
+        }
+    }
+    public void showMovie(int movieID, int userID) {
         try {
             Movie_model movie = movieController.getMovieById(movieID);
             if(movie != null) {
@@ -239,8 +254,10 @@ public final class PnlFavorite extends javax.swing.JPanel {
                 pnlCT.showPanel("back favorite");
                 pnlCT.setMovieDetails(movie);
                 movie.setMovieID(movieID);
-                pnlCT.init(movie.getMovieID());
-                pnlCT.setHide(false);
+                pnlCT.setReviews(movie.getMovieID());
+                pnlCT.InsertFavorite(movieID,userID);
+                pnlCT.insertReview(movieID, userID);
+                pnlCT.setHide(true);
                 main.showPanel("chi tiet phim");
             } else {
                 System.out.println("Khong tim thay ID phim !");
