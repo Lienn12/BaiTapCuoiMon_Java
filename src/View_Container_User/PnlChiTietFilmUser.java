@@ -30,6 +30,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import uk.co.caprica.vlcj.player.base.MediaPlayer;
 import uk.co.caprica.vlcj.player.component.EmbeddedMediaPlayerComponent;
+import java.sql.Timestamp;        
+import java.util.Date; 
 
 public class PnlChiTietFilmUser extends javax.swing.JPanel {
     private CardLayout cardLayout;
@@ -39,7 +41,6 @@ public class PnlChiTietFilmUser extends javax.swing.JPanel {
     private final Favorite_controllor favoriteControll= new Favorite_controllor();
     private final Review_controller reviewController= new Review_controller();
     private final Movie_controller movieController= new Movie_controller();
-    private boolean them=true;
     private  String filmName , vidPath;
     public PnlChiTietFilmUser(frmMainUser main,PnlTrangChuUser pnlTrangChu) {
         this.main = main;
@@ -48,6 +49,7 @@ public class PnlChiTietFilmUser extends javax.swing.JPanel {
         this.setMovieDetails(new Movie_model());
         setbtnBack();
         setHide(true);
+        pnlDg.setVisible(false);
         pnlThongtin.setOpaque(true);
         pnlThongtin.setBackground(new Color(255, 255, 255, 128));
         sp.setVerticalScrollBar(new ScrollBarCustom());
@@ -74,18 +76,7 @@ public class PnlChiTietFilmUser extends javax.swing.JPanel {
             }       
         });       
     }
-    @Override
-    protected void paintComponent(Graphics g) { 
-          super.paintComponent(g); 
-          Graphics2D g2 = (Graphics2D) g;
-          g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-
-          int width = getWidth();
-          int height = getHeight();
-          GradientPaint gp = new GradientPaint(0,0, Color.decode("#ffffff"), 0, getHeight(), Color.decode("#6B99C6"));
-            g2.setPaint(gp);
-           g2.fillRect(0, 0, width, height);
-      }
+    
     public void setbtnBack(){
           cardLayout= new CardLayout();
           back.setLayout(cardLayout);
@@ -96,25 +87,48 @@ public class PnlChiTietFilmUser extends javax.swing.JPanel {
     public void showPanel(String lbName){
         cardLayout.show(back, lbName); 
     }
+    public void setNull(){
+        starRating.clearStars();
+        txaComment.setText("");
+    }
     public void setHide(boolean a){
-         btnFavorite.setVisible(a);
+         btnFavorite.setVisible(!a);
     }
-    public void insertReview(){
-        int rating = starRating.getStar();
-        String comment= txaComment.getText().trim();
-//        if(reviewController.InsertReview(reviewModel)){
-            
-//        }
+    public void insertReview(int movieID, int userID){
+        btnthem.addMouseListener(new MouseAdapter(){
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                   pnlDg.setVisible(true);
+            }           
+        });
+        btnluu.addMouseListener(new MouseAdapter(){
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                try {
+                    int rating = starRating.getStar();
+                    String comment= txaComment.getText().trim();
+                    Timestamp time = new Timestamp(new Date().getTime());
+                    reviewController.InsertReview(movieID,userID,rating,comment,time);
+                } catch (SQLException ex) {
+                    Logger.getLogger(PnlChiTietFilmUser.class.getName()).log(Level.SEVERE, null, ex);
+                }   
+                setNull();
+                setHide(true);
+                pnlDg.setVisible(false);
+                showData(movieID,userID);
+            }
+        });
     }
-    public void InsertFavorite(int movieId){
+    public void InsertFavorite(int movieId,int userId){
         btnFavorite.addMouseListener(new MouseAdapter(){
             @Override
             public void mouseClicked(MouseEvent e) {
                 try {
-                    if(!favoriteControll.checkMovie(movieId)){
-                        if(favoriteControll.insertFavorite(movieId)){
+                    if(!favoriteControll.checkMovie(movieId,userId)){
+                        if(favoriteControll.insertFavorite(movieId,userId)){
                             JOptionPane.showMessageDialog(main,"Phim đã được thêm vào danh sách");
                         } else {
+                            
                            JOptionPane.showMessageDialog(main,"Không thể thêm phim vào danh sách yêu thích");
                         }
                     } else{
@@ -126,7 +140,7 @@ public class PnlChiTietFilmUser extends javax.swing.JPanel {
             }
         });
     }
-    public void init(int movieId){
+    public void setReviews(int movieId){
         try {
             list.clearItems();
             List<Review_model> reviews = reviewController.getReviewUser(movieId);
@@ -138,16 +152,14 @@ public class PnlChiTietFilmUser extends javax.swing.JPanel {
             
         } catch (SQLException ex) {
             ex.printStackTrace();
-        }
-         
+        }         
     }
-    public void showMovie(int movieID) {
+    public void showData(int movieID,int userId) {
         try {
             Movie_model movie = movieController.getMovieById(movieID);
             if(movie != null) {
                 setMovieDetails(movie);
-                init(movieID);
-                InsertFavorite(movieID);
+                setReviews(movieID);               
                 main.showPanel("chi tiet phim");      
             } else {
                 System.out.println("Khong tim thay ID phim !");
@@ -157,6 +169,25 @@ public class PnlChiTietFilmUser extends javax.swing.JPanel {
             System.out.println("Loi truy van!");
         }
     }
+    public void showMovie(int movieID,int userId) {
+        try {
+            Movie_model movie = movieController.getMovieById(movieID);
+            if(movie != null) {
+                setMovieDetails(movie);
+                setReviews(movieID);
+                InsertFavorite(movieID,userId);
+                insertReview(movieID,userId);
+                main.showPanel("chi tiet phim");    
+                setHide(false);
+            } else {
+                System.out.println("Khong tim thay ID phim !");
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            System.out.println("Loi truy van!");
+        }
+    }
+    
     public void setMovieDetails(Movie_model movie) {
         if (movie == null) { 
             System.out.println("Lỗi truy vấn");
@@ -256,12 +287,10 @@ public class PnlChiTietFilmUser extends javax.swing.JPanel {
         sp = new javax.swing.JScrollPane();
         list = new View_Container_User.ListReviewUser<>();
         jLabel7 = new javax.swing.JLabel();
-        jPanel1 = new javax.swing.JPanel();
+        pnlDg = new javax.swing.JPanel();
         starRating = new Star_rating.StarRating();
         jScrollPane1 = new javax.swing.JScrollPane();
         txaComment = new javax.swing.JTextArea();
-        btnXoa = new javax.swing.JLabel();
-        btnSua = new javax.swing.JLabel();
         btnluu = new javax.swing.JLabel();
         btnthem = new javax.swing.JLabel();
         back = new javax.swing.JPanel();
@@ -394,6 +423,7 @@ public class PnlChiTietFilmUser extends javax.swing.JPanel {
         jLabel4.setBackground(new java.awt.Color(255, 255, 255));
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/heart.png"))); // NOI18N
         jLabel4.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         javax.swing.GroupLayout btnFavoriteLayout = new javax.swing.GroupLayout(btnFavorite);
@@ -530,54 +560,42 @@ public class PnlChiTietFilmUser extends javax.swing.JPanel {
         jLabel7.setForeground(new java.awt.Color(5, 38, 89));
         jLabel7.setText("Đánh giá");
 
-        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        pnlDg.setBackground(new java.awt.Color(255, 255, 255));
 
         txaComment.setColumns(20);
         txaComment.setRows(5);
         jScrollPane1.setViewportView(txaComment);
 
-        btnXoa.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        btnXoa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Xoa.png"))); // NOI18N
-
-        btnSua.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        btnSua.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/chinhSua.png"))); // NOI18N
-
         btnluu.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         btnluu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/reply.png"))); // NOI18N
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        javax.swing.GroupLayout pnlDgLayout = new javax.swing.GroupLayout(pnlDg);
+        pnlDg.setLayout(pnlDgLayout);
+        pnlDgLayout.setHorizontalGroup(
+            pnlDgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlDgLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(btnXoa)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnSua)
+                .addGroup(pnlDgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnlDgLayout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnluu, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnlDgLayout.createSequentialGroup()
+                        .addGroup(pnlDgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(starRating, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        pnlDgLayout.setVerticalGroup(
+            pnlDgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlDgLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(starRating, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnXoa)
-                    .addComponent(btnSua)
-                    .addComponent(btnluu, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(btnluu, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(8, Short.MAX_VALUE))
         );
 
         btnthem.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -641,7 +659,7 @@ public class PnlChiTietFilmUser extends javax.swing.JPanel {
                                     .addComponent(jLabel7)
                                     .addGap(33, 33, 33)
                                     .addComponent(btnthem))
-                                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addComponent(pnlDg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap(40, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -662,7 +680,7 @@ public class PnlChiTietFilmUser extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(pnlDg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(21, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -683,8 +701,6 @@ public class PnlChiTietFilmUser extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel back;
     private cell.PanelBorder btnFavorite;
-    private javax.swing.JLabel btnSua;
-    private javax.swing.JLabel btnXoa;
     private javax.swing.JLabel btnluu;
     private javax.swing.JLabel btnthem;
     private javax.swing.JLabel jLabel1;
@@ -696,7 +712,6 @@ public class PnlChiTietFilmUser extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel5;
@@ -715,11 +730,23 @@ public class PnlChiTietFilmUser extends javax.swing.JPanel {
     private javax.swing.JLabel lblYear;
     private View_Container_User.ListReviewUser<String> list;
     private javax.swing.JPanel panel;
+    private javax.swing.JPanel pnlDg;
     private cell.PanelBorder pnlPlay;
     private cell.PanelBorder pnlThongtin;
     private javax.swing.JScrollPane sp;
     private Star_rating.StarRating starRating;
     private javax.swing.JTextArea txaComment;
     // End of variables declaration//GEN-END:variables
-    
+    @Override
+    protected void paintComponent(Graphics g) { 
+          super.paintComponent(g); 
+          Graphics2D g2 = (Graphics2D) g;
+          g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+          int width = getWidth();
+          int height = getHeight();
+          GradientPaint gp = new GradientPaint(0,0, Color.decode("#ffffff"), 0, getHeight(), Color.decode("#6B99C6"));
+            g2.setPaint(gp);
+           g2.fillRect(0, 0, width, height);
+      }
 }
