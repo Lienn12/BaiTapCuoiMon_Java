@@ -1,4 +1,5 @@
 package View_Container_Admin;
+import Controllers.Movie_controller;
 import Model.Movie_model;
 import java.awt.Image;
 import java.io.ByteArrayInputStream;
@@ -12,6 +13,7 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.sql.SQLException;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -24,6 +26,7 @@ import uk.co.caprica.vlcj.player.component.EmbeddedMediaPlayerComponent;
 public class pnlChiTietFilm extends javax.swing.JPanel {
     private CardLayout cardLayout;
     private  frmMain menu;
+    private Movie_controller movieControllor = new Movie_controller();
     private  String filmName , vidPath;
     public pnlChiTietFilm(frmMain menu) {
         this.menu = menu;
@@ -62,18 +65,31 @@ public class pnlChiTietFilm extends javax.swing.JPanel {
           cardLayout= new CardLayout();
           back.setLayout(cardLayout);
           back.add(lbBackdsPhim,"back danh sach phim");
-          back.add(lbBackTrangchu,"back phim trang chu");
-          cardLayout.show(back, "back phim trang chu"); 
+          back.add(lbBackTrangchu,"back trang chu");
+          cardLayout.show(back,"back trang chu");
       }
       public void showPanel(String lbName){
         cardLayout.show(back, lbName); 
     }
+     public void showMovie(int movieID) {
+        try {
+            Movie_model movie = movieControllor.getMovieById(movieID);
+            if(movie != null) {
+                setMovieDetails(movie);
+                menu.showPanel("chi tiet phim");
+            } else {
+                System.out.println("Khong tim thay ID phim !");
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            System.out.println("Loi truy van!");
+        }
+    }
+  
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        lbBackTrangchu = new javax.swing.JLabel();
-        lbBackdsPhim = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         pnlThongtin = new cell.PanelBorder();
         lblImg = new javax.swing.JLabel();
@@ -96,28 +112,8 @@ public class pnlChiTietFilm extends javax.swing.JPanel {
         pnlPlay = new cell.PanelBorder();
         btnTrailer = new javax.swing.JLabel();
         back = new javax.swing.JPanel();
-
-        lbBackTrangchu.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lbBackTrangchu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/backxanh.png"))); // NOI18N
-        lbBackTrangchu.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        lbBackTrangchu.setMaximumSize(new java.awt.Dimension(32, 48));
-        lbBackTrangchu.setPreferredSize(new java.awt.Dimension(50, 48));
-        lbBackTrangchu.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lbBackTrangchuMouseClicked(evt);
-            }
-        });
-
-        lbBackdsPhim.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lbBackdsPhim.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/backxanh.png"))); // NOI18N
-        lbBackdsPhim.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        lbBackdsPhim.setMaximumSize(new java.awt.Dimension(32, 48));
-        lbBackdsPhim.setPreferredSize(new java.awt.Dimension(50, 48));
-        lbBackdsPhim.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lbBackdsPhimMouseClicked(evt);
-            }
-        });
+        lbBackdsPhim = new javax.swing.JLabel();
+        lbBackTrangchu = new javax.swing.JLabel();
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(5, 38, 89));
@@ -323,15 +319,39 @@ public class pnlChiTietFilm extends javax.swing.JPanel {
         jPanel3.getAccessibleContext().setAccessibleDescription("");
         jPanel5.getAccessibleContext().setAccessibleDescription("");
 
+        lbBackdsPhim.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lbBackdsPhim.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/backxanh.png"))); // NOI18N
+        lbBackdsPhim.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lbBackdsPhim.setMaximumSize(new java.awt.Dimension(32, 48));
+        lbBackdsPhim.setPreferredSize(new java.awt.Dimension(50, 48));
+        lbBackdsPhim.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lbBackdsPhimMouseClicked(evt);
+            }
+        });
+
+        lbBackTrangchu.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lbBackTrangchu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/backxanh.png"))); // NOI18N
+        lbBackTrangchu.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lbBackTrangchu.setMaximumSize(new java.awt.Dimension(32, 48));
+        lbBackTrangchu.setPreferredSize(new java.awt.Dimension(50, 48));
+        lbBackTrangchu.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lbBackTrangchuMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout backLayout = new javax.swing.GroupLayout(back);
         back.setLayout(backLayout);
         backLayout.setHorizontalGroup(
             backLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 50, Short.MAX_VALUE)
+            .addComponent(lbBackdsPhim, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(lbBackTrangchu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         backLayout.setVerticalGroup(
             backLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 48, Short.MAX_VALUE)
+            .addComponent(lbBackdsPhim, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(lbBackTrangchu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);

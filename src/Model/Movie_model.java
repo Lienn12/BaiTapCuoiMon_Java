@@ -187,5 +187,8 @@ public class Movie_model {
     public void setVidpath(String vidpath) {
         this.vidpath = vidpath;
     }
-
+    @Override
+        public String toString() {
+            return "Movie: " + title + " - " + description;
+        }
 }

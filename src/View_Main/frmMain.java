@@ -108,27 +108,18 @@ public final class frmMain extends javax.swing.JFrame {
         return pnlSua;
     }
     public void showMovieDetail(Movie_model movie) {
-        pnldsPhim.showMovie(movie.getMovieID());
+        pnlChiTiet.showMovie(movie.getMovieID());
         cardLayout.show(pnlContainer, "chi tiet phim");
     }
-    public void updateMovie(){
-        System.out.println("da load lai");
+    public void loadTrangChu(){
         pnlPhimTrangchu.loadData();
-    }
-    public void showPnlPhimTrangchu() {
-        pnlPhimTrangchu.removeAll();
-        updateMovie();  
-        pnlPhimTrangchu.revalidate();
-        pnlPhimTrangchu.repaint();
-        pnlTrangchu.revalidate();
-        pnlTrangchu.repaint();
     }
     private void addMenuListeners() {
         btnTrangChu.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 showPanel("trang chu");
-                showPnlPhimTrangchu();
+                pnlPhimTrangchu.loadData();
                 pnlTrangchu.showPanel("phim trang chu");
                 setColor(btnTrangChu);
             }

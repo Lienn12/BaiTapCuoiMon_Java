@@ -69,10 +69,8 @@ public class PnlTrangChu extends javax.swing.JPanel {
         pnlPhimLoai = new PnlPhimLoai(this,movieModel,main);
         pnlPhimTrangchu= new PnlPhimTrangchu(this,main);
         pnlPhim.add(pnlPhimTrangchu,"phim trang chu");
-        pnlPhim.add(pnlPhimLoai,"phim loai");
-        
+        pnlPhim.add(pnlPhimLoai,"phim loai");        
         showPanel("phim trang chu");
-        pnlPhimTrangchu.loadData();
     }
     public void showPanel(String panelName){
         cardLayout.show(pnlPhim, panelName); 

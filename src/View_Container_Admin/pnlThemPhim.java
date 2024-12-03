@@ -661,7 +661,7 @@ public final class pnlThemPhim extends javax.swing.JPanel {
             pnlDSPhim.ClearData(); // Xóa dữ liệu cũ
             pnlDSPhim.ShowData();  // Tải lại dữ liệu mới
         }
-
+        menu.loadTrangChu();
         menu.showPanel("danh sach phim");
     }//GEN-LAST:event_lbBackMouseClicked
     
@@ -714,7 +714,7 @@ public final class pnlThemPhim extends javax.swing.JPanel {
         JOptionPane.showMessageDialog(menu, "Đã thêm thành công");
        
         setNull();
-        menu.showPnlPhimTrangchu();
+//        menu.showPnlPhimTrangchu();
     }//GEN-LAST:event_btnSaveActionPerformed
 
     private void btnUploadMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnUploadMouseClicked

@@ -384,18 +384,18 @@ public class PnlSignup extends javax.swing.JPanel {
             String email=txtEmail.getText().trim();
             String password=passwordHash(txtPass.getText().trim());
             String confirmpass=passwordHash(txtConfirmPass.getText().trim());
-//            userModel = new User_model(0,username,email,password);
-            adminModel = new Admin_model(username,password);
-//            setNullError();
-//            boolean valid=validateInputs(userModel,password,confirmpass);
-//            if(valid){
+            userModel = new User_model(0,username,email,password);
+//            adminModel = new Admin_model(username,password);
+            setNullError();
+            boolean valid=validateInputs(userModel,password,confirmpass);
+            if(valid){
 //                userController.CheckSignup(userModel, password);
                 userController.sendVerificationCode(userModel);
                 frmLoginSignup.showVerifyCode();
-//            }else{
-//                JOptionPane.showMessageDialog(this, "Đăng ký thất bại!!");
-//            } 
-            adminController.CheckSignupAdmin(adminModel, password);
+            }else{
+                JOptionPane.showMessageDialog(this, "Đăng ký thất bại!!");
+            } 
+//            adminController.CheckSignupAdmin(adminModel, password);
         }catch(Exception ex){
             Logger.getLogger(PnlLogin.class.getName()).log(Level.SEVERE,"Loi"+ex.getMessage());
         } 

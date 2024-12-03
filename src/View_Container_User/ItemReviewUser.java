@@ -45,7 +45,6 @@ public class ItemReviewUser extends javax.swing.JPanel {
         this.addMouseListener(new MouseAdapter(){
             @Override
             public void mouseClicked(MouseEvent e) {
-                System.out.println("da an");
                 showMovieDetail();
             }
             
@@ -59,9 +58,9 @@ public class ItemReviewUser extends javax.swing.JPanel {
         g.fillRect(0, 0, getWidth(), getHeight());
     }
     private void showMovieDetail() {
-           PnlChiTietFilmUser pnlCT = main.getPanel();
-           pnlCT.showPanel("phim trang chu");
-           main.showMovieDetail(movieModel); 
+        PnlChiTietFilmUser pnlCT = main.getPanel();
+        pnlCT.showPanel("back phim trang chu");
+        main.showMovieDetail(movieModel); 
     }
     
     @SuppressWarnings("unchecked")

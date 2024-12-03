@@ -57,7 +57,9 @@ public final class pnlDSPhim extends javax.swing.JPanel {
             public void onView(int row) {
                 int movieID = getSelectedMovieID();
                 if (movieID != -1) {
-                    showMovie(movieID);
+                    pnlChiTietFilm pnlCT = menu.getPanel();
+                    pnlCT.showMovie(movieID);
+                    pnlCT.showPanel("back danh sach phim");
                 } else {
                     System.out.println("Không có phim nào được chọn!");
                 }
@@ -66,7 +68,8 @@ public final class pnlDSPhim extends javax.swing.JPanel {
             public void onEdit(int row) {
                 int movieID = getSelectedMovieID();
                 if (movieID != -1) {
-                    editMovie(movieID);
+                    pnlSuaPhim pnlSua = menu.getPanelSua();
+                    pnlSua.editMovie(movieID);
                 } else {
                     System.out.println("Không có phim nào được chọn!");
                 }
@@ -253,39 +256,8 @@ public final class pnlDSPhim extends javax.swing.JPanel {
         }
         return (int) table.getValueAt(selectedRow, 0);
     }
-    public void showMovie(int movieID) {
-        try {
-            System.out.println("showMovie: movieID: " + movieID);
-            Movie_model movie = movieController.getMovieById(movieID);
-            System.out.println("showMovie: movieID " + movie);
-            if(movie != null) {
-                pnlChiTietFilm pnlCT = menu.getPanel();
-                pnlCT.showPanel("back danh sach phim");
-                pnlCT.setMovieDetails(movie);
-                menu.showPanel("chi tiet phim");
-            } else {
-                System.out.println("Khong tim thay ID phim !");
-            }
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-            System.out.println("Loi truy van!");
-        }
-    }
-    public void editMovie(int movieID) {
-        try {
-            Movie_model movie = movieController.getMovieById(movieID);
-            if(movie != null) {
-                pnlSuaPhim pnlSua = menu.getPanelSua();
-                pnlSua.setMovieDetails(movie);
-                menu.showPanel("sua phim");
-            } else {
-                System.out.println("Khong tim thay ID phim !");
-            }
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-            System.out.println("Loi truy van!");
-        }
-    }
+    
+
     @Override
       protected void paintComponent(Graphics g) { 
           super.paintComponent(g); 

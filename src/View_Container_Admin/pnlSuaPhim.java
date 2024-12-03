@@ -130,7 +130,21 @@ public final class pnlSuaPhim extends javax.swing.JPanel {
             Logger.getLogger(pnlThemPhim.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
+    public void editMovie(int movieID) {
+        try {
+            Movie_model movie = movie_controller.getMovieById(movieID);
+            if(movie != null) {
+                pnlSuaPhim pnlSua = menu.getPanelSua();
+                pnlSua.setMovieDetails(movie);
+                menu.showPanel("sua phim");
+            } else {
+                System.out.println("Khong tim thay ID phim !");
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            System.out.println("Loi truy van!");
+        }
+    }
     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents

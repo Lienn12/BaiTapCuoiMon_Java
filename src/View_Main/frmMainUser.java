@@ -35,6 +35,7 @@ public final class frmMainUser extends javax.swing.JFrame {
     private PnlChiTietFilmUser pnlChiTietFilmUser;
     private pnlCaNhan pnlcanhan;
     private User_model userModel;
+    private final Frm_Login_Signup frmLoginSignup= new Frm_Login_Signup();
     public frmMainUser()  {
         initComponents();
         setLocationRelativeTo(null);
@@ -98,7 +99,8 @@ public final class frmMainUser extends javax.swing.JFrame {
             pnlChiTietFilmUser.showMovie(movie.getMovieID(), userModel.getUserID());
             cardLayout.show(pnlContainer, "chi tiet phim");
         } else {
-            JOptionPane.showMessageDialog(this, "User model is not set!");
+            JOptionPane.showMessageDialog(this, "Hãy đăng nhập");
+            frmLoginSignup.setVisible(true);
         }
     }
 
@@ -115,6 +117,7 @@ public final class frmMainUser extends javax.swing.JFrame {
             @Override
             public void mouseClicked(MouseEvent e) {
                 // Chuyển sang panel danh sách phim
+                pnlFavorite.ShowData(userModel.getUserID());
                 showPanel("danh sach yeu thich");
                 setColor(btnDSYeuThich);
             }
