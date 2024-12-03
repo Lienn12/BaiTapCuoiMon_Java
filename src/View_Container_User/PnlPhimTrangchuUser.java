@@ -7,6 +7,7 @@ package View_Container_User;
 import View_Container_Admin.PnlTrangChu;
 import Controllers.Movie_controller;
 import Model.Movie_model;
+import Model.User_model;
 import View_Container_Admin.pnlChiTietFilm;
 import View_Main.frmMain;
 import View_Main.frmMainUser;
@@ -26,13 +27,15 @@ import java.util.logging.Logger;
  */
 public class PnlPhimTrangchuUser extends javax.swing.JPanel {
     private frmMainUser main;
+    private User_model userModel;
     private PnlTrangChuUser pnlTrangChu;
     private final Movie_model movieModel=new Movie_model();
     private final Movie_controller movieController = new Movie_controller();
    
-    public PnlPhimTrangchuUser(PnlTrangChuUser pnlTrangChu,frmMainUser main) {
+    public PnlPhimTrangchuUser(PnlTrangChuUser pnlTrangChu,frmMainUser main,User_model userModel) {
         this.pnlTrangChu=pnlTrangChu;
         this.main=main;
+        this.userModel= userModel;
         initComponents();
         loadDataPhimdx();
         loadDataPhimbo();
@@ -42,7 +45,7 @@ public class PnlPhimTrangchuUser extends javax.swing.JPanel {
         if (movies != null && !movies.isEmpty()) {
             panel.removeAll();
             for (Movie_model movie : movies) {
-                panel.addImage(movie);  
+                panel.addImage(movie,userModel);  
             }
             panel.revalidate();
             panel.repaint();

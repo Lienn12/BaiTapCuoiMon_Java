@@ -6,6 +6,7 @@ package View_Container_User;
 
 import Model.Movie_model;
 import Model.Review_model;
+import Model.User_model;
 import View_Container_Admin.pnlChiTietFilm;
 import View_Main.frmMain;
 import View_Main.frmMainUser;
@@ -24,13 +25,15 @@ import javax.swing.ImageIcon;
 public class ItemReviewUser extends javax.swing.JPanel {
     private frmMainUser main;
     private Movie_model movieModel;
+    private User_model userModel;
     public Review_model getData(){
         return reviewModel;     
     }
     private Review_model reviewModel;
-    public ItemReviewUser(Movie_model movieModel,Review_model reviewModel,frmMainUser main) {
+    public ItemReviewUser(Movie_model movieModel,Review_model reviewModel,frmMainUser main,User_model userModel) {
         this.reviewModel= reviewModel;
         this.movieModel=movieModel;
+        this.userModel= userModel;
         this.main=main;
         initComponents();
         setOpaque(false);

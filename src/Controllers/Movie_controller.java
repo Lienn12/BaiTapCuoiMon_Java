@@ -69,11 +69,16 @@ public class Movie_controller {
         }
     }
     public boolean DeleteFilm(int movie_id) throws SQLException {
+        String deleteFavorite="DELETE FROM FAVORITES WHERE movie_id=?";
         String deleteReviews = "DELETE FROM Reviews WHERE movie_id = ?";
         String deleteMovies = "DELETE FROM Movies WHERE movie_id = ?";
 
         try {
             conn.setAutoCommit(false);
+            pstmt = conn.prepareStatement(deleteFavorite);
+            pstmt.setInt(1, movie_id);
+            pstmt.executeUpdate();
+            
             pstmt = conn.prepareStatement(deleteReviews);
             pstmt.setInt(1, movie_id);
             pstmt.executeUpdate();
@@ -259,7 +264,11 @@ public class Movie_controller {
     }
     public List<Movie_model> getphimbo() throws SQLException{
         List<Movie_model> dsMovie=  new ArrayList<Movie_model>();
-        String sql="SELECT MOVIE_ID,TITLE,RATING, COVER_IMAGE, DESCRIPTION FROM MOVIES WHERE GENRE_ID= 2";
+        String sql="""
+                   SELECT MOVIE_ID,TITLE,RATING, COVER_IMAGE, DESCRIPTION 
+                   FROM MOVIES, FORMATS
+                   WHERE MOVIES.FORMAT_ID=  FORMATS.FORMAT_ID AND FORMAT_NAME = N'Phim bộ'
+                   """;
         pstmt= conn.prepareStatement(sql);
         rs=pstmt.executeQuery();
         while(rs.next()){
@@ -277,7 +286,11 @@ public class Movie_controller {
     }
     public List<Movie_model> getphimle() throws SQLException{
         List<Movie_model> dsMovie=  new ArrayList<Movie_model>();
-        String sql="SELECT MOVIE_ID,TITLE,RATING, COVER_IMAGE, DESCRIPTION FROM MOVIES WHERE GENRE_ID= 3";
+        String sql="""
+                   SELECT MOVIE_ID,TITLE,RATING, COVER_IMAGE, DESCRIPTION 
+                   FROM MOVIES, FORMATS
+                   WHERE MOVIES.FORMAT_ID=  FORMATS.FORMAT_ID AND FORMAT_NAME = N'Phim lẻ'
+                   """;
         pstmt= conn.prepareStatement(sql);
         rs=pstmt.executeQuery();
         while(rs.next()){

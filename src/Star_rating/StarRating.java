@@ -169,7 +169,15 @@ public class StarRating extends javax.swing.JPanel {
     public void addEventStarRating(EventStarRating event) {
         events.add(event);
     }
-
+    public void clearStars() {
+        star1.setSelected(false);
+        star2.setSelected(false);
+        star3.setSelected(false);
+        star4.setSelected(false);
+        star5.setSelected(false);
+        star = 0;  // Reset giá trị star về 0 hoặc một giá trị mặc định để biểu thị không có sao nào được chọn
+        runEvent();  // Gọi sự kiện để thông báo rằng không có sao nào được chọn
+    }
     private void runEvent() {
         for (EventStarRating event : events) {
             event.selected(star);

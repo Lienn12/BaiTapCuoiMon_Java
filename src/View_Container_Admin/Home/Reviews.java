@@ -8,6 +8,10 @@ import Controllers.Movie_controller;
 import Model.Movie_model;
 import Scrollbar.ScrollBarCustom;
 import java.awt.Color;
+import java.awt.GradientPaint;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.logging.Level;
@@ -22,6 +26,7 @@ public class Reviews extends javax.swing.JPanel {
         init();
         sp.setVerticalScrollBar(new ScrollBarCustom());
         sp.setBackground(Color.white);
+        setBackground(new Color(255,255,255,128));
     }
     private void init(){
         try {
@@ -43,6 +48,11 @@ public class Reviews extends javax.swing.JPanel {
         sp = new javax.swing.JScrollPane();
         list = new View_Container_Admin.Home.ListReview<>();
 
+        setBackground(new java.awt.Color(255, 255, 255));
+
+        sp.setBorder(null);
+
+        list.setBorder(null);
         sp.setViewportView(list);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);

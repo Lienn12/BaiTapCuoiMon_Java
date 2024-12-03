@@ -1,6 +1,8 @@
 
 package View_Container_Admin;
+import Controllers.Favorite_controllor;
 import Controllers.Movie_controller;
+import Controllers.Review_controller;
 import Model.Movie_model;
 import Scrollbar.ScrollBarCustom;
 import javax.swing.table.DefaultTableModel;
@@ -29,6 +31,8 @@ import javax.swing.table.TableRowSorter;
 public final class pnlDSPhim extends javax.swing.JPanel {
     private final Movie_model movie= new Movie_model();
     private final Movie_controller movieController= new Movie_controller();
+    private final Favorite_controllor favoriteControllor= new Favorite_controllor();
+    private final Review_controller reviewControllor= new Review_controller();
     private frmMain menu;
     private DefaultTableModel tableModel= new DefaultTableModel();
     private TableRowSorter<DefaultTableModel> sorter; 
@@ -58,7 +62,6 @@ public final class pnlDSPhim extends javax.swing.JPanel {
                     System.out.println("Không có phim nào được chọn!");
                 }
             }
-
             @Override
             public void onEdit(int row) {
                 int movieID = getSelectedMovieID();

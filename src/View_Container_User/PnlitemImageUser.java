@@ -2,6 +2,7 @@
 package View_Container_User;
 
 import Model.Movie_model;
+import Model.User_model;
 import View_Container_Admin.Home.phimMoTa;
 import View_Container_Admin.pnlChiTietFilm;
 import View_Container_User.PnlChiTietFilmUser;
@@ -34,15 +35,17 @@ import javax.swing.Timer;
 public class PnlitemImageUser extends javax.swing.JPanel {
     private  frmMainUser main;
     private Movie_model movieModel;
+    private User_model userModel;
     private final Timer timer;
     private final Timer timerStopTimer;
     private final phimMoTa mota;
     private int y = 140;
     private int speed= 20;
     private boolean  showing = false;
-    public PnlitemImageUser(Movie_model movieModel,frmMainUser main) {
+    public PnlitemImageUser(Movie_model movieModel,frmMainUser main,User_model userModel) {
         this.movieModel=movieModel;
         this.main=main;
+        this.userModel=userModel;
         initComponents();
         init();
         mota= new phimMoTa(movieModel.getTitle(),movieModel.getRating(),movieModel.getDescription());

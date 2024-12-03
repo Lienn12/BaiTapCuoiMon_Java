@@ -1,12 +1,8 @@
-
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package View_Main;
 
 import Model.Movie_model;
 import Scrollbar.ScrollBarCustom;
+import View_Container_Admin.Home.PnlPhimTrangchu;
 import View_Container_Admin.PnlTrangChu;
 import View_Container_Admin.pnlDanhSachUser;
 import View_Container_Admin.pnlChiTietFilm;
@@ -38,6 +34,7 @@ public final class frmMain extends javax.swing.JFrame {
     private pnlDanhSachUser pnlUser;
     private pnlDanhgia pnlDanhgia;
     private pnlReplyCmt pnlReplycmt;
+    private PnlPhimTrangchu pnlPhimTrangchu;
     public frmMain()  {
         initComponents();
         setLocationRelativeTo(null);
@@ -63,17 +60,20 @@ public final class frmMain extends javax.swing.JFrame {
             pnlContainer.setLayout(cardLayout);
             
             pnlTrangchu = new PnlTrangChu(this);
+            pnlPhimTrangchu= new PnlPhimTrangchu(pnlTrangchu,this);
             pnldsPhim= new pnlDSPhim(this);
             pnlChiTiet= new pnlChiTietFilm (this);
             pnlSua=new pnlSuaPhim(this,pnldsPhim);
-            pnlThem= new pnlThemPhim(this,pnldsPhim,pnlTrangchu);
+            pnlThem= new pnlThemPhim(this,pnldsPhim,pnlPhimTrangchu);
             pnlUser= new pnlDanhSachUser(this);
             pnlDanhgia= new pnlDanhgia(this);
             pnlReplycmt= new pnlReplyCmt(this);
             
+            
             spTrangChu = createScrollPane(pnlTrangchu);
             spThem = createScrollPane(pnlThem);
             spSua = createScrollPane(pnlSua);
+            
             pnlContainer.add(spTrangChu,"trang chu");
             pnlContainer.add(pnldsPhim,"danh sach phim");
             pnlContainer.add(pnlChiTiet,"chi tiet phim");
@@ -111,13 +111,24 @@ public final class frmMain extends javax.swing.JFrame {
         pnldsPhim.showMovie(movie.getMovieID());
         cardLayout.show(pnlContainer, "chi tiet phim");
     }
+    public void updateMovie(){
+        System.out.println("da load lai");
+        pnlPhimTrangchu.loadData();
+    }
+    public void showPnlPhimTrangchu() {
+        pnlPhimTrangchu.removeAll();
+        updateMovie();  
+        pnlPhimTrangchu.revalidate();
+        pnlPhimTrangchu.repaint();
+        pnlTrangchu.revalidate();
+        pnlTrangchu.repaint();
+    }
     private void addMenuListeners() {
         btnTrangChu.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                spTrangChu.revalidate();
-                spTrangChu.repaint(); 
                 showPanel("trang chu");
+                showPnlPhimTrangchu();
                 pnlTrangchu.showPanel("phim trang chu");
                 setColor(btnTrangChu);
             }

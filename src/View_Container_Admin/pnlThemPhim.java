@@ -13,6 +13,7 @@ import Model.Countries;
 import Model.Formats;
 import Model.Genres;
 import Model.Movie_model;
+import View_Container_Admin.Home.PnlPhimTrangchu;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -46,16 +47,16 @@ public final class pnlThemPhim extends javax.swing.JPanel {
     private File selectedFile;
     private String selectedVidPath;
     private final pnlDSPhim pnlDSPhim ;
-    private PnlTrangChu pnlTrangChu ;
+    private PnlPhimTrangchu pnlPhimTrangChu ;
     private final Movie_controller movie_controller=new Movie_controller();
     private final Country_controller countryController= new Country_controller();
     private final Genre_controller genreController= new Genre_controller();
     private final Format_controller formatController = new Format_controller();
     private DefaultComboBoxModel<Object> cbmodel;
-     public pnlThemPhim(frmMain menu, pnlDSPhim pnlDSPhim,PnlTrangChu pnlTrangChu) {
+     public pnlThemPhim(frmMain menu, pnlDSPhim pnlDSPhim,PnlPhimTrangchu pnlPhimTrangChu) {
         this.menu = menu;
         this.pnlDSPhim = pnlDSPhim;
-        this.pnlTrangChu = pnlTrangChu;
+        this.pnlPhimTrangChu = pnlPhimTrangChu;
         initComponents();
         loadDataComboCountry();
         loadDataComboGenres();
@@ -70,6 +71,7 @@ public final class pnlThemPhim extends javax.swing.JPanel {
         this.cbTheLoai.setSelectedIndex(-1);
         this.cbDinhDang.setSelectedIndex(-1);
         this.cbQuocGia.setSelectedIndex(-1);
+        this.txtSoTap.setText("");
         this.txtMota.setText("");
         this.lblImage.setIcon(null);
         
@@ -89,9 +91,10 @@ public final class pnlThemPhim extends javax.swing.JPanel {
                         }
                     } else if (item instanceof Formats) {
                         Formats formatItem = (Formats) item;
-                        if (formatItem.getFormatId() == 1) {
-                            continue;  // Loại bỏ phần tử có FormatId == 0
+                        if (formatItem.getFormatId() == 1 ) {
+                                continue;  // Loại bỏ phần tử có FormatId == 0
                         }
+  
                     } else if (item instanceof Countries) {
                         Countries countryItem = (Countries) item;
                         if (countryItem.getCountryId() == 1) {
@@ -112,7 +115,7 @@ public final class pnlThemPhim extends javax.swing.JPanel {
     public void loadDataComboGenres() {
         try {
             List<Genres> dsGenre = genreController.getGenre(genre);
-            loadDataComboBox(cbTheLoai, dsGenre, "genreName"); // "genreName" là tên của phương thức getter
+            loadDataComboBox(cbTheLoai, dsGenre, "genreName"); 
         } catch (SQLException ex) {
             Logger.getLogger(pnlThemPhim.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -689,7 +692,6 @@ public final class pnlThemPhim extends javax.swing.JPanel {
             return;
         }
         int formatId= format.getFormatId();
-        System.out.println("Selected format ID: " + formatId);
         Countries country= (Countries) cbQuocGia.getSelectedItem();
         if (country == null) {
             JOptionPane.showMessageDialog(this, "Vui lòng chọn quốc gia!");
@@ -712,6 +714,7 @@ public final class pnlThemPhim extends javax.swing.JPanel {
         JOptionPane.showMessageDialog(menu, "Đã thêm thành công");
        
         setNull();
+        menu.showPnlPhimTrangchu();
     }//GEN-LAST:event_btnSaveActionPerformed
 
     private void btnUploadMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnUploadMouseClicked
@@ -722,16 +725,17 @@ public final class pnlThemPhim extends javax.swing.JPanel {
             selectedFile = fileChooser.getSelectedFile();
             //lấy đưuòng danx file để lưu vào 1 trường
             String pathFile = selectedFile.getAbsolutePath();
-            //            String pathFl = fl.getAbsolutePath().replace("//", "--");
-            BufferedImage img0;
-            try{
-                img0 = ImageIO.read(selectedFile);
-                Image img = img0.getScaledInstance(lblImage.getWidth(),lblImage.getHeight(),Image.SCALE_SMOOTH);
-                lblImage.setIcon(new ImageIcon(img));
-            }catch(Exception e){
-
+            try {
+                BufferedImage img0 = ImageIO.read(selectedFile);
+                if (img0 != null) {
+                    Image img = img0.getScaledInstance(lblImage.getWidth(), lblImage.getHeight(), Image.SCALE_SMOOTH);
+                    lblImage.setIcon(new ImageIcon(img));
+                } else {
+                    JOptionPane.showMessageDialog(this, "Không phải định dạng hình ảnh hợp lệ.", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                }
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Lỗi khi đọc file hình ảnh: " + e.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
             }
-
         }
     }//GEN-LAST:event_btnUploadMouseClicked
 
@@ -757,7 +761,7 @@ public final class pnlThemPhim extends javax.swing.JPanel {
             lblUpVid.setText("Đã chọn!");
             System.out.println("Video da chon: " + selectedVidPath);
         }else {
-            System.out.println("Không có tệp nào được chọn.");
+            JOptionPane.showMessageDialog(this, "Không có tệp video nào được chọn.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_lblUpVidMouseClicked
 

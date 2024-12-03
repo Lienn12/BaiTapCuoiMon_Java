@@ -12,10 +12,7 @@ import View_Main.frmMainUser;
 import java.awt.Color;
 import java.awt.Graphics;
 
-/**
- *
- * @author lienn
- */
+
 public class pnlPhim extends javax.swing.JLayeredPane {
      private  frmMain main;
     public pnlPhim(frmMain main) {
@@ -50,9 +47,9 @@ public class pnlPhim extends javax.swing.JLayeredPane {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(100, Short.MAX_VALUE)
+                .addContainerGap(142, Short.MAX_VALUE)
                 .addComponent(scrollBarCustom1, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(100, Short.MAX_VALUE))
+                .addContainerGap(143, Short.MAX_VALUE))
             .addComponent(sp)
         );
         layout.setVerticalGroup(
@@ -69,6 +66,12 @@ public class pnlPhim extends javax.swing.JLayeredPane {
         panel.add(item);
         panel.repaint();
         panel.revalidate();
+    }
+    public void removeImage(Movie_model movieModel) {
+        PnlitemImage item= new PnlitemImage(movieModel,main);
+        panel.remove(item);  
+        panel.repaint();    
+        panel.revalidate();  
     }
     @Override
     protected void paintComponent(Graphics g) {

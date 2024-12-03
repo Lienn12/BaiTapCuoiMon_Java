@@ -18,6 +18,8 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JLayeredPane;
+import javax.swing.JPanel;
 
 /**
  *
@@ -33,9 +35,7 @@ public class PnlPhimTrangchu extends javax.swing.JPanel {
         this.pnlTrangChu=pnlTrangChu;
         this.main=main;
         initComponents();
-        loadDataPhimdx();
-        loadDataPhimbo();
-        loadDataPhimle();
+        
     }
     private void loadDataForPanel(View_Container_Admin.Home.pnlPhim panel, List<Movie_model> movies) {
         if (movies != null && !movies.isEmpty()) {
@@ -49,10 +49,15 @@ public class PnlPhimTrangchu extends javax.swing.JPanel {
             System.out.println("Không có phim để hiển thị!");
         }
     }
+    public void loadData(){
+        loadDataPhimdx();
+        loadDataPhimbo();
+        loadDataPhimle();
+    }
     public void loadDataPhimdx() {
         try {
             List<Movie_model> dsmoviedx = movieController.getImage();
-            loadDataForPanel(pnlPhimdexuat, dsmoviedx);  
+            loadDataForPanel(pnlPhimdx, dsmoviedx);  
         } catch (SQLException ex) {
             Logger.getLogger(PnlTrangChu.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -77,6 +82,8 @@ public class PnlPhimTrangchu extends javax.swing.JPanel {
         }
     }
 
+
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -86,8 +93,8 @@ public class PnlPhimTrangchu extends javax.swing.JPanel {
         jLabel7 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
-        pnlPhimdexuat = new View_Container_Admin.Home.pnlPhim(main);
         pnlPhimbo = new View_Container_Admin.Home.pnlPhim(main);
+        pnlPhimdx = new View_Container_Admin.Home.pnlPhim(main);
         pnlPhimle = new View_Container_Admin.Home.pnlPhim(main);
         reviews1 = new View_Container_Admin.Home.Reviews();
 
@@ -125,41 +132,41 @@ public class PnlPhimTrangchu extends javax.swing.JPanel {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(40, 40, 40)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(pnlPhimdexuat, javax.swing.GroupLayout.PREFERRED_SIZE, 711, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(pnlPhimbo, javax.swing.GroupLayout.PREFERRED_SIZE, 711, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(reviews1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(51, 51, 51)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel9)
                     .addComponent(jLabel8)
-                    .addComponent(jLabel6)
                     .addComponent(jLabel7)
-                    .addComponent(pnlPhimle, javax.swing.GroupLayout.PREFERRED_SIZE, 711, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(49, 49, 49))
+                    .addComponent(jLabel9)
+                    .addComponent(jLabel6)
+                    .addComponent(pnlPhimbo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(pnlPhimle, javax.swing.GroupLayout.DEFAULT_SIZE, 701, Short.MAX_VALUE)
+                    .addComponent(pnlPhimdx, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(reviews1, javax.swing.GroupLayout.PREFERRED_SIZE, 373, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(48, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(40, 40, 40)
                 .addComponent(jLabel6)
-                .addGap(20, 20, 20)
-                .addComponent(pnlPhimdexuat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(40, 40, 40)
+                .addGap(18, 18, 18)
+                .addComponent(pnlPhimdx, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel7)
-                .addGap(20, 20, 20)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(pnlPhimbo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(40, 40, 40)
+                .addGap(30, 30, 30)
                 .addComponent(jLabel8)
-                .addGap(20, 20, 20)
-                .addComponent(pnlPhimle, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(40, 40, 40)
+                .addGap(18, 18, 18)
+                .addComponent(pnlPhimle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(24, 24, 24)
                 .addComponent(jLabel9)
-                .addGap(20, 20, 20)
+                .addGap(18, 18, 18)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(reviews1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(12, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(reviews1, javax.swing.GroupLayout.PREFERRED_SIZE, 542, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(42, 42, 42))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -171,7 +178,7 @@ public class PnlPhimTrangchu extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private View_Container_Admin.Home.pnlPhim pnlPhimbo;
-    private View_Container_Admin.Home.pnlPhim pnlPhimdexuat;
+    private View_Container_Admin.Home.pnlPhim pnlPhimdx;
     private View_Container_Admin.Home.pnlPhim pnlPhimle;
     private View_Container_Admin.Home.Reviews reviews1;
     // End of variables declaration//GEN-END:variables

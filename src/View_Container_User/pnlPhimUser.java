@@ -5,6 +5,7 @@
 package View_Container_User;
 
 import Model.Movie_model;
+import Model.User_model;
 import View_Container_Admin.Home.PnlitemImage;
 import View_Main.frmMain;
 import View_Main.frmMainUser;
@@ -63,8 +64,8 @@ public class pnlPhimUser extends javax.swing.JLayeredPane {
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
-    public void addImage(Movie_model movieModel){
-        PnlitemImageUser item= new PnlitemImageUser(movieModel,main);
+    public void addImage(Movie_model movieModel,User_model userModel){
+        PnlitemImageUser item= new PnlitemImageUser(movieModel,main,userModel);
         panel.add(item);
         panel.repaint();
         panel.revalidate();

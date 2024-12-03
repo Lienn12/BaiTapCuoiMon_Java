@@ -12,6 +12,7 @@ public class ListReview<E extends Object> extends JList<E>{
         listModel=new DefaultListModel();
         setModel(listModel);
         setOpaque(false);
+        setBackground(Color.WHITE);
     }
 
     @Override

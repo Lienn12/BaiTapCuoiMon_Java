@@ -108,7 +108,7 @@ public class User_model {
         this.userID=rs.getInt("User_ID");
         this.username =rs.getString("Username");     
         this.email = rs.getString("Email");
-        this.gender = rs.getString("GENDERNAME");
+        this.gender = rs.getString("GENDER");
         this.birth = rs.getDate("BIRTH");
     }
 

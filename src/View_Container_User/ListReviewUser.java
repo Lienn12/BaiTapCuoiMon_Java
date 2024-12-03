@@ -5,6 +5,7 @@
 package View_Container_User;
 import Model.Movie_model;
 import Model.Review_model;
+import Model.User_model;
 import View_Container_Admin.Home.ItemReview;
 import View_Main.frmMainUser;
 import java.awt.*;
@@ -13,6 +14,7 @@ public class ListReviewUser<E extends Object> extends JList<E>{
     private final DefaultListModel listModel;
     private frmMainUser main;
     private Movie_model movieModel;
+    private User_model userModel;
     public ListReviewUser(){
         listModel=new DefaultListModel();
         setModel(listModel);
@@ -31,7 +33,7 @@ public class ListReviewUser<E extends Object> extends JList<E>{
                 }else{
                     reviewModel= new Review_model("no",0,"no",0);
                 }
-                ItemReviewUser item= new ItemReviewUser(movieModel,reviewModel,main);
+                ItemReviewUser item= new ItemReviewUser(movieModel,reviewModel,main,userModel);
                 return item;
             }
         };

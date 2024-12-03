@@ -11,6 +11,8 @@ import View_Main.Frm_Login_Signup;
 import Controllers.User_controller;
 import Model.Admin_model;
 import Model.User_model;
+import View_Container_User.PnlChiTietFilmUser;
+import View_Container_User.PnlFavorite;
 import View_Container_User.pnlCaNhan;
 import View_Main.frmMain;
 import View_Main.frmMainUser;
@@ -42,13 +44,12 @@ public class PnlLogin extends javax.swing.JPanel {
         userController = new User_controller();
         userModel=new User_model();
         userInfo = new User_model();
-        frmMain= new frmMain();
-        frmMainUser= new frmMainUser();
         adminController= new Admin_controller();
         adminModel = new Admin_model();
         lbshowPass.setVisible(false);
         lbhidePass.setVisible(true);
     }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -289,10 +290,14 @@ public class PnlLogin extends javax.swing.JPanel {
                     int userID = userModel.getUserID(); 
                     JOptionPane.showMessageDialog(this,"Đăng nhập thành công");
                     userInfo = userController.getInfo(userID);
+                    frmMainUser= new frmMainUser();
+                    frmMainUser.setuserModel(userModel);
                     frmMainUser.setVisible(true);
                     frmLoginSignup.dispose();
                     pnlCaNhan pnlInfo = frmMainUser.getpnlCaNhan();
                     pnlInfo.setInfo(userInfo);
+                    PnlFavorite pnlFavorite= frmMainUser.getFavorite();
+                    pnlFavorite.ShowData(userID);
                 }else 
                     if(adminController.CheckLoginAdmin(adminModel, password)){
                      JOptionPane.showMessageDialog(this,"Đăng nhập thành công");

@@ -12,6 +12,7 @@ import Model.Countries;
 import Model.Formats;
 import Model.Genres;
 import Model.Movie_model;
+import Model.User_model;
 import View_Container_Admin.Home.PnlPhimLoai;
 import View_Container_Admin.Home.PnlPhimTrangchu;
 import View_Main.frmMain;
@@ -51,6 +52,7 @@ public class PnlTrangChuUser extends javax.swing.JPanel {
     private final Countries country = new Countries();
     private final Formats format = new Formats();
     private frmMainUser main;
+    private User_model userModel;
     private final Movie_model movieModel=new Movie_model();
     private final Movie_controller movieController = new Movie_controller();
     private final Country_controller countryController= new Country_controller();
@@ -67,8 +69,8 @@ public class PnlTrangChuUser extends javax.swing.JPanel {
     public void init(){
         cardLayout=new CardLayout();
         pnlPhim.setLayout(cardLayout);       
-        pnlPhimLoai = new PnlPhimLoaiUser(this,movieModel,main);
-        pnlPhimTrangchu = new PnlPhimTrangchuUser(this,main);
+        pnlPhimLoai = new PnlPhimLoaiUser(this,movieModel,main,userModel);
+        pnlPhimTrangchu = new PnlPhimTrangchuUser(this,main,userModel);
         pnlPhim.add(pnlPhimTrangchu,"phim trang chu");
         pnlPhim.add(pnlPhimLoai,"phim loai");
         showPanel("phim trang chu");

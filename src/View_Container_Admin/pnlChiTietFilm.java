@@ -57,12 +57,13 @@ public class pnlChiTietFilm extends javax.swing.JPanel {
             g2.setPaint(gp);
            g2.fillRect(0, 0, width, height);
       }
+      
       public void setbtnBack(){
           cardLayout= new CardLayout();
           back.setLayout(cardLayout);
           back.add(lbBackdsPhim,"back danh sach phim");
           back.add(lbBackTrangchu,"back phim trang chu");
-           cardLayout.show(back, "favorite"); 
+          cardLayout.show(back, "back phim trang chu"); 
       }
       public void showPanel(String lbName){
         cardLayout.show(back, lbName); 
@@ -71,6 +72,8 @@ public class pnlChiTietFilm extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        lbBackTrangchu = new javax.swing.JLabel();
+        lbBackdsPhim = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         pnlThongtin = new cell.PanelBorder();
         lblImg = new javax.swing.JLabel();
@@ -93,8 +96,28 @@ public class pnlChiTietFilm extends javax.swing.JPanel {
         pnlPlay = new cell.PanelBorder();
         btnTrailer = new javax.swing.JLabel();
         back = new javax.swing.JPanel();
-        lbBackdsPhim = new javax.swing.JLabel();
-        lbBackTrangchu = new javax.swing.JLabel();
+
+        lbBackTrangchu.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lbBackTrangchu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/backxanh.png"))); // NOI18N
+        lbBackTrangchu.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lbBackTrangchu.setMaximumSize(new java.awt.Dimension(32, 48));
+        lbBackTrangchu.setPreferredSize(new java.awt.Dimension(50, 48));
+        lbBackTrangchu.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lbBackTrangchuMouseClicked(evt);
+            }
+        });
+
+        lbBackdsPhim.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lbBackdsPhim.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/backxanh.png"))); // NOI18N
+        lbBackdsPhim.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lbBackdsPhim.setMaximumSize(new java.awt.Dimension(32, 48));
+        lbBackdsPhim.setPreferredSize(new java.awt.Dimension(50, 48));
+        lbBackdsPhim.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lbBackdsPhimMouseClicked(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(5, 38, 89));
@@ -300,39 +323,15 @@ public class pnlChiTietFilm extends javax.swing.JPanel {
         jPanel3.getAccessibleContext().setAccessibleDescription("");
         jPanel5.getAccessibleContext().setAccessibleDescription("");
 
-        lbBackdsPhim.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lbBackdsPhim.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/backxanh.png"))); // NOI18N
-        lbBackdsPhim.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        lbBackdsPhim.setMaximumSize(new java.awt.Dimension(32, 48));
-        lbBackdsPhim.setPreferredSize(new java.awt.Dimension(50, 48));
-        lbBackdsPhim.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lbBackdsPhimMouseClicked(evt);
-            }
-        });
-
-        lbBackTrangchu.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lbBackTrangchu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/backxanh.png"))); // NOI18N
-        lbBackTrangchu.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        lbBackTrangchu.setMaximumSize(new java.awt.Dimension(32, 48));
-        lbBackTrangchu.setPreferredSize(new java.awt.Dimension(50, 48));
-        lbBackTrangchu.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lbBackTrangchuMouseClicked(evt);
-            }
-        });
-
         javax.swing.GroupLayout backLayout = new javax.swing.GroupLayout(back);
         back.setLayout(backLayout);
         backLayout.setHorizontalGroup(
             backLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(lbBackdsPhim, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addComponent(lbBackTrangchu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGap(0, 50, Short.MAX_VALUE)
         );
         backLayout.setVerticalGroup(
             backLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(lbBackdsPhim, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addComponent(lbBackTrangchu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGap(0, 48, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -366,7 +365,7 @@ public class pnlChiTietFilm extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void lbBackdsPhimMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbBackdsPhimMouseClicked
-        menu.showPanel("trang chu");
+        menu.showPanel("danh sach phim");
     }//GEN-LAST:event_lbBackdsPhimMouseClicked
 
     private void btnTrailerMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnTrailerMouseClicked
@@ -379,7 +378,7 @@ public class pnlChiTietFilm extends javax.swing.JPanel {
     }//GEN-LAST:event_btnTrailerMouseClicked
 
     private void lbBackTrangchuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbBackTrangchuMouseClicked
-        menu.showPanel("danh sach phim");
+        menu.showPanel("trang chu");
     }//GEN-LAST:event_lbBackTrangchuMouseClicked
 
 

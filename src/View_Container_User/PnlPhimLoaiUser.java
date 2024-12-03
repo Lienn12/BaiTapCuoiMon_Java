@@ -16,6 +16,7 @@ import Model.Countries;
 import Model.Formats;
 import Model.Genres;
 import Model.Movie_model;
+import Model.User_model;
 import Scrollbar.ScrollBarCustom;
 import View_Container_Admin.Home.WrapLayout;
 import View_Container_Admin.pnlThemPhim;
@@ -36,6 +37,7 @@ import javax.swing.JOptionPane;
 public class PnlPhimLoaiUser extends javax.swing.JPanel {
     private frmMainUser main;
     private Movie_model movieModel;
+    private User_model userModel;
     private PnlTrangChuUser pnlTrangChu;
     private final Genres genre = new Genres();
     private final Countries country = new Countries();
@@ -45,10 +47,11 @@ public class PnlPhimLoaiUser extends javax.swing.JPanel {
     private final Genre_controller genreController= new Genre_controller();
     private final Format_controller formatController = new Format_controller();
      private DefaultComboBoxModel<Object> cbmodel;
-    public PnlPhimLoaiUser(PnlTrangChuUser pnlTrangChu,Movie_model movieModel,frmMainUser main) {
+    public PnlPhimLoaiUser(PnlTrangChuUser pnlTrangChu,Movie_model movieModel,frmMainUser main,User_model userModel) {
         this.pnlTrangChu=pnlTrangChu;
         this.movieModel=movieModel;
         this.main=main;
+        this.userModel=userModel;
         initComponents();
         loadData();
         panel.setLayout(new WrapLayout(WrapLayout.LEADING));
@@ -120,7 +123,7 @@ public class PnlPhimLoaiUser extends javax.swing.JPanel {
                 panel.removeAll();  
                 for (Movie_model movie : dsmovie) {
                     if (movie != null) {
-                        PnlitemImageUser item = new PnlitemImageUser(movie,main);  
+                        PnlitemImageUser item = new PnlitemImageUser(movie,main,userModel);  
                         panel.add(item);  
                     } else {
                         System.out.println("Movie_model là null.");

@@ -50,6 +50,21 @@ public class Review_controller {
         rs.close();
         return dsReview;
     }
+    public List<Review_model> getReviewMovie(int movieID) throws SQLException {
+        List<Review_model> dsReview= new ArrayList<Review_model>();
+        String sql="SELECT REVIEW_ID,USERNAME,TITLE,REVIEW_DATE FROM REVIEWS,USERS,MOVIES WHERE REVIEWS.MOVIE_ID=MOVIES.MOVIE_ID AND REVIEWS.USER_ID=USERS.USER_ID AND MOVIE_ID=?";        
+        prst= conn.prepareStatement(sql);
+        prst.setInt(1, movieID);
+        rs=prst.executeQuery();
+        while(rs.next()){
+            Review_model reviewModel= new Review_model(rs);
+            dsReview.add(reviewModel);
+        }
+        prst.close();
+        rs.close();
+        return dsReview;
+    }
+    
     
     public Review_model getReview(int reviewID) throws SQLException{
         String sql="SELECT * FROM REVIEWS WHERE REVIEW_ID=?";
@@ -64,15 +79,14 @@ public class Review_controller {
         return reviewModel;
     }
     
-    public boolean InsertReview(Review_model reviewModel) throws SQLException{
-        String sql="INSERT INTO REVIEWS VALUES (?,?,?,?,?,?)";
+    public boolean InsertReview(int movieID, int userID, int rating, String comment, Timestamp time) throws SQLException{
+        String sql="INSERT INTO REVIEWS(movie_ID,user_ID,rating,comment,review_date) VALUES (?,?,?,?,?)";
         prst= conn.prepareStatement(sql);
-        prst.setInt(1, reviewModel.getReviewID());
-        prst.setInt(2, reviewModel.getMovieModel().getMovieID());
-        prst.setInt(3, reviewModel.getUserModel().getUserID());
-        prst.setFloat(4, reviewModel.getRating());
-        prst.setString(5, reviewModel.getComment());
-        prst.setTimestamp(6, new Timestamp(reviewModel.getReviewDate().getTime()));
+        prst.setInt(1, movieID);
+        prst.setInt(2, userID);
+        prst.setFloat(3, rating);
+        prst.setString(4, comment);
+        prst.setTimestamp(5, time);
         int row= prst.executeUpdate();
         prst.close();
         updateMovieRatings();

@@ -17,9 +17,9 @@
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
-              <EmptySpace pref="100" max="32767" attributes="0"/>
+              <EmptySpace pref="142" max="32767" attributes="0"/>
               <Component id="scrollBarCustom1" min="-2" pref="170" max="-2" attributes="0"/>
-              <EmptySpace pref="100" max="32767" attributes="0"/>
+              <EmptySpace pref="143" max="32767" attributes="0"/>
           </Group>
           <Component id="sp" alignment="0" max="32767" attributes="0"/>
       </Group>

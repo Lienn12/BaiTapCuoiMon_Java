@@ -7,6 +7,7 @@ package View_Main;
 
 import Model.Movie_model;
 import Model.Review_model;
+import Model.User_model;
 import Scrollbar.ScrollBarCustom;
 import View_Container_User.PnlTrangChuUser;
 import View_Container_User.PnlChiTietFilmUser;
@@ -33,6 +34,7 @@ public final class frmMainUser extends javax.swing.JFrame {
     private PnlFavorite pnlFavorite; 
     private PnlChiTietFilmUser pnlChiTietFilmUser;
     private pnlCaNhan pnlcanhan;
+    private User_model userModel;
     public frmMainUser()  {
         initComponents();
         setLocationRelativeTo(null);
@@ -85,9 +87,19 @@ public final class frmMainUser extends javax.swing.JFrame {
     public pnlCaNhan getpnlCaNhan(){
         return pnlcanhan;
     }
+    public PnlFavorite getFavorite(){
+        return pnlFavorite;
+    }
+    public void setuserModel(User_model userModel) {
+        this.userModel=userModel;
+    }
     public void showMovieDetail(Movie_model movie) {
-        pnlChiTietFilmUser.showMovie(movie.getMovieID());
-        cardLayout.show(pnlContainer, "chi tiet phim");
+        if (userModel != null) {
+            pnlChiTietFilmUser.showMovie(movie.getMovieID(), userModel.getUserID());
+            cardLayout.show(pnlContainer, "chi tiet phim");
+        } else {
+            JOptionPane.showMessageDialog(this, "User model is not set!");
+        }
     }
 
     private void addMenuListeners() {
@@ -196,7 +208,7 @@ public final class frmMainUser extends javax.swing.JFrame {
                 .addComponent(jLabel7)
                 .addGap(30, 30, 30)
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(54, Short.MAX_VALUE))
+                .addContainerGap(82, Short.MAX_VALUE))
         );
         btnTrangChuLayout.setVerticalGroup(
             btnTrangChuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -219,6 +231,7 @@ public final class frmMainUser extends javax.swing.JFrame {
         jLabel3.setText("Yêu thích");
 
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/favorite.png"))); // NOI18N
 
         javax.swing.GroupLayout btnDSYeuThichLayout = new javax.swing.GroupLayout(btnDSYeuThich);
         btnDSYeuThich.setLayout(btnDSYeuThichLayout);
@@ -228,7 +241,7 @@ public final class frmMainUser extends javax.swing.JFrame {
                 .addGap(30, 30, 30)
                 .addComponent(jLabel4)
                 .addGap(30, 30, 30)
-                .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 202, Short.MAX_VALUE)
+                .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 192, Short.MAX_VALUE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         btnDSYeuThichLayout.setVerticalGroup(
@@ -252,6 +265,7 @@ public final class frmMainUser extends javax.swing.JFrame {
         jLabel5.setText("Thông tin cá nhân");
 
         jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/personal.png"))); // NOI18N
 
         javax.swing.GroupLayout btnCaNhanLayout = new javax.swing.GroupLayout(btnCaNhan);
         btnCaNhan.setLayout(btnCaNhanLayout);
@@ -308,7 +322,7 @@ public final class frmMainUser extends javax.swing.JFrame {
         pnlMenu.setLayout(pnlMenuLayout);
         pnlMenuLayout.setHorizontalGroup(
             pnlMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(btnDSYeuThich, javax.swing.GroupLayout.DEFAULT_SIZE, 276, Short.MAX_VALUE)
+            .addComponent(btnDSYeuThich, javax.swing.GroupLayout.DEFAULT_SIZE, 304, Short.MAX_VALUE)
             .addComponent(btnLogout, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(btnTrangChu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(btnCaNhan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -437,7 +451,7 @@ public final class frmMainUser extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(frmMainUser.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-
+        User_model user = null ; 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {

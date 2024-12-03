@@ -25,7 +25,7 @@ public class User_controller {
      
     public List<User_model> getUser() throws SQLException {
         List<User_model> dsUser= new ArrayList<User_model>();
-        String sql="SELECT USER_ID, USERNAME, GENDERNAME, BIRTH,EMAIL FROM USERS, GENDERS WHERE USERS.GENDERID=GENDERS.GENDERID AND STATUS='VERIFIED'";        
+        String sql="SELECT USER_ID, USERNAME, GENDER, BIRTH,EMAIL FROM USERS WHERE STATUS='VERIFIED'";        
         prst= conn.prepareStatement(sql);
         rs=prst.executeQuery();
         while(rs.next()){
