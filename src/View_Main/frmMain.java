@@ -3,6 +3,7 @@ package View_Main;
 import Model.Movie_model;
 import Scrollbar.ScrollBarCustom;
 import View_Container_Admin.Home.PnlPhimTrangchu;
+
 import View_Container_Admin.PnlTrangChu;
 import View_Container_Admin.pnlDanhSachUser;
 import View_Container_Admin.pnlChiTietFilm;
@@ -35,6 +36,7 @@ public final class frmMain extends javax.swing.JFrame {
     private pnlDanhgia pnlDanhgia;
     private pnlReplyCmt pnlReplycmt;
     private PnlPhimTrangchu pnlPhimTrangchu;
+    private Frm_Login_Signup frmLoginSignup= new Frm_Login_Signup();
     public frmMain()  {
         initComponents();
         setLocationRelativeTo(null);
@@ -111,16 +113,12 @@ public final class frmMain extends javax.swing.JFrame {
         pnlChiTiet.showMovie(movie.getMovieID());
         cardLayout.show(pnlContainer, "chi tiet phim");
     }
-    public void loadTrangChu(){
-        pnlPhimTrangchu.xoaDuLieu();
-        pnlPhimTrangchu.loadData();
-    }
     private void addMenuListeners() {
         btnTrangChu.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 showPanel("trang chu");
-                 loadTrangChu();
+                pnlTrangchu.reloadPanel();
                 pnlTrangchu.showPanel("phim trang chu");
                 setColor(btnTrangChu);
             }
@@ -153,9 +151,15 @@ public final class frmMain extends javax.swing.JFrame {
         btnLogout.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                Frm_Login_Signup frmLoginSignup= new Frm_Login_Signup();
-                frmLoginSignup.setVisible(true);
-                dispose();
+                int confirm = JOptionPane.showConfirmDialog(
+                                frmMain.this,
+                                "Bạn có chắc chắn muốn đăng xuất?",
+                                "Xác nhận đăng xuất",
+                                JOptionPane.YES_NO_OPTION);
+                if (confirm == JOptionPane.YES_OPTION) {
+                    frmLoginSignup.setVisible(true);
+                    dispose();
+                }
             }
         });
     }
@@ -519,6 +523,10 @@ public final class frmMain extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(frmMain.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>

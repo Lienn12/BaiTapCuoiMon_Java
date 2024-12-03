@@ -658,10 +658,10 @@ public final class pnlThemPhim extends javax.swing.JPanel {
 
     private void lbBackMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbBackMouseClicked
         if (pnlDSPhim != null) {
-            pnlDSPhim.ClearData(); // Xóa dữ liệu cũ
-            pnlDSPhim.ShowData();  // Tải lại dữ liệu mới
+            pnlDSPhim.ClearData(); 
+            pnlDSPhim.ShowData(); 
         }
-        menu.loadTrangChu();
+        pnlPhimTrangChu.loadData();
         menu.showPanel("danh sach phim");
     }//GEN-LAST:event_lbBackMouseClicked
     

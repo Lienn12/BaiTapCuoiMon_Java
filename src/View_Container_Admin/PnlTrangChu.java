@@ -36,6 +36,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 
+
 /**
  *
  * @author lienn
@@ -63,6 +64,12 @@ public class PnlTrangChu extends javax.swing.JPanel {
         initComboCountry();
         initPhim();
     }
+    public void reloadPanel() {
+        pnlPhim.removeAll(); 
+        init(); 
+        pnlPhim.revalidate(); 
+        pnlPhim.repaint();
+    }
     public void init(){
         cardLayout=new CardLayout();
         pnlPhim.setLayout(cardLayout);       
@@ -71,6 +78,7 @@ public class PnlTrangChu extends javax.swing.JPanel {
         pnlPhim.add(pnlPhimTrangchu,"phim trang chu");
         pnlPhim.add(pnlPhimLoai,"phim loai");        
         showPanel("phim trang chu");
+        pnlPhimTrangchu.loadData();
     }
     public void showPanel(String panelName){
         cardLayout.show(pnlPhim, panelName); 

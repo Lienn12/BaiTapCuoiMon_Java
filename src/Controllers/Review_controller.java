@@ -153,7 +153,7 @@ public class Review_controller {
     }
     
     public boolean setReply(int reviewId,String reply) throws SQLException{
-        String sql="UPDATE REVIEWS SET REPLY=CONCAT(REPLY, '; ', ?), STATUS='responded' WHERE REVIEW_ID= ?";
+        String sql="UPDATE REVIEWS SET REPLY=CONCAT(REPLY, '; ', ?) WHERE REVIEW_ID= ?";
         prst=conn.prepareStatement(sql);
         prst.setString (1, reply);
         prst.setInt(2, reviewId);

@@ -75,6 +75,12 @@ public class PnlTrangChuUser extends javax.swing.JPanel {
         pnlPhim.add(pnlPhimLoai,"phim loai");
         showPanel("phim trang chu");
     }
+    public void reloadPanel() {
+        pnlPhim.removeAll(); 
+        init(); 
+        pnlPhim.revalidate(); 
+        pnlPhim.repaint();
+    }
     public PnlPhimTrangchuUser getTrangchu(){
         return pnlPhimTrangchu;
     }

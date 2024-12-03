@@ -13,6 +13,7 @@ import Model.Countries;
 import Model.Formats;
 import Model.Genres;
 import Model.Movie_model;
+import Scrollbar.ScrollBarCustom;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import javax.imageio.ImageIO;
@@ -134,8 +135,7 @@ public final class pnlSuaPhim extends javax.swing.JPanel {
         try {
             Movie_model movie = movie_controller.getMovieById(movieID);
             if(movie != null) {
-                pnlSuaPhim pnlSua = menu.getPanelSua();
-                pnlSua.setMovieDetails(movie);
+                setMovieDetails(movie);
                 menu.showPanel("sua phim");
             } else {
                 System.out.println("Khong tim thay ID phim !");
@@ -308,6 +308,7 @@ public final class pnlSuaPhim extends javax.swing.JPanel {
         txtMota.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         txtMota.setLineWrap(true);
         txtMota.setRows(5);
+        txtMota.setWrapStyleWord(true);
         txtMota.setBorder(null);
         jScrollPane1.setViewportView(txtMota);
 
@@ -619,7 +620,7 @@ public final class pnlSuaPhim extends javax.swing.JPanel {
     }//GEN-LAST:event_btnCancelActionPerformed
 
     private void btnUploadMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnUploadMouseEntered
-//        btnUpload.setOpaque(true);
+
         btnUpload.setBackground(new Color(84, 131, 179));
     }//GEN-LAST:event_btnUploadMouseEntered
 
@@ -660,9 +661,8 @@ public final class pnlSuaPhim extends javax.swing.JPanel {
         movie.setCountry((Countries) cbQuocGia.getSelectedItem());
         movie.setEpisodes(Integer.parseInt(txtSoTap.getText()));
         movie.setDescription(txtMota.getText()); // Lấy mô tả
-        jScrollPane1.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        jScrollPane1.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
-        // Chuyển đổi ảnh từ JLabel sang byte[]
+        jScrollPane1.setVerticalScrollBar(new ScrollBarCustom());
+        jScrollPane1.setBackground(Color.WHITE);
         byte[] imageBytes = null;
         if (lblImage.getIcon() != null) {
             ImageIcon icon = (ImageIcon) lblImage.getIcon();
@@ -689,9 +689,34 @@ public final class pnlSuaPhim extends javax.swing.JPanel {
         txtTen.setText(movie.getTitle()); 
         txtDaodien.setText(movie.getDirector());
         txtDienVien.setText(movie.getCast());
-        cbTheLoai.setSelectedItem(movie.getGenre());
-        cbDinhDang.setSelectedItem(movie.getFormat());
-        cbQuocGia.setSelectedItem(movie.getCountry());
+         int genreId = movie.getGenre().getGenreId();
+        for (int i = 0; i < cbTheLoai.getItemCount(); i++) {
+            Genres genre = (Genres) cbTheLoai.getItemAt(i);
+            if (genre.getGenreId() == genreId) {
+                cbTheLoai.setSelectedIndex(i);
+                break;
+            }
+        }
+
+        // Định dạng
+        int formatId = movie.getFormat().getFormatId();
+        for (int i = 0; i < cbDinhDang.getItemCount(); i++) {
+            Formats format = (Formats) cbDinhDang.getItemAt(i);
+            if (format.getFormatId() == formatId) {
+                cbDinhDang.setSelectedIndex(i);
+                break;
+            }
+        }
+
+        // Quốc gia
+        int countryId = movie.getCountry().getCountryId();
+        for (int i = 0; i < cbQuocGia.getItemCount(); i++) {
+            Countries country = (Countries) cbQuocGia.getItemAt(i);
+            if (country.getCountryId() == countryId) {
+                cbQuocGia.setSelectedIndex(i);
+                break;
+            }
+        }
         txtSoTap.setText(String.valueOf(movie.getEpisodes()));
         txtMota.setText(movie.getDescription()); 
         if(movie.getImg() !=null && movie.getImg().length >0){

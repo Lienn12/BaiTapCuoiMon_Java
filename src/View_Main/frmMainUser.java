@@ -94,21 +94,38 @@ public final class frmMainUser extends javax.swing.JFrame {
     public void setuserModel(User_model userModel) {
         this.userModel=userModel;
     }
+    public boolean confirmLogin(JFrame parentFrame) {
+        int result = JOptionPane.showConfirmDialog(
+            parentFrame,
+            "Bạn cần đăng nhập để tiếp tục. Vui lòng đăng nhập ngay bây giờ!",
+            "Yêu cầu đăng nhập",
+            JOptionPane.YES_NO_OPTION,
+            JOptionPane.QUESTION_MESSAGE
+        );
+
+        return result == JOptionPane.YES_OPTION;
+    }
     public void showMovieDetail(Movie_model movie) {
         if (userModel != null) {
             pnlChiTietFilmUser.showMovie(movie.getMovieID(), userModel.getUserID());
             cardLayout.show(pnlContainer, "chi tiet phim");
         } else {
-            JOptionPane.showMessageDialog(this, "Hãy đăng nhập");
-            frmLoginSignup.setVisible(true);
+            if (confirmLogin(this)) {
+                frmLoginSignup.setVisible(true);
+            } else {
+                System.out.println("Người dùng từ chối đăng nhập.");
+            }
         }
     }
-
+    public void loadTrangchu(){
+        pnlTrangchu.reloadPanel();
+    }
     private void addMenuListeners() {
         btnTrangChu.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                showPanel("trang chu");
+                showPanel("trang chu");    
+                loadTrangchu();
                 pnlTrangchu.showPanel("phim trang chu");
                 setColor(btnTrangChu);
             }
@@ -116,27 +133,48 @@ public final class frmMainUser extends javax.swing.JFrame {
         btnDSYeuThich.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                // Chuyển sang panel danh sách phim
-                pnlFavorite.ShowData(userModel.getUserID());
-                showPanel("danh sach yeu thich");
-                setColor(btnDSYeuThich);
+                if(userModel!=null){
+                    pnlFavorite.ShowData(userModel.getUserID());
+                    showPanel("danh sach yeu thich");
+                    setColor(btnDSYeuThich);
+                }else{
+                    if (confirmLogin(frmMainUser.this)) {
+                        frmLoginSignup.setVisible(true);
+                    } else {
+                        System.out.println("Người dùng từ chối đăng nhập.");
+                    }
+                }   
             }
-        });
-        
+        });  
         btnCaNhan.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                showPanel("ca nhan");
-                setColor(btnCaNhan);
+                if(userModel!=null){
+                    showPanel("ca nhan");
+                    setColor(btnCaNhan);
+                }else{
+                    if (confirmLogin(frmMainUser.this)) {
+                        frmLoginSignup.setVisible(true);
+                    } else {
+                        System.out.println("Người dùng từ chối đăng nhập.");
+                    }
+                }   
+                
             }
         });
         
         btnLogout.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                Frm_Login_Signup frmLoginSignup= new Frm_Login_Signup();
-                frmLoginSignup.setVisible(true);
-                dispose();
+                int confirm = JOptionPane.showConfirmDialog(
+                                frmMainUser.this,
+                                "Bạn có chắc chắn muốn đăng xuất?",
+                                "Xác nhận đăng xuất",
+                                JOptionPane.YES_NO_OPTION);
+                if (confirm == JOptionPane.YES_OPTION) {
+                    frmLoginSignup.setVisible(true);
+                    dispose();
+                }
             }
         });
     }
