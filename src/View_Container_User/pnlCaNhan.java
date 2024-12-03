@@ -42,13 +42,12 @@ public class pnlCaNhan extends javax.swing.JPanel {
         if (userInfo.getBirth() != null) {
             txtBirth.setText(new SimpleDateFormat("yyyy-MM-dd").format(userInfo.getBirth()));
         } else {
-            txtBirth.setText("");  // Gán chuỗi rỗng nếu birth là null
+            txtBirth.setText("");  
         }
-        // Kiểm tra và thiết lập gender, nếu null thì gán chuỗi rỗng
         if (userInfo.getGender() != null) {
             cbxGioiTinh.setSelectedItem(userInfo.getGender());
         } else {
-            cbxGioiTinh.setSelectedItem("");  // Gán chuỗi rỗng nếu gender là null
+            cbxGioiTinh.setSelectedItem("");  
         }
     }
     @SuppressWarnings("unchecked")
@@ -249,9 +248,9 @@ public class pnlCaNhan extends javax.swing.JPanel {
     }
     private void lblsaveMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblsaveMouseClicked
         try {
-            // Lấy thông tin người dùng từ giao diện
             User_model user = getUser_Info();
-            // Kiểm tra và chuyển đổi ID
+            String username = txtName.getText();
+            user.setUsername(username);
             if (txtID.getText().trim().isEmpty()) {
                 JOptionPane.showMessageDialog(menu, "ID không được để trống.", "Lỗi", JOptionPane.ERROR_MESSAGE);
                 return;
@@ -259,7 +258,6 @@ public class pnlCaNhan extends javax.swing.JPanel {
             int Id = Integer.parseInt(txtID.getText());
             user.setUserID(Id);
             boolean isUpdated = controller.updateInfo(user);
-            // Thử cập nhật thông tin
             if (isUpdated) {
                 setInfo(user_model);
                 JOptionPane.showMessageDialog(menu, "Đã sửa thành công.");

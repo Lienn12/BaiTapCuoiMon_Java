@@ -84,8 +84,11 @@ public class PnlPhimTrangchu extends javax.swing.JPanel {
             Logger.getLogger(PnlTrangChu.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
-
+    public void xoaDuLieu() {
+        phimDx.removeAll();
+        phimbo.removeAll();
+        phimle.removeAll();
+    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents

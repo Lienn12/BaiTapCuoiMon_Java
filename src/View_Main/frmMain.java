@@ -112,6 +112,7 @@ public final class frmMain extends javax.swing.JFrame {
         cardLayout.show(pnlContainer, "chi tiet phim");
     }
     public void loadTrangChu(){
+        pnlPhimTrangchu.xoaDuLieu();
         pnlPhimTrangchu.loadData();
     }
     private void addMenuListeners() {
@@ -119,7 +120,7 @@ public final class frmMain extends javax.swing.JFrame {
             @Override
             public void mouseClicked(MouseEvent e) {
                 showPanel("trang chu");
-                pnlPhimTrangchu.loadData();
+                 loadTrangChu();
                 pnlTrangchu.showPanel("phim trang chu");
                 setColor(btnTrangChu);
             }
