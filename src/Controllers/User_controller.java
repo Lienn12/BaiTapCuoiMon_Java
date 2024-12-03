@@ -244,7 +244,7 @@ public class User_controller {
     }
     
     public User_model getInfo(int userid) throws  SQLException{
-        String sql = "SELECT USER_ID, USERNAME, GENDER, BIRTH,EMAIL FROM USERS WHERE USER_ID=?";
+        String sql = "SELECT USER_ID, USERNAME, GENDER, BIRTH, EMAIL FROM USERS WHERE USER_ID=?";
         User_model userInfo = null;
         prst = conn.prepareStatement(sql);
         prst.setInt(1, userid);
@@ -253,15 +253,21 @@ public class User_controller {
             userInfo = new User_model();
             userInfo.setUserID(rs.getInt("USER_ID"));
             userInfo.setUsername(rs.getString("USERNAME"));
+            userInfo.setBirth(rs.getDate("BIRTH"));
             userInfo.setGender(rs.getString("GENDER"));
             userInfo.setEmail(rs.getString("EMAIL"));
-            
         }
         return userInfo;
     }
     
-//    public boolean updateInfo(User_model user_model)throws SQLException{
-//        String sql = "UPDATE USERS SET BIRTH=?, GENDER=?,EMAIL=? WHERE USER_ID=?";
-//        
-//    }
+    public boolean updateInfo(User_model user_model)throws SQLException{
+        String sql = "UPDATE USERS SET BIRTH=?, GENDER=?, EMAIL=? WHERE USER_ID=?";
+        prst = conn.prepareStatement(sql);
+        prst.setDate(1, new java.sql.Date(user_model.getBirth().getTime()));
+        prst.setString(2,user_model.getGender());
+        prst.setString(3,user_model.getEmail());
+        prst.setInt(4, user_model.getUserID());
+        int rowsUpdated = prst.executeUpdate();
+        return rowsUpdated > 0;
+    }
 }

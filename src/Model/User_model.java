@@ -105,9 +105,9 @@ public class User_model {
     }
     
     public User_model(ResultSet rs) throws SQLException{
-        this.userID=rs.getInt("User_ID");
-        this.username =rs.getString("Username");     
-        this.email = rs.getString("Email");
+        this.userID=rs.getInt("USER_ID");
+        this.username =rs.getString("USERNAME");     
+        this.email = rs.getString("EMAIL");
         this.gender = rs.getString("GENDER");
         this.birth = rs.getDate("BIRTH");
     }

@@ -14,6 +14,11 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -22,6 +27,7 @@ import java.sql.SQLException;
 public class pnlCaNhan extends javax.swing.JPanel {
     private frmMainUser menu;
     private User_controller controller;
+    private User_model user_model = new User_model();
     public pnlCaNhan(frmMainUser menu) {
         this.menu=menu;
         controller = new User_controller();
@@ -32,9 +38,18 @@ public class pnlCaNhan extends javax.swing.JPanel {
     public void setInfo(User_model userInfo) {
         txtID.setText(String.valueOf(userInfo.getUserID()));
         txtName.setText(userInfo.getUsername());
-        txtBirth.setText(String.valueOf(userInfo.getBirth()));
-        cbxGioiTinh.setSelectedItem(userInfo.getGender());
         txtEmail.setText(userInfo.getEmail());
+        if (userInfo.getBirth() != null) {
+            txtBirth.setText(new SimpleDateFormat("yyyy-MM-dd").format(userInfo.getBirth()));
+        } else {
+            txtBirth.setText("");  // Gán chuỗi rỗng nếu birth là null
+        }
+        // Kiểm tra và thiết lập gender, nếu null thì gán chuỗi rỗng
+        if (userInfo.getGender() != null) {
+            cbxGioiTinh.setSelectedItem(userInfo.getGender());
+        } else {
+            cbxGioiTinh.setSelectedItem("");  // Gán chuỗi rỗng nếu gender là null
+        }
     }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -53,10 +68,10 @@ public class pnlCaNhan extends javax.swing.JPanel {
         jLabel9 = new javax.swing.JLabel();
         txtID = new javax.swing.JTextField();
         txtBirth = new javax.swing.JTextField();
-        btnSave1 = new cell.PanelBorder();
-        jLabel10 = new javax.swing.JLabel();
+        btnCancel = new cell.PanelBorder();
+        lblcancel = new javax.swing.JLabel();
         btnSave = new cell.PanelBorder();
-        jLabel7 = new javax.swing.JLabel();
+        lblsave = new javax.swing.JLabel();
 
         dateChooser1.setForeground(new java.awt.Color(84, 131, 179));
         dateChooser1.setDateFormat("yyyy-MM-dd\n");
@@ -92,38 +107,38 @@ public class pnlCaNhan extends javax.swing.JPanel {
         jLabel9.setForeground(new java.awt.Color(5, 38, 89));
         jLabel9.setText("ID:");
 
-        btnSave1.setBackground(new java.awt.Color(84, 131, 179));
+        btnCancel.setBackground(new java.awt.Color(84, 131, 179));
 
-        jLabel10.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel10.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel10.setText("Cancel");
-        jLabel10.addMouseListener(new java.awt.event.MouseAdapter() {
+        lblcancel.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        lblcancel.setForeground(new java.awt.Color(255, 255, 255));
+        lblcancel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblcancel.setText("Cancel");
+        lblcancel.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel10MouseClicked(evt);
+                lblcancelMouseClicked(evt);
             }
         });
 
-        javax.swing.GroupLayout btnSave1Layout = new javax.swing.GroupLayout(btnSave1);
-        btnSave1.setLayout(btnSave1Layout);
-        btnSave1Layout.setHorizontalGroup(
-            btnSave1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 108, Short.MAX_VALUE)
+        javax.swing.GroupLayout btnCancelLayout = new javax.swing.GroupLayout(btnCancel);
+        btnCancel.setLayout(btnCancelLayout);
+        btnCancelLayout.setHorizontalGroup(
+            btnCancelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(lblcancel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 108, Short.MAX_VALUE)
         );
-        btnSave1Layout.setVerticalGroup(
-            btnSave1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 49, Short.MAX_VALUE)
+        btnCancelLayout.setVerticalGroup(
+            btnCancelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(lblcancel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 49, Short.MAX_VALUE)
         );
 
         btnSave.setBackground(new java.awt.Color(5, 38, 89));
 
-        jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel7.setText("SAVE");
-        jLabel7.addMouseListener(new java.awt.event.MouseAdapter() {
+        lblsave.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        lblsave.setForeground(new java.awt.Color(255, 255, 255));
+        lblsave.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblsave.setText("SAVE");
+        lblsave.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel7MouseClicked(evt);
+                lblsaveMouseClicked(evt);
             }
         });
 
@@ -131,11 +146,11 @@ public class pnlCaNhan extends javax.swing.JPanel {
         btnSave.setLayout(btnSaveLayout);
         btnSaveLayout.setHorizontalGroup(
             btnSaveLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 112, Short.MAX_VALUE)
+            .addComponent(lblsave, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 112, Short.MAX_VALUE)
         );
         btnSaveLayout.setVerticalGroup(
             btnSaveLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(lblsave, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout panelBorder1Layout = new javax.swing.GroupLayout(panelBorder1);
@@ -146,7 +161,7 @@ public class pnlCaNhan extends javax.swing.JPanel {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(42, 42, 42)
-                .addComponent(btnSave1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(57, 57, 57))
             .addGroup(panelBorder1Layout.createSequentialGroup()
                 .addGap(57, 57, 57)
@@ -199,7 +214,7 @@ public class pnlCaNhan extends javax.swing.JPanel {
                     .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(btnSave1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnCancel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnSave, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(52, 52, 52))
         );
@@ -225,29 +240,61 @@ public class pnlCaNhan extends javax.swing.JPanel {
                 .addContainerGap(34, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jLabel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel7MouseClicked
+    
+    public User_model getUser_Info() throws ParseException {
+        user_model.setBirth(!txtBirth.getText().isEmpty() ? new SimpleDateFormat("yyyy-MM-dd").parse(txtBirth.getText()) : null);
+        user_model.setGender(cbxGioiTinh.getSelectedItem().toString());
+        user_model.setEmail(txtEmail.getText());
+        return user_model;
+    }
+    private void lblsaveMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblsaveMouseClicked
+        try {
+            // Lấy thông tin người dùng từ giao diện
+            User_model user = getUser_Info();
+            // Kiểm tra và chuyển đổi ID
+            if (txtID.getText().trim().isEmpty()) {
+                JOptionPane.showMessageDialog(menu, "ID không được để trống.", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            int Id = Integer.parseInt(txtID.getText());
+            user.setUserID(Id);
+            boolean isUpdated = controller.updateInfo(user);
+            // Thử cập nhật thông tin
+            if (isUpdated) {
+                setInfo(user_model);
+                JOptionPane.showMessageDialog(menu, "Đã sửa thành công.");
+            } else {
+                JOptionPane.showMessageDialog(menu, "Không thể sửa thông tin.", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (ParseException ex) {
+            JOptionPane.showMessageDialog(menu, "Ngày sinh không hợp lệ. Vui lòng nhập theo định dạng yyyy-MM-dd.", "Lỗi", JOptionPane.ERROR_MESSAGE);
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(menu, "ID phải là số nguyên hợp lệ.", "Lỗi", JOptionPane.ERROR_MESSAGE);
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(menu, "Có lỗi khi kết nối cơ sở dữ liệu.", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            Logger.getLogger(pnlCaNhan.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
-    }//GEN-LAST:event_jLabel7MouseClicked
+    }//GEN-LAST:event_lblsaveMouseClicked
 
-    private void jLabel10MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel10MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jLabel10MouseClicked
+    private void lblcancelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblcancelMouseClicked
+        setInfo(user_model);
+    }//GEN-LAST:event_lblcancelMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private cell.PanelBorder btnCancel;
     private cell.PanelBorder btnSave;
-    private cell.PanelBorder btnSave1;
     private Combobox.ComboBoxUI cbxGioiTinh;
     private datechooser.DateChooser dateChooser1;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JLabel lblcancel;
+    private javax.swing.JLabel lblsave;
     private cell.PanelBorder panelBorder1;
     private javax.swing.JTextField txtBirth;
     private javax.swing.JTextField txtEmail;
