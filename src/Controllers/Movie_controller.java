@@ -39,7 +39,8 @@ public class Movie_controller {
         rs.close();
         return dsMovie;
     }
-    public void saveInfo(String name,int year,String director,String cast,int genreID,int formatID,int countryID,int episode,String descrip ,File imageFile, String vidpath) {
+    public boolean saveInfo(String name,int year,String director,String cast,int genreID,int formatID,int countryID,int episode,String descrip ,File imageFile, String vidpath) {
+        int row = 0;
         try (FileInputStream fis = new FileInputStream(imageFile);
             ByteArrayOutputStream bos = new ByteArrayOutputStream()) {
             byte[] buffer = new byte[1024];
@@ -62,11 +63,11 @@ public class Movie_controller {
             pstmt.setString(9, descrip);
             pstmt.setBytes(10, imageBytes);
             pstmt.setString(11, vidpath);
-            pstmt.executeUpdate();
-            System.out.println("Saved to SQL successfully!");
+            row = pstmt.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
-        }
+        }        
+        return row>0;
     }
     public boolean DeleteFilm(int movie_id) throws SQLException {
         String deleteFavorite="DELETE FROM FAVORITES WHERE movie_id=?";
@@ -319,11 +320,9 @@ public class Movie_controller {
             Movie_model movie= new Movie_model(movieId,title,rating,img);
             dsMovie.add(movie);
         }
-        System.out.println("getReview(): dsMovie: "+ dsMovie);
         pstmt.close();
         rs.close();
         return dsMovie;
     }
-    
-    
+   
 }

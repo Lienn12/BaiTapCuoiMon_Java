@@ -61,6 +61,7 @@ public class Review_model {
         this.userModel = new User_model();
         this.userModel.setUsername(username);
         this.reviewDate = rs.getTimestamp("review_Date");
+        this.rating= rs.getInt("Rating");
     }
     public int getReviewID() {
         return reviewID;

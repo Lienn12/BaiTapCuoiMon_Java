@@ -28,6 +28,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
+import javax.swing.border.LineBorder;
 
 /**
  *
@@ -41,6 +42,7 @@ public final class pnlSuaPhim extends javax.swing.JPanel {
     private Movie_controller control=new Movie_controller();
     private frmMain menu;
     private File selectedFile;
+    private String selectedVidPath;
     private pnlDSPhim pnlDSPhim ;
     private int newMovieID;
      private final Movie_controller movie_controller=new Movie_controller();
@@ -595,15 +597,17 @@ public final class pnlSuaPhim extends javax.swing.JPanel {
                 .addGap(25, 25, 25)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addComponent(panelBorder3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(26, 26, 26))
+                    .addGroup(layout.createSequentialGroup()
                         .addComponent(panelBorder2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(30, 30, 30)
-                        .addComponent(btnUpload, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(panelBorder3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(26, 26, 26))
+                        .addComponent(btnUpload, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -630,9 +634,7 @@ public final class pnlSuaPhim extends javax.swing.JPanel {
         int returnValue = fileChooser.showOpenDialog(this);
         if(returnValue==JFileChooser.APPROVE_OPTION){
             selectedFile = fileChooser.getSelectedFile();
-            //lấy đưuòng danx file để lưu vào 1 trường
             String pathFile = selectedFile.getAbsolutePath();
-            //            String pathFl = fl.getAbsolutePath().replace("//", "--");
             BufferedImage img0;
             try{
                 img0 = ImageIO.read(selectedFile);
@@ -646,10 +648,79 @@ public final class pnlSuaPhim extends javax.swing.JPanel {
     }//GEN-LAST:event_btnUploadMouseClicked
 
     private void btnUploadMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnUploadMouseExited
-//        btnUpload.setOpaque(false);
         btnUpload.setBackground(new Color(51, 102, 153));
     }//GEN-LAST:event_btnUploadMouseExited
-                                      
+    private boolean setError(JTextField txtTen, JTextField txtDaodien, JTextField txtDienVien, JTextField txtNam, JTextField txtSoTap, JTextArea txtMota, JComboBox<Genres> cbTheLoai, JComboBox<Formats> cbDinhDang, JComboBox<Countries> cbQuocGia) {
+        boolean isValid = true;
+
+        if (txtTen.getText().isEmpty()) {
+            txtTen.setBorder(new LineBorder(Color.RED, 1));
+            isValid = false;
+        } else {
+            txtTen.setBorder(null);
+        }
+
+        if (txtDaodien.getText().isEmpty()) {
+            txtDaodien.setBorder(new LineBorder(Color.RED, 1));
+            isValid = false;
+        } else {
+            txtDaodien.setBorder(null);
+        }
+
+        if (txtDienVien.getText().isEmpty()) {
+            txtDienVien.setBorder(new LineBorder(Color.RED, 1));
+            isValid = false;
+        } else {
+            txtDienVien.setBorder(null);
+        }
+
+        if (txtNam.getText().isEmpty()) {
+            txtNam.setBorder(new LineBorder(Color.RED, 1));
+            isValid = false;
+        } else {
+            txtNam.setBorder(null);
+        }
+
+        if (txtSoTap.getText().isEmpty()) {
+            txtSoTap.setBorder(new LineBorder(Color.RED, 1));
+            isValid = false;
+        } else {
+            txtSoTap.setBorder(null);
+        }
+
+        if (txtMota.getText().isEmpty()) {
+            txtMota.setBorder(new LineBorder(Color.RED, 1));
+            isValid = false;
+        } else {
+            txtMota.setBorder(null);
+        }
+
+        Genres genre = (Genres) cbTheLoai.getSelectedItem();
+        if (genre == null) {
+            cbTheLoai.setBorder(new LineBorder(Color.RED, 1));
+            isValid = false;
+        } else {
+            cbTheLoai.setBorder(null);
+        }
+
+        Formats format = (Formats) cbDinhDang.getSelectedItem();
+        if (format == null) {
+            cbDinhDang.setBorder(new LineBorder(Color.RED, 1));
+            isValid = false;
+        } else {
+            cbDinhDang.setBorder(null);
+        }
+
+        Countries country = (Countries) cbQuocGia.getSelectedItem();
+        if (country == null) {
+            cbQuocGia.setBorder(new LineBorder(Color.RED, 1));
+            isValid = false;
+        } else {
+            cbQuocGia.setBorder(null);
+        }
+
+        return isValid;
+    }                                  
     public Movie_model getMovieDetails() {
         Movie_model movie = new Movie_model();
         movie.setTitle(txtTen.getText()); // Lấy tên phim
@@ -689,7 +760,7 @@ public final class pnlSuaPhim extends javax.swing.JPanel {
         txtTen.setText(movie.getTitle()); 
         txtDaodien.setText(movie.getDirector());
         txtDienVien.setText(movie.getCast());
-         int genreId = movie.getGenre().getGenreId();
+        int genreId = movie.getGenre().getGenreId();
         for (int i = 0; i < cbTheLoai.getItemCount(); i++) {
             Genres genre = (Genres) cbTheLoai.getItemAt(i);
             if (genre.getGenreId() == genreId) {
@@ -697,8 +768,6 @@ public final class pnlSuaPhim extends javax.swing.JPanel {
                 break;
             }
         }
-
-        // Định dạng
         int formatId = movie.getFormat().getFormatId();
         for (int i = 0; i < cbDinhDang.getItemCount(); i++) {
             Formats format = (Formats) cbDinhDang.getItemAt(i);
@@ -707,8 +776,6 @@ public final class pnlSuaPhim extends javax.swing.JPanel {
                 break;
             }
         }
-
-        // Quốc gia
         int countryId = movie.getCountry().getCountryId();
         for (int i = 0; i < cbQuocGia.getItemCount(); i++) {
             Countries country = (Countries) cbQuocGia.getItemAt(i);
@@ -734,6 +801,7 @@ public final class pnlSuaPhim extends javax.swing.JPanel {
         btnSave.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
+            if (setError(txtTen, txtDaodien, txtDienVien,txtNam,txtSoTap, txtMota,cbTheLoai,cbDinhDang,cbQuocGia)) {        
                 try {
                     Movie_model movie = getMovieDetails(); 
                     movie.setMovieID(newMovieID);
@@ -744,6 +812,9 @@ public final class pnlSuaPhim extends javax.swing.JPanel {
                     ex.printStackTrace();
                     JOptionPane.showMessageDialog(menu, "Lỗi: " + ex.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
                 }
+            }else{
+                JOptionPane.showMessageDialog(menu, "Hãy nhập đủ thông tin");  
+            }  
             }  
         });
     }

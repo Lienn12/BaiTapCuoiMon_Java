@@ -44,7 +44,7 @@ public class pnlDanhgia extends javax.swing.JPanel {
     public pnlDanhgia(frmMain menu)  {
         this.menu=menu;
         initComponents();
-        String []colsName={"ID","Tài khoản","Phim","Date",""};
+        String []colsName={"ID","Tài khoản","Phim","Rating","Date",""};
         tableModel.setColumnIdentifiers(colsName);
         table.setModel(tableModel);
         spTable.setVerticalScrollBar(new ScrollBarCustom());
@@ -79,8 +79,8 @@ public class pnlDanhgia extends javax.swing.JPanel {
                 }
             }
         };
-        table.getColumnModel().getColumn(4).setCellRenderer(new tableActCmt());
-        table.getColumnModel().getColumn(4).setCellEditor(new tblActionCellEditorCmt(event));
+        table.getColumnModel().getColumn(5).setCellRenderer(new tableActCmt());
+        table.getColumnModel().getColumn(5).setCellEditor(new tblActionCellEditorCmt(event));
     }
     public void ShowData() {
         try{
@@ -94,6 +94,7 @@ public class pnlDanhgia extends javax.swing.JPanel {
                         dsReview.get(i).getReviewID(),
                         dsReview.get(i).getUserModel().getUsername(),
                         dsReview.get(i).getMovieModel().getTitle(),
+                        dsReview.get(i).getRating(),
                         formattedDate
                     };
                     tableModel.addRow(row);
@@ -154,21 +155,28 @@ public class pnlDanhgia extends javax.swing.JPanel {
 
         table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "ID", "Tài khoản", "Phim", "Date", ""
+                "ID", "Tài khoản", "Phim", "Rating", "Date", ""
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Object.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Object.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
             }
         });
         table.setGridColor(new java.awt.Color(255, 255, 255));

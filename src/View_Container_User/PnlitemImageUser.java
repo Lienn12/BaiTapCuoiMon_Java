@@ -105,10 +105,11 @@ public class PnlitemImageUser extends javax.swing.JPanel {
             }
         });
     }
-    private void showMovieDetail() {
+    private void showMovieDetail() {       
+        main.showMovieDetail(movieModel); 
         PnlChiTietFilmUser pnlCT = main.getPanel();
         pnlCT.showPanel("back phim trang chu");
-        main.showMovieDetail(movieModel); 
+        pnlCT.setHide(false);
     }
     public void init(){
         setOpaque(false);

@@ -9,7 +9,7 @@ import Combobox.ComboBoxUI;
 import Controllers.Country_controller;
 import Controllers.Format_controller;
 import Controllers.Genre_controller;
-import View_Container_Admin.PnlTrangChu;
+import View_Container_Admin.pnlTrangChu;
 import Controllers.Movie_controller;
 import Model.Countries;
 import Model.Formats;
@@ -34,7 +34,7 @@ import javax.swing.JOptionPane;
 public class PnlPhimLoai extends javax.swing.JPanel {
     private frmMain main;
     private Movie_model movieModel;
-    private PnlTrangChu pnlTrangChu;
+    private pnlTrangChu pnlTrangChu;
     private final Genres genre = new Genres();
     private final Countries country = new Countries();
     private final Formats format = new Formats();
@@ -43,7 +43,7 @@ public class PnlPhimLoai extends javax.swing.JPanel {
     private final Genre_controller genreController= new Genre_controller();
     private final Format_controller formatController = new Format_controller();
      private DefaultComboBoxModel<Object> cbmodel;
-    public PnlPhimLoai(PnlTrangChu pnlTrangChu,Movie_model movieModel,frmMain main) {
+    public PnlPhimLoai(pnlTrangChu pnlTrangChu,Movie_model movieModel,frmMain main) {
         this.pnlTrangChu=pnlTrangChu;
         this.movieModel=movieModel;
         this.main=main;

@@ -79,7 +79,7 @@ public class Favorite_controllor {
         return false;
     }
     public boolean DeleteFavourite(int favouriteID) throws SQLException{
-        String sql="DELETE FROM FAVORITES WHERE Favourite_ID=?";
+        String sql="DELETE FROM FAVORITES WHERE FAVORITE_ID=?";
         pstmt=conn.prepareStatement(sql);
         pstmt.setInt(1,favouriteID);
         int row=pstmt.executeUpdate();

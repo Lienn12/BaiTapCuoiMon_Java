@@ -26,14 +26,22 @@ import java.awt.GradientPaint;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.UIManager;
+import javax.swing.border.Border;
+import javax.swing.border.LineBorder;
 
 /**
  *
@@ -62,20 +70,7 @@ public final class pnlThemPhim extends javax.swing.JPanel {
         loadDataComboGenres();
         loadDataComboFormat();
         setNull();
-    }
-     public void setNull(){
-        this.txtTen.setText("");
-        this.txtNam.setText("");
-        this.txtDaodien.setText("");
-        this.txtDienVien.setText("");
-        this.cbTheLoai.setSelectedIndex(-1);
-        this.cbDinhDang.setSelectedIndex(-1);
-        this.cbQuocGia.setSelectedIndex(-1);
-        this.txtSoTap.setText("");
-        this.txtMota.setText("");
-        this.lblImage.setIcon(null);
-        
-    }
+    }     
      private <T> void loadDataComboBox(ComboboxSuggestion<T> comboBox, List<T> dataList, String displayField) {
         try {
             DefaultComboBoxModel<T> cbModel = new DefaultComboBoxModel<>();
@@ -178,7 +173,7 @@ public final class pnlThemPhim extends javax.swing.JPanel {
         cbQuocGia = new Combobox.ComboboxSuggestion<>();
         btnUpload = new cell.PanelBorder();
         lbUpload = new javax.swing.JLabel();
-        jPanel1 = new javax.swing.JPanel();
+        btnupvideo = new cell.PanelBorder();
         lblUpVid = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(107, 153, 198));
@@ -407,6 +402,11 @@ public final class pnlThemPhim extends javax.swing.JPanel {
         cbTheLoai.setBorder(null);
 
         cbDinhDang.setBorder(null);
+        cbDinhDang.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbDinhDangActionPerformed(evt);
+            }
+        });
 
         cbQuocGia.setBorder(null);
 
@@ -419,30 +419,30 @@ public final class pnlThemPhim extends javax.swing.JPanel {
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panelBorder3Layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(panelBorder3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelBorder3Layout.createSequentialGroup()
-                                .addGroup(panelBorder3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING))
-                                .addGap(18, 18, 18)
-                                .addGroup(panelBorder3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(panelBorder3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(txtDienVien)
-                                        .addComponent(txtDaodien)
-                                        .addComponent(jPanel5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(txtTen, javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addComponent(txtNam, javax.swing.GroupLayout.Alignment.TRAILING))))
                             .addGroup(panelBorder3Layout.createSequentialGroup()
                                 .addGap(44, 44, 44)
                                 .addComponent(jLabel10)
-                                .addGap(18, 18, 18)
+                                .addGap(24, 24, 24)
                                 .addComponent(cbQuocGia, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelBorder3Layout.createSequentialGroup()
+                            .addGroup(panelBorder3Layout.createSequentialGroup()
                                 .addGap(0, 0, Short.MAX_VALUE)
                                 .addGroup(panelBorder3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelBorder3Layout.createSequentialGroup()
+                                        .addGroup(panelBorder3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING))
+                                        .addGap(18, 18, 18)
+                                        .addGroup(panelBorder3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGroup(panelBorder3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addComponent(txtDienVien, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(txtDaodien, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(jPanel5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(txtTen, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(txtNam, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE))))
                                     .addComponent(jPanel8, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelBorder3Layout.createSequentialGroup()
                                         .addGroup(panelBorder3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -464,7 +464,7 @@ public final class pnlThemPhim extends javax.swing.JPanel {
                             .addComponent(jLabel7))
                         .addGap(18, 18, 18)
                         .addGroup(panelBorder3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtSoTap, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(txtSoTap, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(panelBorder3Layout.createSequentialGroup()
                                 .addGroup(panelBorder3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -557,7 +557,7 @@ public final class pnlThemPhim extends javax.swing.JPanel {
         lbUpload.setForeground(new java.awt.Color(255, 255, 255));
         lbUpload.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lbUpload.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/upload.png"))); // NOI18N
-        lbUpload.setText("Upload");
+        lbUpload.setText("Up Ảnh");
         lbUpload.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         javax.swing.GroupLayout btnUploadLayout = new javax.swing.GroupLayout(btnUpload);
@@ -571,34 +571,34 @@ public final class pnlThemPhim extends javax.swing.JPanel {
             .addComponent(lbUpload, javax.swing.GroupLayout.DEFAULT_SIZE, 46, Short.MAX_VALUE)
         );
 
-        jPanel1.setBackground(new java.awt.Color(102, 187, 255));
-        jPanel1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 255, 255), 1, true));
+        btnupvideo.setBackground(new java.awt.Color(125, 160, 202));
 
         lblUpVid.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         lblUpVid.setForeground(new java.awt.Color(255, 255, 255));
         lblUpVid.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblUpVid.setText("Up Video");
+        lblUpVid.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         lblUpVid.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lblUpVidMouseClicked(evt);
             }
         });
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        javax.swing.GroupLayout btnupvideoLayout = new javax.swing.GroupLayout(btnupvideo);
+        btnupvideo.setLayout(btnupvideoLayout);
+        btnupvideoLayout.setHorizontalGroup(
+            btnupvideoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(btnupvideoLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(lblUpVid, javax.swing.GroupLayout.DEFAULT_SIZE, 167, Short.MAX_VALUE)
+                .addComponent(lblUpVid, javax.swing.GroupLayout.DEFAULT_SIZE, 153, Short.MAX_VALUE)
                 .addContainerGap())
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        btnupvideoLayout.setVerticalGroup(
+            btnupvideoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(btnupvideoLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(lblUpVid, javax.swing.GroupLayout.DEFAULT_SIZE, 59, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(lblUpVid, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -613,18 +613,20 @@ public final class pnlThemPhim extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(lbBack, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(panelBorder2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(45, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(lbBack, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(panelBorder2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addContainerGap(45, Short.MAX_VALUE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(btnUpload, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(95, 95, 95))))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnUpload, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(95, 95, 95))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(79, 79, 79))))
+                        .addComponent(btnupvideo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(87, 87, 87))))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -645,8 +647,8 @@ public final class pnlThemPhim extends javax.swing.JPanel {
                         .addComponent(panelBorder2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(39, 39, 39)
                         .addComponent(btnUpload, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(34, 34, 34)
+                        .addComponent(btnupvideo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(panelBorder3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -664,112 +666,219 @@ public final class pnlThemPhim extends javax.swing.JPanel {
         pnlPhimTrangChu.loadData();
         menu.showPanel("danh sach phim");
     }//GEN-LAST:event_lbBackMouseClicked
-    
+    public void setNull(){
+        this.txtTen.setText("");
+        this.txtNam.setText("");
+        this.txtDaodien.setText("");
+        this.txtDienVien.setText("");
+        this.cbTheLoai.setSelectedIndex(-1);
+        this.cbDinhDang.setSelectedIndex(-1);
+        this.cbQuocGia.setSelectedIndex(-1);
+        this.txtSoTap.setText("");
+        this.txtMota.setText("");
+        this.lblImage.setIcon(null);
+        this.lblUpVid.setText("Up Video");
+    }
+    private boolean setError(JTextField txtTen, JTextField txtDaodien, JTextField txtDienVien, JTextField txtNam, JTextField txtSoTap, JTextArea txtMota, JComboBox<Genres> cbTheLoai, JComboBox<Formats> cbDinhDang, JComboBox<Countries> cbQuocGia) {
+        boolean isValid = true;
+
+        if (txtTen.getText().isEmpty()) {
+            txtTen.setBorder(new LineBorder(Color.RED, 1));
+            isValid = false;
+        } else {
+            txtTen.setBorder(null);
+        }
+
+        if (txtDaodien.getText().isEmpty()) {
+            txtDaodien.setBorder(new LineBorder(Color.RED, 1));
+            isValid = false;
+        } else {
+            txtDaodien.setBorder(null);
+        }
+
+        if (txtDienVien.getText().isEmpty()) {
+            txtDienVien.setBorder(new LineBorder(Color.RED, 1));
+            isValid = false;
+        } else {
+            txtDienVien.setBorder(null);
+        }
+
+        if (txtNam.getText().isEmpty()) {
+            txtNam.setBorder(new LineBorder(Color.RED, 1));
+            isValid = false;
+        } else {
+            txtNam.setBorder(null);
+        }
+
+        if (txtSoTap.getText().isEmpty()) {
+            txtSoTap.setBorder(new LineBorder(Color.RED, 1));
+            isValid = false;
+        } else {
+            txtSoTap.setBorder(null);
+        }
+
+        if (txtMota.getText().isEmpty()) {
+            txtMota.setBorder(new LineBorder(Color.RED, 1));
+            isValid = false;
+        } else {
+            txtMota.setBorder(null);
+        }
+
+        Genres genre = (Genres) cbTheLoai.getSelectedItem();
+        if (genre == null) {
+            cbTheLoai.setBorder(new LineBorder(Color.RED, 1));
+            isValid = false;
+        } else {
+            cbTheLoai.setBorder(null);
+        }
+
+        Formats format = (Formats) cbDinhDang.getSelectedItem();
+        if (format == null) {
+            cbDinhDang.setBorder(new LineBorder(Color.RED, 1));
+            isValid = false;
+        } else {
+            cbDinhDang.setBorder(null);
+        }
+
+        Countries country = (Countries) cbQuocGia.getSelectedItem();
+        if (country == null) {
+            cbQuocGia.setBorder(new LineBorder(Color.RED, 1));
+            isValid = false;
+        } else {
+            cbQuocGia.setBorder(null);
+        }
+
+        return isValid;
+    }
+
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
         setNull();
     }//GEN-LAST:event_btnCancelActionPerformed
-
+    
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
-        String name = txtTen.getText();
-        int year;
-        try {
-            year = Integer.parseInt(txtNam.getText());
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "Vui lòng nhập năm hợp lệ!");
-            return;
-        }
-        String director = txtDaodien.getText();
-        String cast = txtDienVien.getText();
-        Genres genre = (Genres) cbTheLoai.getSelectedItem();
-        if (genre == null) {
-            JOptionPane.showMessageDialog(this, "Vui lòng chọn thể loại!");
-            return;
-        }
-        int genreId = genre.getGenreId();
-        Formats format=(Formats) cbDinhDang.getSelectedItem();
-        if (format == null) {
-            JOptionPane.showMessageDialog(this, "Vui lòng chọn định dạng!");
-            return;
-        }
-        int formatId= format.getFormatId();
-        Countries country= (Countries) cbQuocGia.getSelectedItem();
-        if (country == null) {
-            JOptionPane.showMessageDialog(this, "Vui lòng chọn quốc gia!");
-            return;
-        }
-        int countryId= country.getCountryId();
-        int tap;
-        try {
-            tap = Integer.parseInt(txtSoTap.getText());
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "Vui lòng nhập số tập hợp lệ!");
-            return;
-        }
-        String descrip = txtMota.getText();
-        if (name.isEmpty() || year<=0 || director.isEmpty() || cast.isEmpty() || genre==null ||country==null||tap<0|| descrip.isEmpty() || selectedFile == null || selectedVidPath.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Vui lòng điền thông tin đầy đủ!");
-            return;
-        }
-        movie_controller.saveInfo(name,year,director,cast,genreId,formatId,countryId,tap,descrip,selectedFile,selectedVidPath);
-        JOptionPane.showMessageDialog(menu, "Đã thêm thành công");
-       
-        setNull();
-//        menu.showPnlPhimTrangchu();
+        if (setError(txtTen, txtDaodien, txtDienVien,txtNam,txtSoTap, txtMota,cbTheLoai,cbDinhDang,cbQuocGia)) {
+            String name = txtTen.getText();
+            String director = txtDaodien.getText();
+            String cast = txtDienVien.getText();
+            String descrip = txtMota.getText();  
+            int year;
+            try {
+                year = Integer.parseInt(txtNam.getText());
+                if (year <= 0 || year > 2024) {
+                    JOptionPane.showMessageDialog(this, "Vui lòng nhập năm hợp lệ!");
+                    return;
+                }
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(this, "Vui lòng nhập năm hợp lệ!");
+                return;
+            }
+            int tap ;
+            try {
+                tap = Integer.parseInt(txtSoTap.getText());
+                if (tap < 0) {
+                    JOptionPane.showMessageDialog(this, "Số tập phải lớn hơn hoặc bằng 0!");
+                    return;
+                }
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(this, "Vui lòng nhập số tập hợp lệ!");
+                return;
+            }
+            Genres genre = (Genres) cbTheLoai.getSelectedItem();
+                int genreId = genre.getGenreId();
+            Formats format=(Formats) cbDinhDang.getSelectedItem();
+                int formatId= format.getFormatId();
+            Countries country= (Countries) cbQuocGia.getSelectedItem();
+                int countryId= country.getCountryId();  
+            if(selectedFile == null || selectedVidPath == null){
+                JOptionPane.showMessageDialog(this,"Vui lòng chọn tệp hình ảnh và video!!","lỗi",JOptionPane.ERROR_MESSAGE);
+                return;
+            }   
+            if(movie_controller.saveInfo(name,year,director,cast,genreId,formatId,countryId,tap,descrip,selectedFile,selectedVidPath)){
+                JOptionPane.showMessageDialog(menu, "Đã thêm thành công");  
+                setNull();
+            }
+        }else{
+            JOptionPane.showMessageDialog(menu, "Hãy nhập đủ thông tin");  
+        }                 
+        
     }//GEN-LAST:event_btnSaveActionPerformed
 
     private void btnUploadMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnUploadMouseClicked
         JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);// chỉ hiển thị file
+        fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY); // chỉ hiển thị file
         int returnValue = fileChooser.showOpenDialog(this);
-        if(returnValue==JFileChooser.APPROVE_OPTION){
+        if (returnValue == JFileChooser.APPROVE_OPTION) {
             selectedFile = fileChooser.getSelectedFile();
-            //lấy đưuòng danx file để lưu vào 1 trường
-            String pathFile = selectedFile.getAbsolutePath();
-            try {
-                BufferedImage img0 = ImageIO.read(selectedFile);
-                if (img0 != null) {
-                    Image img = img0.getScaledInstance(lblImage.getWidth(), lblImage.getHeight(), Image.SCALE_SMOOTH);
-                    lblImage.setIcon(new ImageIcon(img));
-                } else {
-                    JOptionPane.showMessageDialog(this, "Không phải định dạng hình ảnh hợp lệ.", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            if (selectedFile != null && selectedFile.exists()) {
+                // lấy đường dẫn file để lưu vào 1 trường
+                String pathFile = selectedFile.getAbsolutePath();
+                try {
+                    BufferedImage img0 = ImageIO.read(selectedFile);
+                    if (img0 != null) {
+                        Image img = img0.getScaledInstance(lblImage.getWidth(), lblImage.getHeight(), Image.SCALE_SMOOTH);
+                        lblImage.setIcon(new ImageIcon(img));
+                        btnUpload.setBackground(new Color(84, 131, 179));
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Không phải định dạng hình ảnh hợp lệ.", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                    }
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(this, "Lỗi khi đọc file hình ảnh: " + e.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
                 }
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(this, "Lỗi khi đọc file hình ảnh: " + e.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(this, "Vui lòng chọn một file hình ảnh hợp lệ.", "Lỗi", JOptionPane.ERROR_MESSAGE);
             }
         }
     }//GEN-LAST:event_btnUploadMouseClicked
 
-    private void btnUploadMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnUploadMouseEntered
-        //        btnUpload.setOpaque(true);
-        btnUpload.setBackground(new Color(84, 131, 179));
-    }//GEN-LAST:event_btnUploadMouseEntered
-
-    private void btnUploadMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnUploadMouseExited
-        //        btnUpload.setOpaque(false);
-        btnUpload.setBackground(new Color(51, 102, 153));
-    }//GEN-LAST:event_btnUploadMouseExited
-
     private void lblUpVidMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblUpVidMouseClicked
-        JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setDialogTitle("Chọn tệp video");
-        fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-        fileChooser.setFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("Video Files", "mp4", "avi", "mkv", "flv"));
-        int result = fileChooser.showOpenDialog(menu);
+        JFileChooser fileChooserVideo = new JFileChooser();
+        fileChooserVideo.setDialogTitle("Chọn tệp video");
+        fileChooserVideo.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        fileChooserVideo.setFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("Video Files", "mp4", "avi", "mkv", "flv"));
+        int result = fileChooserVideo.showOpenDialog(menu);
         if (result == JFileChooser.APPROVE_OPTION) {
-            File selectedFileVideo = fileChooser.getSelectedFile();
-            selectedVidPath = selectedFileVideo.getAbsolutePath();
-            lblUpVid.setText("Đã chọn!");
-            System.out.println("Video da chon: " + selectedVidPath);
-        }else {
+            File selectedFileVideo = fileChooserVideo.getSelectedFile();
+            if (selectedFileVideo != null && selectedFileVideo.exists()) {
+                selectedVidPath = selectedFileVideo.getAbsolutePath();
+                lblUpVid.setText("Đã chọn!");
+                btnupvideo.setBackground(new Color(84, 131, 179));
+            } else {
+                JOptionPane.showMessageDialog(this, "Hãy thêm video", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            }
+        } else {
             JOptionPane.showMessageDialog(this, "Không có tệp video nào được chọn.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_lblUpVidMouseClicked
+
+    private void cbDinhDangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbDinhDangActionPerformed
+        Formats selected = (Formats) cbDinhDang.getSelectedItem(); 
+        if (selected != null) {
+            int id = selected.getFormatId();
+            if (id==2) {
+                txtSoTap.setText("1");
+                txtSoTap.setEnabled(false);
+            }
+            if (id==4) {
+                txtSoTap.setEnabled(true);
+                txtSoTap.setText("");
+            }
+        }
+    }//GEN-LAST:event_cbDinhDangActionPerformed
+
+    private void btnUploadMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnUploadMouseExited
+        btnUpload.setBackground(new Color(125,160,202));
+    }//GEN-LAST:event_btnUploadMouseExited
+
+    private void btnUploadMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnUploadMouseEntered
+        btnUpload.setBackground(new Color(84,131,179));
+    }//GEN-LAST:event_btnUploadMouseEntered
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnSave;
     private cell.PanelBorder btnUpload;
+    private cell.PanelBorder btnupvideo;
     private Combobox.ComboboxSuggestion<Formats> cbDinhDang;
     private Combobox.ComboboxSuggestion<Countries> cbQuocGia;
     private Combobox.ComboboxSuggestion<Genres> cbTheLoai;
@@ -783,7 +892,6 @@ public final class pnlThemPhim extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel13;
     private javax.swing.JPanel jPanel15;

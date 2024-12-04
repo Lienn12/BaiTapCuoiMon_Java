@@ -4,7 +4,7 @@
  */
 package View_Container_User;
 
-import View_Container_Admin.PnlTrangChu;
+import View_Container_Admin.pnlTrangChu;
 import Controllers.Movie_controller;
 import Model.Movie_model;
 import Model.User_model;
@@ -87,7 +87,7 @@ public class PnlPhimTrangchuUser extends javax.swing.JPanel {
                 panel.revalidate();
             }
         } catch (SQLException ex) {
-            Logger.getLogger(PnlTrangChu.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(pnlTrangChu.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

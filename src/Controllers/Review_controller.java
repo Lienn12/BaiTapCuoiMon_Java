@@ -31,7 +31,6 @@ public class Review_controller {
         """;
         try (PreparedStatement prst = conn.prepareStatement(sql)) {
             prst.executeUpdate();
-            System.out.println("Cập nhật RATING thành công!");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -39,7 +38,7 @@ public class Review_controller {
 
     public List<Review_model> getReview() throws SQLException {
         List<Review_model> dsReview= new ArrayList<Review_model>();
-        String sql="SELECT REVIEW_ID,USERNAME,TITLE,REVIEW_DATE FROM REVIEWS,USERS,MOVIES WHERE REVIEWS.MOVIE_ID=MOVIES.MOVIE_ID AND REVIEWS.USER_ID=USERS.USER_ID";        
+        String sql="SELECT REVIEW_ID,USERNAME,TITLE,REVIEWS.RATING,REVIEW_DATE FROM REVIEWS,USERS,MOVIES WHERE REVIEWS.MOVIE_ID=MOVIES.MOVIE_ID AND REVIEWS.USER_ID=USERS.USER_ID";        
         prst= conn.prepareStatement(sql);
         rs=prst.executeQuery();
         while(rs.next()){
@@ -173,7 +172,6 @@ public class Review_controller {
     }
     
     public List<Review_model> getReviewUser(int movieId) throws SQLException{
-        System.out.println("Fetching reviews for movieId: " + movieId);
         List<Review_model> dsReviewUser=  new ArrayList<Review_model>();
         String sql="""
                    SELECT USERNAME ,MOVIES.MOVIE_ID,REVIEWS.RATING,COMMENT 

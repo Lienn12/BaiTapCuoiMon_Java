@@ -7,6 +7,7 @@ package View_Container_User;
 import Model.Movie_model;
 import Model.Review_model;
 import Model.User_model;
+import Scrollbar.ScrollBarCustom;
 import View_Container_Admin.pnlChiTietFilm;
 import View_Main.frmMain;
 import View_Main.frmMainUser;
@@ -41,7 +42,7 @@ public class ItemReviewUser extends javax.swing.JPanel {
         lbUser.setText(reviewModel.getUserModel().getUsername());
         lbstar.setText(String.valueOf(reviewModel.getRating()));
         txaCmt.setText(reviewModel.getComment());
-        
+        sp.setVerticalScrollBar(new ScrollBarCustom());
         this.addMouseListener(new MouseAdapter(){
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -70,13 +71,13 @@ public class ItemReviewUser extends javax.swing.JPanel {
         panel = new javax.swing.JPanel();
         lbUser = new javax.swing.JLabel();
         lbstar = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
+        sp = new javax.swing.JScrollPane();
         txaCmt = new javax.swing.JTextArea();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
         panel.setBackground(new java.awt.Color(255, 255, 255));
-        panel.setLayout(new java.awt.GridLayout(2, 1, 5, 5));
+        panel.setLayout(new java.awt.GridLayout(2, 1));
 
         lbUser.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         lbUser.setText("jLabel2");
@@ -86,44 +87,47 @@ public class ItemReviewUser extends javax.swing.JPanel {
         lbstar.setText("jLabel3");
         panel.add(lbstar);
 
-        jScrollPane1.setBorder(null);
-        jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        sp.setBorder(null);
+        sp.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
         txaCmt.setColumns(20);
         txaCmt.setLineWrap(true);
         txaCmt.setRows(5);
         txaCmt.setText("cmt");
         txaCmt.setBorder(null);
-        jScrollPane1.setViewportView(txaCmt);
+        sp.setViewportView(txaCmt);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(10, 10, 10)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 241, Short.MAX_VALUE)
-                    .addComponent(panel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(15, 15, 15))
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addComponent(panel, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(sp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(panel, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(panel, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(sp, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lbUser;
     private javax.swing.JLabel lbstar;
     private javax.swing.JPanel panel;
+    private javax.swing.JScrollPane sp;
     private javax.swing.JTextArea txaCmt;
     // End of variables declaration//GEN-END:variables
 }

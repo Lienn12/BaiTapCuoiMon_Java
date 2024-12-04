@@ -102,16 +102,16 @@ public final class frmMainUser extends javax.swing.JFrame {
             JOptionPane.YES_NO_OPTION,
             JOptionPane.QUESTION_MESSAGE
         );
-
         return result == JOptionPane.YES_OPTION;
     }
     public void showMovieDetail(Movie_model movie) {
         if (userModel != null) {
-            pnlChiTietFilmUser.showMovie(movie.getMovieID(), userModel.getUserID());
+            pnlChiTietFilmUser.ShowChiTiet(movie.getMovieID(), userModel.getUserID());
             cardLayout.show(pnlContainer, "chi tiet phim");
         } else {
             if (confirmLogin(this)) {
                 frmLoginSignup.setVisible(true);
+                setVisible(false);
             } else {
                 System.out.println("Người dùng từ chối đăng nhập.");
             }

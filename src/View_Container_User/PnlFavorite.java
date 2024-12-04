@@ -67,13 +67,13 @@ public final class PnlFavorite extends javax.swing.JPanel {
             }
             @Override
             public void onRemove(int row) {
-                int movieId= Integer.parseInt(table.getModel().getValueAt(row, 0).toString());
+                int favoriteID= Integer.parseInt(table.getModel().getValueAt(row, 0).toString());
                 if(table.isEditing()){
                     table.getCellEditor().stopCellEditing();
                 }
                 if(JOptionPane.showConfirmDialog(null,"Bạn có chắc chắn muốn xóa phim này không??","Thong bao",2)==0){
                     try {
-                        movieController.DeleteFilm(movieId);
+                        favoriteControllor.DeleteFavourite(favoriteID);
                     } catch (SQLException ex) {
                         Logger.getLogger(PnlFavorite.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -255,7 +255,6 @@ public final class PnlFavorite extends javax.swing.JPanel {
                 pnlCT.setMovieDetails(movie);
                 movie.setMovieID(movieID);
                 pnlCT.setReviews(movie.getMovieID());
-                pnlCT.InsertFavorite(movieID,userID);
                 pnlCT.insertReview(movieID, userID);
                 pnlCT.setHide(true);
                 main.showPanel("chi tiet phim");

@@ -18,6 +18,7 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.logging.Level;
@@ -48,7 +49,6 @@ public class PnlChiTietFilmUser extends javax.swing.JPanel {
         initComponents();
         this.setMovieDetails(new Movie_model());
         setbtnBack();
-        setHide(true);
         pnlDg.setVisible(false);
         pnlThongtin.setOpaque(true);
         pnlThongtin.setBackground(new Color(255, 255, 255, 128));
@@ -63,18 +63,7 @@ public class PnlChiTietFilmUser extends javax.swing.JPanel {
             public void mouseExited(MouseEvent e) {
                 pnlPlay.setBackground(new Color(5,38,89));
             }       
-        });
-        btnFavorite.addMouseListener(new MouseAdapter(){
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                btnFavorite.setBackground(new Color(84,131,179));
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                btnFavorite.setBackground(new Color(5,38,89));
-            }       
-        });       
+        });      
     }
     
     public void setbtnBack(){
@@ -95,6 +84,12 @@ public class PnlChiTietFilmUser extends javax.swing.JPanel {
          btnFavorite.setVisible(!a);
     }
     public void insertReview(int movieID, int userID){
+        for (MouseListener listener : btnthem.getMouseListeners()) {
+            btnthem.removeMouseListener(listener);
+        }
+        for (MouseListener listener : btnluu.getMouseListeners()) {
+            btnluu.removeMouseListener(listener);
+        }
         btnthem.addMouseListener(new MouseAdapter(){
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -112,33 +107,47 @@ public class PnlChiTietFilmUser extends javax.swing.JPanel {
                 } catch (SQLException ex) {
                     Logger.getLogger(PnlChiTietFilmUser.class.getName()).log(Level.SEVERE, null, ex);
                 }   
-                setNull();
-                setHide(true);
+                setNull();               
                 pnlDg.setVisible(false);
-                showData(movieID,userID);
+                showData(movieID);
             }
         });
     }
     public void InsertFavorite(int movieId,int userId){
+        for (MouseListener listener : btnFavorite.getMouseListeners()) {
+            btnFavorite.removeMouseListener(listener);
+        }
         btnFavorite.addMouseListener(new MouseAdapter(){
             @Override
             public void mouseClicked(MouseEvent e) {
                 try {
-                    if(!favoriteControll.checkMovie(movieId,userId)){
+                    if(favoriteControll.checkMovie(movieId,userId)){
+                        JOptionPane.showMessageDialog(main,"Phim đã được thêm vào danh sách trước đó");
+                    } else{
                         if(favoriteControll.insertFavorite(movieId,userId)){
                             JOptionPane.showMessageDialog(main,"Phim đã được thêm vào danh sách");
-                        } else {
-                            
+                            btnFavorite.setBackground(new Color(5,38,89));
+                        } else {                            
                            JOptionPane.showMessageDialog(main,"Không thể thêm phim vào danh sách yêu thích");
                         }
-                    } else{
-                        JOptionPane.showMessageDialog(main,"Phim đã được thêm vào danh sách trước đó");
                     }                       
                 } catch (SQLException ex) {
                     Logger.getLogger(PnlChiTietFilmUser.class.getName()).log(Level.SEVERE, null, ex);
                 }  
             }
+    
         });
+    }
+    public void checkMovieFavorite(int movieId,int userId){
+        try {
+            if(favoriteControll.checkMovie(movieId,userId)){
+                btnFavorite.setBackground(new Color(5,38,89));
+            }else{
+                btnFavorite.setBackground(new Color(125,160,202));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(PnlChiTietFilmUser.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     public void setReviews(int movieId){
         try {
@@ -154,13 +163,14 @@ public class PnlChiTietFilmUser extends javax.swing.JPanel {
             ex.printStackTrace();
         }         
     }
-    public void showData(int movieID,int userId) {
+    public void showData(int movieID) {
         try {
             Movie_model movie = movieController.getMovieById(movieID);
             if(movie != null) {
                 setMovieDetails(movie);
-                setReviews(movieID);               
-                main.showPanel("chi tiet phim");      
+                setReviews(movieID);     
+                setHide(false);
+                main.showPanel("chi tiet phim");                    
             } else {
                 System.out.println("Khong tim thay ID phim !");
             }
@@ -169,16 +179,16 @@ public class PnlChiTietFilmUser extends javax.swing.JPanel {
             System.out.println("Loi truy van!");
         }
     }
-    public void showMovie(int movieID,int userId) {
+    public void ShowChiTiet(int movieID,int userId) {
         try {
             Movie_model movie = movieController.getMovieById(movieID);
             if(movie != null) {
                 setMovieDetails(movie);
                 setReviews(movieID);
                 InsertFavorite(movieID,userId);
+                checkMovieFavorite(movieID,userId);
                 insertReview(movieID,userId);
                 main.showPanel("chi tiet phim");    
-                setHide(false);
             } else {
                 System.out.println("Khong tim thay ID phim !");
             }
@@ -686,6 +696,7 @@ public class PnlChiTietFilmUser extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void lbBacktrangchuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbBacktrangchuMouseClicked
+        main.loadTrangchu();
         main.showPanel("trang chu");
     }//GEN-LAST:event_lbBacktrangchuMouseClicked
 
