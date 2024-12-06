@@ -31,6 +31,10 @@ public class pnlChiTietFilm extends javax.swing.JPanel {
     public pnlChiTietFilm(frmMain menu) {
         this.menu = menu;
         initComponents();
+        lblMota.setWrapStyleWord(true);
+        lblMota.setLineWrap(true);
+        lblMota.setEditable(false);
+        lblMota.setBackground(new Color(255, 255, 255, 128));
         this.setMovieDetails(new Movie_model());
         setbtnBack();
         pnlThongtin.setOpaque(true);
@@ -105,12 +109,13 @@ public class pnlChiTietFilm extends javax.swing.JPanel {
         jLabel13 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
         lblTheLoai = new javax.swing.JLabel();
-        lblMota = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
         pnlPlay = new cell.PanelBorder();
         btnTrailer = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        lblMota = new javax.swing.JTextArea();
         back = new javax.swing.JPanel();
         lbBackdsPhim = new javax.swing.JLabel();
         lbBackTrangchu = new javax.swing.JLabel();
@@ -165,8 +170,6 @@ public class pnlChiTietFilm extends javax.swing.JPanel {
         jLabel15.setText("Thể loại:");
 
         lblTheLoai.setText("các thể loại");
-
-        lblMota.setText("mô tả");
 
         jPanel2.setBackground(new java.awt.Color(52, 102, 153));
 
@@ -235,6 +238,13 @@ public class pnlChiTietFilm extends javax.swing.JPanel {
                 .addContainerGap())
         );
 
+        jScrollPane1.setBorder(null);
+
+        lblMota.setColumns(20);
+        lblMota.setRows(5);
+        lblMota.setBorder(null);
+        jScrollPane1.setViewportView(lblMota);
+
         javax.swing.GroupLayout pnlThongtinLayout = new javax.swing.GroupLayout(pnlThongtin);
         pnlThongtin.setLayout(pnlThongtinLayout);
         pnlThongtinLayout.setHorizontalGroup(
@@ -269,8 +279,8 @@ public class pnlChiTietFilm extends javax.swing.JPanel {
                             .addComponent(lblDaodien, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(lblCast, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(lblTheLoai, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(lblMota, javax.swing.GroupLayout.PREFERRED_SIZE, 302, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 79, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 337, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, Short.MAX_VALUE)
                 .addGroup(pnlThongtinLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(lblImg, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(pnlPlay, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -308,10 +318,13 @@ public class pnlChiTietFilm extends javax.swing.JPanel {
                         .addGap(20, 20, 20)
                         .addComponent(jLabel13))
                     .addComponent(lblImg, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(pnlThongtinLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblMota, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(pnlPlay, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(pnlThongtinLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(pnlThongtinLayout.createSequentialGroup()
+                        .addGap(46, 46, 46)
+                        .addComponent(pnlPlay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(pnlThongtinLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane1)))
                 .addGap(40, 40, 40))
         );
 
@@ -413,13 +426,14 @@ public class pnlChiTietFilm extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel5;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lbBackTrangchu;
     private javax.swing.JLabel lbBackdsPhim;
     private javax.swing.JLabel lblCast;
     private javax.swing.JLabel lblCountry;
     private javax.swing.JLabel lblDaodien;
     private javax.swing.JLabel lblImg;
-    private javax.swing.JLabel lblMota;
+    private javax.swing.JTextArea lblMota;
     private javax.swing.JLabel lblName;
     private javax.swing.JLabel lblRating;
     private javax.swing.JLabel lblTap;

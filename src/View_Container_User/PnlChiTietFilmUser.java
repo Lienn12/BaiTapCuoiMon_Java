@@ -47,6 +47,10 @@ public class PnlChiTietFilmUser extends javax.swing.JPanel {
         this.main = main;
         this.pnlTrangChu= pnlTrangChu;
         initComponents();
+        lblMota.setWrapStyleWord(true);
+        lblMota.setLineWrap(true);
+        lblMota.setEditable(false);
+        lblMota.setBackground(new Color(255, 255, 255, 128));
         this.setMovieDetails(new Movie_model());
         setbtnBack();
         pnlDg.setVisible(false);
@@ -284,7 +288,6 @@ public class PnlChiTietFilmUser extends javax.swing.JPanel {
         jLabel13 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
         lblTheLoai = new javax.swing.JLabel();
-        lblMota = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
@@ -292,6 +295,8 @@ public class PnlChiTietFilmUser extends javax.swing.JPanel {
         jLabel2 = new javax.swing.JLabel();
         btnFavorite = new cell.PanelBorder();
         jLabel4 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        lblMota = new javax.swing.JTextArea();
         jLabel3 = new javax.swing.JLabel();
         panel = new javax.swing.JPanel();
         sp = new javax.swing.JScrollPane();
@@ -358,8 +363,6 @@ public class PnlChiTietFilmUser extends javax.swing.JPanel {
 
         lblTheLoai.setText("các thể loại");
 
-        lblMota.setText("mô tả");
-
         jPanel2.setBackground(new java.awt.Color(52, 102, 153));
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -404,16 +407,22 @@ public class PnlChiTietFilmUser extends javax.swing.JPanel {
         jLabel2.setBackground(new java.awt.Color(255, 255, 255));
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setText("Trailer");
+        jLabel2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel2MouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout pnlPlayLayout = new javax.swing.GroupLayout(pnlPlay);
         pnlPlay.setLayout(pnlPlayLayout);
         pnlPlayLayout.setHorizontalGroup(
             pnlPlayLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlPlayLayout.createSequentialGroup()
-                .addGap(32, 32, 32)
-                .addComponent(jLabel2)
-                .addContainerGap(33, Short.MAX_VALUE))
+                .addContainerGap()
+                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 108, Short.MAX_VALUE)
+                .addContainerGap())
         );
         pnlPlayLayout.setVerticalGroup(
             pnlPlayLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -450,6 +459,14 @@ public class PnlChiTietFilmUser extends javax.swing.JPanel {
             .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, 41, Short.MAX_VALUE)
         );
 
+        jScrollPane2.setBorder(null);
+
+        lblMota.setColumns(20);
+        lblMota.setRows(5);
+        lblMota.setBorder(null);
+        lblMota.setCaretColor(new java.awt.Color(255, 255, 255));
+        jScrollPane2.setViewportView(lblMota);
+
         javax.swing.GroupLayout pnlThongtinLayout = new javax.swing.GroupLayout(pnlThongtin);
         pnlThongtin.setLayout(pnlThongtinLayout);
         pnlThongtinLayout.setHorizontalGroup(
@@ -484,7 +501,7 @@ public class PnlChiTietFilmUser extends javax.swing.JPanel {
                             .addComponent(lblDaodien, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(lblCast, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(lblTheLoai, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(lblMota, javax.swing.GroupLayout.PREFERRED_SIZE, 302, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(pnlThongtinLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(pnlThongtinLayout.createSequentialGroup()
                         .addGap(100, 100, 100)
@@ -529,13 +546,15 @@ public class PnlChiTietFilmUser extends javax.swing.JPanel {
                         .addComponent(jLabel13))
                     .addComponent(lblImg, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGroup(pnlThongtinLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblMota, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(pnlThongtinLayout.createSequentialGroup()
                         .addGap(29, 29, 29)
                         .addGroup(pnlThongtinLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(btnFavorite, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(pnlPlay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(40, 40, 40))
+                            .addComponent(pnlPlay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(pnlThongtinLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(32, 32, 32))
         );
 
         jPanel2.getAccessibleContext().setAccessibleDescription("");
@@ -586,14 +605,9 @@ public class PnlChiTietFilmUser extends javax.swing.JPanel {
             .addGroup(pnlDgLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(pnlDgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(pnlDgLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnluu, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(pnlDgLayout.createSequentialGroup()
-                        .addGroup(pnlDgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(starRating, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                    .addComponent(btnluu, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(starRating, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         pnlDgLayout.setVerticalGroup(
@@ -707,6 +721,15 @@ public class PnlChiTietFilmUser extends javax.swing.JPanel {
     private void lbBackfavoriteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbBackfavoriteMouseClicked
         main.showPanel("danh sach yeu thich");
     }//GEN-LAST:event_lbBackfavoriteMouseClicked
+
+    private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
+        String videoPath = vidPath;
+        if (videoPath == null || videoPath.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Không tìm thấy đường dẫn video!");
+            return;
+        }
+        playVideoWithVLC(videoPath);
+    }//GEN-LAST:event_jLabel2MouseClicked
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -727,13 +750,14 @@ public class PnlChiTietFilmUser extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lbBackfavorite;
     private javax.swing.JLabel lbBacktrangchu;
     private javax.swing.JLabel lblCast;
     private javax.swing.JLabel lblCountry;
     private javax.swing.JLabel lblDaodien;
     private javax.swing.JLabel lblImg;
-    private javax.swing.JLabel lblMota;
+    private javax.swing.JTextArea lblMota;
     private javax.swing.JLabel lblName;
     private javax.swing.JLabel lblRating;
     private javax.swing.JLabel lblTap;
