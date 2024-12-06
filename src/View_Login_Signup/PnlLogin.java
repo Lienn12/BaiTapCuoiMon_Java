@@ -301,6 +301,7 @@ public class PnlLogin extends javax.swing.JPanel {
                 }else 
                     if(adminController.CheckLoginAdmin(adminModel, password)){
                      JOptionPane.showMessageDialog(this,"Đăng nhập thành công");
+                     frmMain = new frmMain();
                      frmMain.setVisible(true);
                      frmLoginSignup.dispose();
                 }

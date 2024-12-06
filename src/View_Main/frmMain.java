@@ -36,7 +36,7 @@ public final class frmMain extends javax.swing.JFrame {
     private pnlDanhgia pnlDanhgia;
     private pnlReplyCmt pnlReplycmt;
     private PnlPhimTrangchu pnlPhimTrangchu;
-    private Frm_Login_Signup frmLoginSignup= new Frm_Login_Signup();
+    private Frm_Login_Signup frmLoginSignup;
     public frmMain()  {
         initComponents();
         setLocationRelativeTo(null);
@@ -60,7 +60,7 @@ public final class frmMain extends javax.swing.JFrame {
         public void init() {
             cardLayout=new CardLayout();
             pnlContainer.setLayout(cardLayout);
-            
+            frmLoginSignup = new Frm_Login_Signup();
             pnlTrangchu = new pnlTrangChu(this);
             pnlPhimTrangchu= new PnlPhimTrangchu(pnlTrangchu,this);
             pnldsPhim= new pnlDSPhim(this);

@@ -20,7 +20,7 @@ public class PnlMenu extends javax.swing.JPanel {
         super.paintComponent(g); 
         Graphics2D g2= (Graphics2D) g;
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
-        GradientPaint gp = new GradientPaint(0,0, Color.decode("#1CB5E0"), 0, getHeight(), Color.decode("#000046"));
+            GradientPaint gp = new GradientPaint(0,0, Color.decode("#1CB5E0"), 0, getHeight(), Color.decode("#000046"));
         g2.setPaint(gp);
 //        g2.setColor(Color.decode("#052659"));
         g2.fillRoundRect(0, 0,getWidth(),getHeight(), 15,15);
