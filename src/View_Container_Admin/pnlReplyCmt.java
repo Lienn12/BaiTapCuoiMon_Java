@@ -38,24 +38,18 @@ import javax.swing.event.ListSelectionListener;
  */
 public class pnlReplyCmt extends javax.swing.JPanel {
     private final Review_controller reviewController= new Review_controller();
-    private  frmMain menu;
+    private  frmMain main;
     private Icon emptyStar;
     private Icon fullStar;
-    private DefaultListModel<String> listModel = new DefaultListModel<>();
-    public pnlReplyCmt(frmMain menu) {
-        this.menu=menu;
+    public pnlReplyCmt(frmMain main) {
+        this.main=main;
         initComponents();
-        list.setModel(listModel);
         loadIcons();
         setHide(false);
-        spComment.setVerticalScrollBar(new ScrollBarCustom());
-        spList.setVerticalScrollBar(new ScrollBarCustom());
-        spReply.setVerticalScrollBar(new ScrollBarCustom());   
     }
     
     public void setHide(boolean a){
         txtReply.setVisible(a);
-        spReply.setVisible(a);
         btnReply.setVisible(a);
     }
     
@@ -79,12 +73,12 @@ public class pnlReplyCmt extends javax.swing.JPanel {
         lbUsername.setText(reviewModel.getUserModel().getUsername());
         String formattedDate = new java.text.SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(reviewModel.getReviewDate());
         lbTime.setText(formattedDate); 
-        lbComment.setText(reviewModel.getComment());
+        txtCmt.setText(reviewModel.getComment());
+        txtshowReply.setText(reviewModel.getReply());
         String title = reviewModel.getMovieModel().getTitle();
         title = "<html>" + title.replace("\n", "<br>") + "</html>";
         lbTitle.setText(title);
         lbTitle.setPreferredSize(new Dimension(236, 150)); 
-        lbYear.setText(String.valueOf(reviewModel.getMovieModel().getReleaseYear()));
          if (reviewModel.getMovieModel().getImg() != null && reviewModel.getMovieModel().getImg().length > 0) {
             try {
                 ByteArrayInputStream bis = new ByteArrayInputStream(reviewModel.getMovieModel().getImg());
@@ -98,17 +92,6 @@ public class pnlReplyCmt extends javax.swing.JPanel {
             }
         }
         setRating(reviewModel.getRating());
-        
-        listModel.clear();
-        try {
-            List<String> replies= reviewController.getRepliesFromDatabase(reviewModel.getReviewID());
-            for(String reply: replies){
-                listModel.addElement(reply);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Lỗi khi tải phản hồi từ cơ sở dữ liệu");
-        }
         actions(reviewModel);
     }
     public void actions(Review_model reviewModel) {
@@ -119,8 +102,7 @@ public class pnlReplyCmt extends javax.swing.JPanel {
             @Override
             public void mouseClicked(MouseEvent e) {
                 setHide(true);
-            }
-            
+            }           
         });
         for (MouseListener listener : btnReply.getMouseListeners()) {
             btnReply.removeMouseListener(listener);
@@ -130,24 +112,15 @@ public class pnlReplyCmt extends javax.swing.JPanel {
             public void mouseClicked(MouseEvent e) {
                 try {
                     String reply = txtReply.getText().trim();
-                    String[] lines = reply.split("\n");
                     if (reply.isEmpty()) {
                         JOptionPane.showMessageDialog(null, "Vui lòng nhập phản hồi");
                         return;
-                    }
-                    
+                    }                    
                     boolean isAdded = reviewController.setReply(reviewModel.getReviewID(), reply);
                     if (isAdded) {
-                        String allReplies = reviewModel.getReply();
-                        reviewModel.setReply(allReplies + "; " + reply);
-                        for (String line : lines) {
-                            if (!line.trim().isEmpty()) {
-                                listModel.addElement(line); 
-                            }
-                        }
+                        txtshowReply.setText(reply);
                         txtReply.setText("");
-                        list.revalidate();
-                        list.repaint();
+                        setHide(false);
                     } else {
                         JOptionPane.showMessageDialog(null, "Thêm phản hồi thất bại!");
                     }
@@ -163,18 +136,20 @@ public class pnlReplyCmt extends javax.swing.JPanel {
         btnDelete.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                int selectedIndex = list.getSelectedIndex(); 
-                if (selectedIndex != -1) { 
-                    String selectedItem = listModel.getElementAt(selectedIndex);
-                    try {
-                        reviewController.deleteReply(reviewModel.getReviewID(), selectedItem);
-                    } catch (SQLException ex) {
-                        Logger.getLogger(pnlReplyCmt.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                    listModel.remove(selectedIndex); // Xóa item khỏi model
-                    JOptionPane.showMessageDialog(menu, "Đã xóa: " + selectedItem);
-                } else {
-                    JOptionPane.showMessageDialog(menu, "Vui lòng chọn một item để xóa!");
+                try {
+                     int result = JOptionPane.showConfirmDialog(
+                        main,
+                        "Bạn có chắc chắn muốn xóa không?",
+                        "Xác nhận", 
+                        JOptionPane.YES_NO_OPTION, 
+                        JOptionPane.QUESTION_MESSAGE 
+                    );
+                    if (result == JOptionPane.YES_OPTION) {
+                            reviewController.deleteReply(reviewModel.getReviewID());
+                            txtshowReply.setText("");
+                    }                   
+                } catch (SQLException ex) {
+                    Logger.getLogger(pnlReplyCmt.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         });
@@ -182,9 +157,8 @@ public class pnlReplyCmt extends javax.swing.JPanel {
     public void clearData(){
         lbUsername.setText("");
         lbTime.setText("");
-        lbComment.setText("");
+        txtCmt.setText("");
         lbTitle.setText("");
-        lbYear.setText("");
     }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -205,19 +179,15 @@ public class pnlReplyCmt extends javax.swing.JPanel {
         star2 = new javax.swing.JLabel();
         star4 = new javax.swing.JLabel();
         star5 = new javax.swing.JLabel();
-        spList = new javax.swing.JScrollPane();
-        list = new javax.swing.JList<>();
-        spComment = new javax.swing.JScrollPane();
-        lbComment = new javax.swing.JTextArea();
-        spReply = new javax.swing.JScrollPane();
-        txtReply = new javax.swing.JTextArea();
+        txtshowReply = new javax.swing.JTextArea();
         btnReply = new javax.swing.JLabel();
         btnDelete = new javax.swing.JLabel();
         btnPlus = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         jSeparator3 = new javax.swing.JSeparator();
+        txtCmt = new javax.swing.JTextArea();
+        txtReply = new javax.swing.JTextArea();
         lbImg = new javax.swing.JLabel();
-        lbYear = new javax.swing.JLabel();
         lbTitle = new javax.swing.JLabel();
         lbBack = new javax.swing.JLabel();
 
@@ -283,37 +253,12 @@ public class pnlReplyCmt extends javax.swing.JPanel {
         star5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         star5.setText("      ");
 
-        spList.setToolTipText("");
-
-        list.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        list.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "lien" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
-        list.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        list.setToolTipText("");
-        spList.setViewportView(list);
-
-        spComment.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-
-        lbComment.setEditable(false);
-        lbComment.setBackground(new java.awt.Color(255, 255, 255));
-        lbComment.setColumns(20);
-        lbComment.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        lbComment.setLineWrap(true);
-        lbComment.setRows(5);
-        lbComment.setWrapStyleWord(true);
-        lbComment.setDisabledTextColor(new java.awt.Color(255, 255, 255));
-        spComment.setViewportView(lbComment);
-
-        spReply.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-
-        txtReply.setColumns(20);
-        txtReply.setLineWrap(true);
-        txtReply.setRows(5);
-        txtReply.setWrapStyleWord(true);
-        spReply.setViewportView(txtReply);
+        txtshowReply.setEditable(false);
+        txtshowReply.setColumns(20);
+        txtshowReply.setLineWrap(true);
+        txtshowReply.setRows(5);
+        txtshowReply.setWrapStyleWord(true);
+        txtshowReply.setBorder(null);
 
         btnReply.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         btnReply.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/reply.png"))); // NOI18N
@@ -331,51 +276,66 @@ public class pnlReplyCmt extends javax.swing.JPanel {
         jSeparator3.setBackground(new java.awt.Color(53, 102, 153));
         jSeparator3.setForeground(new java.awt.Color(53, 102, 153));
 
+        txtCmt.setEditable(false);
+        txtCmt.setColumns(20);
+        txtCmt.setLineWrap(true);
+        txtCmt.setRows(5);
+        txtCmt.setWrapStyleWord(true);
+        txtCmt.setBorder(null);
+
+        txtReply.setColumns(20);
+        txtReply.setLineWrap(true);
+        txtReply.setRows(5);
+        txtReply.setWrapStyleWord(true);
+
         javax.swing.GroupLayout panelBorder1Layout = new javax.swing.GroupLayout(panelBorder1);
         panelBorder1.setLayout(panelBorder1Layout);
         panelBorder1Layout.setHorizontalGroup(
             panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelBorder1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel8)
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel7)
+                    .addComponent(jLabel11))
                 .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelBorder1Layout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel8)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel3)
-                            .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel11)
-                                .addComponent(jLabel7)))
-                        .addGap(25, 25, 25)
+                        .addGap(24, 24, 24)
                         .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtshowReply)
+                            .addComponent(txtReply))
+                        .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(panelBorder1Layout.createSequentialGroup()
-                                .addComponent(star1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(star3, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(star2, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(star4, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(star5, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(lbUsername, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(lbTime, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(8, 8, 8)
+                                .addComponent(btnPlus))
                             .addGroup(panelBorder1Layout.createSequentialGroup()
-                                .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(spList)
-                                    .addComponent(spComment, javax.swing.GroupLayout.DEFAULT_SIZE, 254, Short.MAX_VALUE))
-                                .addGap(5, 5, 5)
-                                .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(btnPlus)
-                                    .addComponent(btnDelete)))))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnDelete))
+                            .addGroup(panelBorder1Layout.createSequentialGroup()
+                                .addGap(6, 6, 6)
+                                .addComponent(btnReply))))
                     .addGroup(panelBorder1Layout.createSequentialGroup()
-                        .addGap(130, 130, 130)
-                        .addComponent(spReply, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnReply)))
-                .addGap(10, 10, 10))
+                        .addGap(25, 25, 25)
+                        .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtCmt, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(lbUsername, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(lbTime, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(panelBorder1Layout.createSequentialGroup()
+                                    .addComponent(star1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(star3, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(star2, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(star4, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(star5, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                .addGap(12, 12, 12))
         );
         panelBorder1Layout.setVerticalGroup(
             panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -400,41 +360,31 @@ public class pnlReplyCmt extends javax.swing.JPanel {
                     .addComponent(star4, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(star5, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel8))
-                .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelBorder1Layout.createSequentialGroup()
-                        .addGap(25, 25, 25)
-                        .addComponent(jLabel7)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelBorder1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
-                        .addComponent(spComment, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)))
-                .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGap(25, 25, 25)
+                .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(txtCmt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addGroup(panelBorder1Layout.createSequentialGroup()
                         .addComponent(btnPlus)
-                        .addGap(31, 31, 31)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnDelete))
-                    .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(spList, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(txtshowReply, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel11)))
                 .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelBorder1Layout.createSequentialGroup()
                         .addGap(40, 40, 40)
                         .addComponent(btnReply))
                     .addGroup(panelBorder1Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(spReply, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(12, Short.MAX_VALUE))
+                        .addComponent(txtReply, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(47, Short.MAX_VALUE))
         );
 
         lbImg.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lbImg.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-
-        lbYear.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        lbYear.setForeground(new java.awt.Color(255, 255, 255));
-        lbYear.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lbYear.setText("    ");
-        lbYear.setToolTipText("");
 
         lbTitle.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         lbTitle.setForeground(new java.awt.Color(255, 255, 255));
@@ -458,24 +408,21 @@ public class pnlReplyCmt extends javax.swing.JPanel {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(45, Short.MAX_VALUE)
+                .addContainerGap(36, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 415, Short.MAX_VALUE)
                         .addComponent(lbBack, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(panelBorder1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 49, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lbImg, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(lbYear, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(79, 79, 79))
+                            .addComponent(lbImg, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addComponent(lbTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(20, 20, 20)))))
-                .addContainerGap(46, Short.MAX_VALUE))
+                                .addGap(43, 43, 43)))))
+                .addContainerGap(27, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -490,17 +437,15 @@ public class pnlReplyCmt extends javax.swing.JPanel {
                         .addComponent(lbImg, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGap(18, 18, 18)
                         .addComponent(lbTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(37, 37, 37)
-                        .addComponent(lbYear)
-                        .addGap(70, 70, 70))
+                        .addGap(132, 132, 132))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(panelBorder1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(31, Short.MAX_VALUE))))
+                        .addContainerGap(76, Short.MAX_VALUE))))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void lbBackMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbBackMouseClicked
-        menu.showPanel("danh gia");
+        main.showPanel("danh gia");
     }//GEN-LAST:event_lbBackMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -517,23 +462,19 @@ public class pnlReplyCmt extends javax.swing.JPanel {
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JLabel lbBack;
-    private javax.swing.JTextArea lbComment;
     private javax.swing.JLabel lbImg;
     private javax.swing.JLabel lbTime;
     private javax.swing.JLabel lbTitle;
     private javax.swing.JLabel lbUsername;
-    private javax.swing.JLabel lbYear;
-    private javax.swing.JList<String> list;
     private cell.PanelBorder panelBorder1;
-    private javax.swing.JScrollPane spComment;
-    private javax.swing.JScrollPane spList;
-    private javax.swing.JScrollPane spReply;
     private javax.swing.JLabel star1;
     private javax.swing.JLabel star2;
     private javax.swing.JLabel star3;
     private javax.swing.JLabel star4;
     private javax.swing.JLabel star5;
+    private javax.swing.JTextArea txtCmt;
     private javax.swing.JTextArea txtReply;
+    private javax.swing.JTextArea txtshowReply;
     // End of variables declaration//GEN-END:variables
     @Override
       protected void paintComponent(Graphics g) { 

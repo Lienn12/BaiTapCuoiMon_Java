@@ -4,12 +4,10 @@
  */
 package View_Container_User;
 
-import View_Container_Admin.pnlTrangChu;
+
 import Controllers.Movie_controller;
 import Model.Movie_model;
 import Model.User_model;
-import View_Container_Admin.pnlChiTietFilm;
-import View_Main.frmMain;
 import java.awt.Color;
 import java.awt.GradientPaint;
 import java.awt.Graphics;
@@ -21,8 +19,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
-import View_Container_Admin.Home.PnlitemImage;
-import View_Container_Admin.Home.PnlitemImage;
 import View_Main.frmMainUser;
 import java.awt.FlowLayout;
 import javax.swing.JScrollPane;
@@ -87,7 +83,7 @@ public class PnlPhimTrangchuUser extends javax.swing.JPanel {
                 panel.revalidate();
             }
         } catch (SQLException ex) {
-            Logger.getLogger(pnlTrangChu.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(PnlTrangChuUser.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

@@ -136,23 +136,10 @@ public class Review_controller {
         }
     }
         
-    public List<String> getRepliesFromDatabase(int reviewId) throws SQLException{
-        List<String> replies = new ArrayList<>();
-        String sql = "SELECT value AS IndividualReply FROM  STRING_SPLIT((SELECT REPLY FROM REVIEWS WHERE REVIEW_ID = ?), ';')";
-        prst= conn.prepareStatement(sql);
-        prst.setInt(1, reviewId);
-        rs=prst.executeQuery();
-        while (rs.next()) {
-            String reply = rs.getString("IndividualReply");
-            if (reply != null && !reply.isEmpty()) {
-                replies.add(reply);
-                    }
-            }
-        return replies;
-    }
+   
     
     public boolean setReply(int reviewId,String reply) throws SQLException{
-        String sql="UPDATE REVIEWS SET REPLY=CONCAT(REPLY, '; ', ?) WHERE REVIEW_ID= ?";
+        String sql="UPDATE REVIEWS SET REPLY= ? WHERE REVIEW_ID= ?";
         prst=conn.prepareStatement(sql);
         prst.setString (1, reply);
         prst.setInt(2, reviewId);
@@ -160,12 +147,19 @@ public class Review_controller {
         prst.close();
         return row>0;
     }
-    
-    public boolean deleteReply(int reviewId,String reply ) throws SQLException{
-        String sql="UPDATE reviews SET reply = REPLACE(reply, ?, '') WHERE review_ID = ? ";
+     public boolean setReview(int reviewId,String cmt) throws SQLException{
+        String sql="UPDATE REVIEWS SET REPLY= ? WHERE REVIEW_ID= ?";
         prst=conn.prepareStatement(sql);
-        prst.setString(1, reply);
+        prst.setString (1, cmt);
         prst.setInt(2, reviewId);
+        int row= prst.executeUpdate();
+        prst.close();
+        return row>0;
+    }
+    public boolean deleteReply(int reviewId) throws SQLException{
+        String sql="UPDATE reviews SET reply = '' WHERE review_ID = ? ";
+        prst=conn.prepareStatement(sql);
+        prst.setInt(1, reviewId);
         int row= prst.executeUpdate();
         prst.close();
         return row>0;

@@ -4,7 +4,7 @@
  */
 package View_Container_Admin.Home;
 
-import View_Container_Admin.pnlTrangChu;
+import View_Container_Admin.PnlTrangChu;
 import Controllers.Movie_controller;
 import Model.Movie_model;
 import View_Container_Admin.pnlChiTietFilm;
@@ -29,11 +29,11 @@ import javax.swing.JScrollPane;
  */
 public class PnlPhimTrangchu extends javax.swing.JPanel {
     private frmMain main;
-    private pnlTrangChu pnlTrangChu;
+    private PnlTrangChu pnlTrangChu;
     private final Movie_model movieModel=new Movie_model();
     private final Movie_controller movieController = new Movie_controller();
    
-    public PnlPhimTrangchu(pnlTrangChu pnlTrangChu,frmMain main) {
+    public PnlPhimTrangchu(PnlTrangChu pnlTrangChu,frmMain main) {
         this.pnlTrangChu=pnlTrangChu;
         this.main=main;
         initComponents();
@@ -81,7 +81,7 @@ public class PnlPhimTrangchu extends javax.swing.JPanel {
                 panel.revalidate();
             }
         } catch (SQLException ex) {
-            Logger.getLogger(pnlTrangChu.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(PnlTrangChu.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     public void xoaDuLieu() {

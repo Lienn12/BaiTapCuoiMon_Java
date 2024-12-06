@@ -47,8 +47,7 @@ public class ItemReviewUser extends javax.swing.JPanel {
             @Override
             public void mouseClicked(MouseEvent e) {
                 showMovieDetail();
-            }
-            
+            }           
         });
     }
     

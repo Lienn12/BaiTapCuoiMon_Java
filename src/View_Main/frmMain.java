@@ -4,7 +4,7 @@ import Model.Movie_model;
 import Scrollbar.ScrollBarCustom;
 import View_Container_Admin.Home.PnlPhimTrangchu;
 
-import View_Container_Admin.pnlTrangChu;
+import View_Container_Admin.PnlTrangChu;
 import View_Container_Admin.pnlDanhSachUser;
 import View_Container_Admin.pnlChiTietFilm;
 import View_Container_Admin.pnlDSPhim;
@@ -27,7 +27,7 @@ public final class frmMain extends javax.swing.JFrame {
     private JScrollPane spTrangChu;
     private JScrollPane spThem;
      private JScrollPane spSua;
-    private pnlTrangChu pnlTrangchu;
+    private PnlTrangChu pnlTrangchu;
     private pnlDSPhim pnldsPhim; 
     private pnlSuaPhim pnlSua;
     private pnlThemPhim pnlThem;
@@ -61,7 +61,7 @@ public final class frmMain extends javax.swing.JFrame {
             cardLayout=new CardLayout();
             pnlContainer.setLayout(cardLayout);
             frmLoginSignup = new Frm_Login_Signup();
-            pnlTrangchu = new pnlTrangChu(this);
+            pnlTrangchu = new PnlTrangChu(this);
             pnlPhimTrangchu= new PnlPhimTrangchu(pnlTrangchu,this);
             pnldsPhim= new pnlDSPhim(this);
             pnlChiTiet= new pnlChiTietFilm (this);

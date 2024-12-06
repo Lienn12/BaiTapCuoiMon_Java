@@ -10,7 +10,7 @@ import Combobox.ComboBoxUI;
 import Controllers.Country_controller;
 import Controllers.Format_controller;
 import Controllers.Genre_controller;
-import View_Container_Admin.pnlTrangChu;
+import View_Container_Admin.PnlTrangChu;
 import Controllers.Movie_controller;
 import Model.Countries;
 import Model.Formats;

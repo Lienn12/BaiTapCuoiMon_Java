@@ -853,12 +853,12 @@ public final class pnlThemPhim extends javax.swing.JPanel {
     private void cbDinhDangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbDinhDangActionPerformed
         Formats selected = (Formats) cbDinhDang.getSelectedItem(); 
         if (selected != null) {
-            int id = selected.getFormatId();
-            if (id==2) {
+            String formatName = selected.getFormatName();
+            if (formatName.equals("Phim lẻ")) {
                 txtSoTap.setText("1");
                 txtSoTap.setEnabled(false);
             }
-            if (id==4) {
+            if (formatName.equals("Phim bộ")) {
                 txtSoTap.setEnabled(true);
                 txtSoTap.setText("");
             }

@@ -41,5 +41,4 @@ public class Genre_controller {
         rs.close();
         return dsGenre;
     }
-    
 }
